@@ -24,4 +24,14 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.2.24'
 }
 
+task client(type: JavaExec) {
+   main = "com.multipong.client.GameClient"
+   classpath = sourceSets.main.runtimeClasspath
+}
+
+task server(type: JavaExec) {
+   main = "com.multipong.server.GameServer"
+   classpath = sourceSets.main.runtimeClasspath
+}
+
 mainClassName = "com.multipong.client.ChatClient"
