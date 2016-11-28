@@ -19,14 +19,14 @@ public class GameClient extends Client {
 		client = new Client();
 		Network.register(client);
 		
-		client.addListener(new Listener() {
-			public void received (Connection connection, Object object) {
-				if (object instanceof SomeResponse) {
-					SomeResponse response = (SomeResponse) object;
-					System.out.println(response.text);
-				}
-			}
-		});
+//		client.addListener(new Listener() {
+//			public void received (Connection connection, Object object) {
+//				if (object instanceof SomeResponse) {
+//					SomeResponse response = (SomeResponse) object;
+//					System.out.println(response.text);
+//				}
+//			}
+//		});
 		client.start();
 		try {
 			client.connect(Network.CONNECT_TIMEOUT_MS,
@@ -36,10 +36,6 @@ public class GameClient extends Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	public void run() {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		while(true) {
 			String input = "DEFAULT";

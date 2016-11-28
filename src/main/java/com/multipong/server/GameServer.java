@@ -29,9 +29,9 @@ public class GameServer extends Server {
 		             SomeRequest request = (SomeRequest) object;
 		             System.out.println(request.text);
 
-		             SomeResponse response = new SomeResponse();
-		             response.text = "Thanks";
-		             connection.sendTCP(response);
+//		             SomeResponse response = new SomeResponse();
+//		             response.text = "Thanks";
+//		             connection.sendTCP(response);
 				}
 			}
 			
@@ -54,6 +54,10 @@ public class GameServer extends Server {
 	// This holds per connection state.
 	static class ClientConnection extends Connection {
 		public String name;
+	}
+	
+	public static void main (String[] args) throws IOException {
+		new GameServer();
 	}
 
 }
