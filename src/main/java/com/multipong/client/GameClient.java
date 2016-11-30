@@ -44,17 +44,17 @@ public class GameClient extends Client {
 				client.sendTCP(req);
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
-		try {
-			new GameClient();
-//			Game multipong = new Game();
-//			multipong.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		new Game(null);
+//		Game game;
+//		try {
+//			game = new Game(new GameClient());
+//			game.start();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 }
