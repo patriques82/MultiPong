@@ -9,7 +9,7 @@ import java.awt.event.KeyListener;
  * @author patriknygren
  *
  */
-public class KeyManager implements KeyListener {
+class KeyManager implements KeyListener {
 
 	private static boolean[] ARROW_KEYS = new boolean[4];
 	private static int UP = 0;
@@ -54,6 +54,14 @@ public class KeyManager implements KeyListener {
 		if(keyCode == KeyEvent.VK_RIGHT) {
 			ARROW_KEYS[RIGHT] = pressed;
 		}
+	}
+
+	public boolean isLeftPressed() {
+		return ARROW_KEYS[LEFT];
+	}
+
+	public boolean isRightPressed() {
+		return ARROW_KEYS[RIGHT];
 	}
 
 }

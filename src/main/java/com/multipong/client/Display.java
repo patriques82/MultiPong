@@ -12,7 +12,7 @@ import javax.swing.JFrame;
  * @author patriknygren
  *
  */
-public class Display {
+class Display {
 	
 	private int width, height;
 	private JFrame frame;

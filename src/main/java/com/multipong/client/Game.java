@@ -1,5 +1,6 @@
 package com.multipong.client;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
@@ -9,7 +10,7 @@ import java.awt.image.BufferStrategy;
  * @author patriknygren
  *
  */
-public class Game implements Runnable {
+class Game implements Runnable {
 
 	private GameClient client; // networking
 
@@ -19,7 +20,7 @@ public class Game implements Runnable {
 
 	private Thread thread;     // game loop
 	private Display display;   // game view
-	private GameState state;   // game state
+	private World world;   	   // game state
 
 	private boolean running;   
 	
@@ -27,11 +28,15 @@ public class Game implements Runnable {
 	private static final double FRAME_RATE = 1000_000_000/FPS;
 
 	public Game(GameClient gameClient) {
+		// Game Resources
 		client = gameClient;
 		thread = new Thread(this);
 		display = Display.createDisplay(500, 500);
 		display.addKeyListener(KeyManager.getKeyManager());
-		state = new GameState();
+
+		// Game Logic
+		Paddle paddle = Paddle.getPaddle(Position.DOWN, 500, 500);
+		world = new World(paddle, 500, 500);
 		running = false;
 	}
 	
@@ -56,7 +61,7 @@ public class Game implements Runnable {
 	 * Update game state
 	 */
 	private void tick() {
-		state.tick();
+		world.tick();
 	}
 
 	/**
@@ -74,7 +79,7 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, display.getWidth(), display.getHeight());
 
 		// Double buffering
-		state.render(g);
+		world.render(g);
 		bs.show();
 		
 		// Clean up

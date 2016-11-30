@@ -47,7 +47,7 @@ public class GameClient extends Client {
 	}
 
 	public static void main(String[] args) {
-		new Game(null);
+		new Game(null).start();
 //		Game game;
 //		try {
 //			game = new Game(new GameClient());
