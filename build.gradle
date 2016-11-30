@@ -5,6 +5,7 @@
  */
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 repositories {
     mavenCentral()
@@ -17,14 +18,21 @@ dependencies {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.2.24'
 }
 
-// This task is used to run the client
+// This task is used to run the client on the client
 task client(type: JavaExec) {
    main = "com.multipong.client.GameClient"
    classpath = sourceSets.main.runtimeClasspath
 }
 
-// This task is used to run the server
+// This task is used to run the server on the server
 task server(type: JavaExec) {
    main = "com.multipong.server.GameServer"
    classpath = sourceSets.main.runtimeClasspath
 }
+
+run {
+	standardInput = System.in
+	standardOutput = System.out
+}
+
+mainClassName = "com.multipong.client.GameClient"

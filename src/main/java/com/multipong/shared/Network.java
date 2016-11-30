@@ -28,5 +28,10 @@ public class Network {
 	static public class SomeResponse {
 		public String text;
 	}
+	
+	static public class Ball {
+		public int x;
+		public int y;
+	}
 
 }
