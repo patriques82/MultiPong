@@ -1,6 +1,5 @@
 package com.multipong.client;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
@@ -11,8 +10,6 @@ import java.awt.image.BufferStrategy;
  *
  */
 class Game implements Runnable {
-
-	private GameClient client; // networking
 
 	// Graphics
 	private BufferStrategy bs;
@@ -29,13 +26,12 @@ class Game implements Runnable {
 
 	public Game(GameClient gameClient) {
 		// Game Resources
-		client = gameClient;
 		thread = new Thread(this);
 		display = Display.createDisplay(500, 500);
 		display.addKeyListener(KeyManager.getKeyManager());
 
 		// Game Logic
-		Paddle paddle = Paddle.getPaddle(Position.DOWN, 500, 500);
+		Movable paddle = Paddle.getPaddle(Paddle.Position.BOTTOM, 500, 500);
 		world = new World(paddle, 500, 500);
 		running = false;
 	}

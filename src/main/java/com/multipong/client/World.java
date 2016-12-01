@@ -5,12 +5,11 @@ import java.awt.Graphics;
 
 class World {
 	
-	private Paddle paddle;
-	private Paddle[] opponents;
+	private Movable paddle;
 	private int width;
 	private int height;
 
-	World(Paddle p, int w, int h) {
+	World(Movable p, int w, int h) {
 		paddle = p;
 		width = w;
 		height = h;
