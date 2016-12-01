@@ -7,7 +7,7 @@ import java.awt.Point;
  * 
  * @author patriknygren
  */
-public abstract class Paddle implements Movable {
+public abstract class Paddle implements GameObject {
 	
 	protected static double SIZE_PERCENTAGE_OF_WINDOW = 0.15;
 	protected static int THICKNESS = 20;
@@ -22,8 +22,11 @@ public abstract class Paddle implements Movable {
 		UP, BOTTOM, LEFT, RIGHT
 	}
 	
-	Paddle(Position pos, int w, int h) {
+	protected GameObject ball;
+	
+	Paddle(Position pos, GameObject ball) {
 		position = pos;
+		this.ball = ball;
 	}
 
 	/**
@@ -33,11 +36,11 @@ public abstract class Paddle implements Movable {
 	 * @param worldHeight the height of the world
 	 * @return paddle
 	 */
-	static Paddle getPaddle(Position pos, int worldWidth, int worldHeight) {
+	static Paddle getPaddle(Position pos, int worldWidth, int worldHeight, GameObject ball) {
 		if(pos == Position.BOTTOM || pos == Position.UP) {
-			return new HorizontalPaddle(pos, worldWidth, worldHeight);
+			return new HorizontalPaddle(pos, worldWidth, worldHeight, ball);
 		} else if(pos == Position.LEFT || pos == Position.RIGHT) {
-			return new VerticalPaddle(pos, worldWidth, worldHeight);
+			return new VerticalPaddle(pos, worldWidth, worldHeight, ball);
 		}
 		return null;
 	}

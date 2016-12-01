@@ -3,7 +3,7 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.Point;
 
-interface Movable {
+interface GameObject {
 
 	/**
 	 * Get the upper left corner used for rendering
@@ -12,7 +12,7 @@ interface Movable {
 	 * @return point
 	 */
 	public Point getUpperLeft(int worldWidth, int worldHeight);
-
+	
 	/**
 	 * Update the object position.
 	 */

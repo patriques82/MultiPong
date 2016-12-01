@@ -3,10 +3,10 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.Point;
 
-public class VerticalPaddle extends Paddle implements Movable {
+public class VerticalPaddle extends Paddle implements GameObject {
 
-	public VerticalPaddle(Position pos, int w, int h) {
-		super(pos, w, h);
+	public VerticalPaddle(Position pos, int worldWidth, int worldHeight, GameObject ball) {
+		super(pos, ball);
 	}
 
 	@Override

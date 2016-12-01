@@ -2,6 +2,8 @@ package com.multipong.client;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * The infrastructure of the game, holds the game loop of the game.
@@ -23,17 +25,24 @@ class Game implements Runnable {
 	
 	private static final int FPS = 40;
 	private static final double FRAME_RATE = 1000_000_000/FPS;
+	
+	private static int WIDTH = 500;
+	private static int HEIGHT = 500;
+	private static int BALL_DIAMETER = 10;
 
 	public Game(GameClient gameClient) {
 		// Game Resources
 		thread = new Thread(this);
-		display = Display.createDisplay(500, 500);
+		display = Display.createDisplay(WIDTH, HEIGHT);
 		display.addKeyListener(KeyManager.getKeyManager());
+		running = false;
 
 		// Game Logic
-		Movable paddle = Paddle.getPaddle(Paddle.Position.BOTTOM, 500, 500);
-		world = new World(paddle, 500, 500);
-		running = false;
+		Collection<GameObject> paddles = new ArrayList<>();
+		GameObject ball = new Ball(WIDTH, HEIGHT, BALL_DIAMETER);
+		GameObject paddle = Paddle.getPaddle(Paddle.Position.BOTTOM, WIDTH, HEIGHT, ball);
+		paddles.add(paddle);
+		world = new World(WIDTH, HEIGHT, ball, paddles);
 	}
 	
 	public void run() {

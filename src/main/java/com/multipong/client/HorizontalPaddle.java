@@ -9,12 +9,12 @@ public class HorizontalPaddle extends Paddle {
 	
 	private int screenWidth;
 
-	HorizontalPaddle(Position pos, int w, int h) {
-		super(pos, w, h);
-		width = (int) (w * SIZE_PERCENTAGE_OF_WINDOW);
+	HorizontalPaddle(Position pos, int worldWidth, int worldHeight, GameObject ball) {
+		super(pos, ball);
+		width = (int) (worldWidth * SIZE_PERCENTAGE_OF_WINDOW);
 		height = THICKNESS;
-		screenWidth = w;
-		upperLeft = getUpperLeft(w, h);
+		screenWidth = worldWidth;
+		upperLeft = getUpperLeft(worldWidth, worldHeight);
 	}
 
 	@Override
@@ -35,11 +35,11 @@ public class HorizontalPaddle extends Paddle {
 	}
 
 	@Override
-	public Point getUpperLeft(int w, int h) {
+	public Point getUpperLeft(int worldWidth, int worldHeight) {
 		if(position == Position.UP) {
-			return new Point((w/2) - (width/2), 0);
+			return new Point((worldWidth/2) - (width/2), 0);
 		} else if(position == Position.BOTTOM) {
-			return new Point((w/2) - (width/2), (h - height));
+			return new Point((worldWidth/2) - (width/2), (worldHeight - height));
 		} else {
 			throw new IllegalArgumentException("Horisontal paddle can only take up or down");
 		}
