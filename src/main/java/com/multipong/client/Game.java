@@ -58,7 +58,7 @@ class Game implements Runnable {
 			long now = System.nanoTime();
 			timer += now - lastTime;
 			lastTime = System.nanoTime();
-			if(world != null && timer >= FRAME_RATE) {
+			if(timer >= FRAME_RATE) {
 				tick();
 				render();
 				timer = 0;
@@ -70,29 +70,32 @@ class Game implements Runnable {
 	 * Update game state
 	 */
 	private void tick() {
-		world.tick();
+		if(world != null)
+			world.tick();
 	}
 
 	/**
 	 * Render game state on canvas
 	 */
 	private void render() {
-		bs = display.getCanvas().getBufferStrategy();
-		if(bs == null) {
-			display.getCanvas().createBufferStrategy(3);
-			return; // exit to avoid errors
+		if(display != null) {
+			bs = display.getCanvas().getBufferStrategy();
+			if(bs == null) {
+				display.getCanvas().createBufferStrategy(3);
+				return; // exit to avoid errors
+			}
+			g = bs.getDrawGraphics();
+
+			// Clear screen
+			g.clearRect(0, 0, display.getWidth(), display.getHeight());
+
+			// Double buffering
+			world.render(g);
+			bs.show();
+			
+			// Clean up
+			g.dispose();
 		}
-		g = bs.getDrawGraphics();
-
-		// Clear screen
-		g.clearRect(0, 0, display.getWidth(), display.getHeight());
-
-		// Double buffering
-		world.render(g);
-		bs.show();
-		
-		// Clean up
-		g.dispose();
 	}
 
 	/**

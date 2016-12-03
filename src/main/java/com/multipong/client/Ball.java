@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Logger;
 
 public class Ball implements GameObject {
 	
@@ -23,6 +24,7 @@ public class Ball implements GameObject {
 		vx = ThreadLocalRandom.current().nextInt(-5, 6);
 		vy = ThreadLocalRandom.current().nextInt(-5, 6);
 		this.diameter = diameter;
+		Logger.getLogger("game").info("init ball");
 	}
 
 	@Override

@@ -5,8 +5,11 @@ import java.io.IOException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
-import com.multipong.shared.Network;
+
 import com.multipong.shared.NetworkFactory;
+import com.multipong.shared.Network;
+import com.multipong.shared.Network.PropMessage;
+import com.multipong.shared.Network.Register;
 
 public class GameServer extends Server {
 	
@@ -19,32 +22,18 @@ public class GameServer extends Server {
 		server.bind(Network.TCP_PORT, Network.UDP_PORT);
 		
 		server.addListener(new Listener() {
-			public void connect (Connection c) {
-				System.out.println(c.getID());
-			}
-			public void received (Connection c, Object object) {
-//				ClientConnection clientConn = (ClientConnection) c;
-//				if (object instanceof SomeRequest) {
-//		             SomeRequest request = (SomeRequest) object;
-//		             System.out.println("request: " + request.text);
-//		             SomeResponse response = new SomeResponse();
-//		             response.text = "Thanks";
-//		             clientConn.sendTCP(response);
-//				}
-			}
-			public void disconnected (Connection c) {
-//				if (clientConn.name != null) {
-//					System.out.println(clientConn.name + " Disconnected");
-					// Announce to everyone that someone (with a registered name) has left.
-//					ClientMessage chatMessage = new ChatMessage();
-//					chatMessage.text = connection.name + " disconnected.";
-//					server.sendToAllTCP(chatMessage);
-//					updateNames();
-//				}
+			public void received (Connection conn, Object object) {
+				if (object instanceof Register) {
+					PropMessage prop = new PropMessage();
+					prop.diameter = 4;
+					prop.height = 500;
+					prop.width = 500;
+					prop.position = "bottom";
+		            conn.sendTCP(prop);
+				}
 			}
 		});
 	}
-	
 	
 	public static void main (String[] args) throws IOException {
 		GameServer server = new GameServer();

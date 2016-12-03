@@ -1,6 +1,7 @@
 package com.multipong.client;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -31,8 +32,7 @@ public class ClientFacade {
 						   Network.UDP_PORT);
 			client.sendTCP(new Register());
 		} catch (IOException e) {
-			System.out.println("Connection error");
-			e.printStackTrace();
+			Logger.getLogger("client").severe("Could not connect with server");
 		}
 		
 		client.addListener(new Listener() {
@@ -40,11 +40,12 @@ public class ClientFacade {
 				if (object instanceof PropMessage) {
 					PropMessage props = (PropMessage) object;
 					initializer.initGame(props);
-					System.out.println("Got PropMessage: " + props.height + ", " + props.width);
+					Logger.getLogger("client").info("Initialized game with server info");
 				}
 			}
 			public void disconnected(Connection connection) {
 				System.exit(0);
+				Logger.getLogger("client").info("Disconnected from server");
 			}
 		});
 		

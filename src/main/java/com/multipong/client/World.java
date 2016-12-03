@@ -28,8 +28,8 @@ class World {
 	void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
-		paddle.render(g);
 		ball.render(g);
+		paddle.render(g);
 //		for(Paddle paddle : paddles)
 //			paddle.render(g);
 	}

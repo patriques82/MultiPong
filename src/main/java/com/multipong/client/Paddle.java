@@ -1,6 +1,7 @@
 package com.multipong.client;
 
 import java.awt.Point;
+import java.util.logging.Logger;
 
 /**
  * The paddle of Pong.
@@ -39,6 +40,7 @@ public abstract class Paddle implements GameObject {
 	 */
 	static Paddle getPaddle(String position, int worldWidth, int worldHeight, GameObject ball) {
 		if(position.equals("bottom")) {
+			Logger.getLogger("game").info("init bottom paddle");
 			return new HorizontalPaddle(Position.BOTTOM, worldWidth, worldHeight, ball);
 		}
 		else if(position.equals("up")) {
