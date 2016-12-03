@@ -22,7 +22,6 @@ class World {
 		ball.tick();
 		for(GameObject paddle : paddles)
 			paddle.tick();
-
 	}
 
 	void render(Graphics g) {

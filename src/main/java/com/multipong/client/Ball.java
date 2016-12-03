@@ -9,11 +9,14 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Ball implements GameObject {
 	
 	private Point upperLeft; // upper left corner
+	private int width, height;
 //	private double angle; 	 // radians
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
 
 	public Ball(int worldWidth, int worldHeight, int diameter) {
+		width = worldWidth;
+		height = worldHeight;
 		upperLeft = getUpperLeft(worldWidth, worldHeight);
 		vx = ThreadLocalRandom.current().nextInt(-5, 6);
 		vy = ThreadLocalRandom.current().nextInt(-5, 6);
@@ -24,12 +27,18 @@ public class Ball implements GameObject {
 	public void tick() {
 		upperLeft.x += vx;
 		upperLeft.y += vy;
+		if(horisontalWallCollision()) {
+			bounceY();
+		}
+		if(verticalWallCollision()) {
+			bounceX();
+		}
 	}
 
 	@Override
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-	    g2d.setColor(Color.WHITE);
+		g2d.setColor(Color.WHITE);
 		g2d.fillOval(upperLeft.x, upperLeft.y, diameter, diameter);
 	}
 
@@ -37,5 +46,22 @@ public class Ball implements GameObject {
 	public Point getUpperLeft(int worldWidth, int worldHeight) {
 		return new Point(worldWidth/2, worldHeight/2);
 	}
+
+	private boolean horisontalWallCollision() {
+		return upperLeft.y <= 0 || (upperLeft.y + diameter) >= height; // upper or lower wall
+	}
 	
+	private boolean verticalWallCollision() {
+		return upperLeft.x <= 0 || (upperLeft.x + diameter) >= width; // left or right wall
+	}
+	
+	private void bounceX() {
+		vx *= -1;
+	}
+
+	private void bounceY() {
+		vy *= -1;
+	}
+
+
 }

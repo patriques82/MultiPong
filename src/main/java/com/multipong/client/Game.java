@@ -40,7 +40,7 @@ class Game implements Runnable {
 		// Game Logic
 		Collection<GameObject> paddles = new ArrayList<>();
 		GameObject ball = new Ball(WIDTH, HEIGHT, BALL_DIAMETER);
-		GameObject paddle = Paddle.getPaddle(Paddle.Position.BOTTOM, WIDTH, HEIGHT, ball);
+		GameObject paddle = Paddle.getPaddle(Paddle.Position.UP, WIDTH, HEIGHT, ball);
 		paddles.add(paddle);
 		world = new World(WIDTH, HEIGHT, ball, paddles);
 	}
