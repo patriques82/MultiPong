@@ -17,19 +17,28 @@ public class Network {
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
-		kryo.register(SomeRequest.class);
-		kryo.register(SomeResponse.class);
+		kryo.register(Register.class);
+		kryo.register(PropMessage.class);
+		kryo.register(BallMessage.class);
+		kryo.register(PaddleMessage.class);
 	}
 	
-	static public class SomeRequest {
-		public String text;
+	static public class Register {
+	}
+	
+	static public class PropMessage {
+		public int width;
+		public int height;
+		public int diameter;
+		public String position;
 	}
 
-	static public class SomeResponse {
-		public String text;
+	static public class BallMessage {
+		public int x;
+		public int y;
 	}
 	
-	static public class Ball {
+	static public class PaddleMessage {
 		public int x;
 		public int y;
 	}

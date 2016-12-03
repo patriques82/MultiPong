@@ -18,29 +18,37 @@ public abstract class Paddle implements GameObject {
 	protected Point upperLeft;			 // upper left corner (for rendering)
 
 	protected Position position; 		 // screen position of paddle
-	enum Position {
+	static enum Position {
 		UP, BOTTOM, LEFT, RIGHT
 	}
 	
 	protected GameObject ball;
 	
 	Paddle(Position pos, GameObject ball) {
-		position = pos;
+		this.position = pos;
 		this.ball = ball;
 	}
 
 	/**
 	 * Factory method to create paddles.
+	 * @param position2 
 	 * @param pos the position of the paddle
 	 * @param worldWidth the width of the world
 	 * @param worldHeight the height of the world
 	 * @return paddle
 	 */
-	static Paddle getPaddle(Position pos, int worldWidth, int worldHeight, GameObject ball) {
-		if(pos == Position.BOTTOM || pos == Position.UP) {
-			return new HorizontalPaddle(pos, worldWidth, worldHeight, ball);
-		} else if(pos == Position.LEFT || pos == Position.RIGHT) {
-			return new VerticalPaddle(pos, worldWidth, worldHeight, ball);
+	static Paddle getPaddle(String position, int worldWidth, int worldHeight, GameObject ball) {
+		if(position.equals("bottom")) {
+			return new HorizontalPaddle(Position.BOTTOM, worldWidth, worldHeight, ball);
+		}
+		else if(position.equals("up")) {
+			return new HorizontalPaddle(Position.UP, worldWidth, worldHeight, ball);
+		}
+		else if(position.equals("right")) {
+			return new VerticalPaddle(Position.RIGHT, worldWidth, worldHeight, ball);
+		}
+		else if(position.equals("left")) {
+			return new VerticalPaddle(Position.LEFT, worldWidth, worldHeight, ball);
 		}
 		return null;
 	}

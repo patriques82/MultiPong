@@ -16,4 +16,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'MultipongClient'
+rootProject.name = 'MultiPong'

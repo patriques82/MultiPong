@@ -2,8 +2,9 @@ package com.multipong.client;
 
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
-import java.util.Collection;
+
+import com.multipong.shared.GameInitializer;
+import com.multipong.shared.Network.PropMessage;
 
 /**
  * The infrastructure of the game, holds the game loop of the game.
@@ -12,6 +13,8 @@ import java.util.Collection;
  *
  */
 class Game implements Runnable {
+	
+	private ClientFacade clientFacade; // Server communication
 
 	// Graphics
 	private BufferStrategy bs;
@@ -23,28 +26,29 @@ class Game implements Runnable {
 
 	private boolean running;   
 	
-	private static final int FPS = 40;
+	private static final int FPS = 35;
 	private static final double FRAME_RATE = 1000_000_000/FPS;
 	
-	private static int WIDTH = 500;
-	private static int HEIGHT = 500;
-	private static int BALL_DIAMETER = 10;
+	/**
+	 * Initializes all resources needed for the game (Client, Display, Threads etc)
+	 */
+	public Game() {
+		clientFacade = new ClientFacade(new GameInitializer() {
+			@Override
+			public void initGame(PropMessage props) {
+				display = Display.createDisplay(props.width, props.height);
+				display.addKeyListener(KeyManager.getKeyManager());
+				Ball ball = new Ball(props.width, props.height, props.diameter);
+				Paddle paddle = Paddle.getPaddle(props.position, props.width, props.height, ball);
+				world = new World(props.width, props.height, ball, paddle);
+			}
+		});
+		clientFacade.connect();
 
-	public Game(GameClient gameClient) {
-		// Game Resources
 		thread = new Thread(this);
-		display = Display.createDisplay(WIDTH, HEIGHT);
-		display.addKeyListener(KeyManager.getKeyManager());
 		running = false;
-
-		// Game Logic
-		Collection<GameObject> paddles = new ArrayList<>();
-		GameObject ball = new Ball(WIDTH, HEIGHT, BALL_DIAMETER);
-		GameObject paddle = Paddle.getPaddle(Paddle.Position.UP, WIDTH, HEIGHT, ball);
-		paddles.add(paddle);
-		world = new World(WIDTH, HEIGHT, ball, paddles);
 	}
-	
+
 	public void run() {
 		long lastTime = System.nanoTime();
 		long timer = 0; // counter for next tick.
@@ -54,7 +58,7 @@ class Game implements Runnable {
 			long now = System.nanoTime();
 			timer += now - lastTime;
 			lastTime = System.nanoTime();
-			if(timer >= FRAME_RATE) {
+			if(world != null && timer >= FRAME_RATE) {
 				tick();
 				render();
 				timer = 0;
@@ -107,5 +111,5 @@ class Game implements Runnable {
 	public void stop() {
 		running = false;
 	}
-
+	
 }

@@ -19,7 +19,7 @@ dependencies {
 
 // This task is used to run the client on the client
 task client(type: JavaExec) {
-   main = "com.multipong.client.GameClient"
+   main = "com.multipong.client.Launcher"
    classpath = sourceSets.main.runtimeClasspath
    standardInput = System.in
    standardOutput = System.out
@@ -30,4 +30,6 @@ task client(type: JavaExec) {
 task server(type: JavaExec) {
    main = "com.multipong.server.GameServer"
    classpath = sourceSets.main.runtimeClasspath
+   standardInput = System.in
+   standardOutput = System.out
 }

@@ -10,9 +10,11 @@ public class Ball implements GameObject {
 	
 	private Point upperLeft; // upper left corner
 	private int width, height;
-//	private double angle; 	 // radians
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
+	
+	public Ball() {
+	}
 
 	public Ball(int worldWidth, int worldHeight, int diameter) {
 		width = worldWidth;

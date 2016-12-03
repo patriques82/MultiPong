@@ -39,7 +39,7 @@ class Display {
 		frame.add(canvas);
 		frame.pack();
 	}
-	
+
 	static Display createDisplay(int w, int h) {
 		if(display == null) {
 			display = new Display(w, h);
@@ -62,5 +62,7 @@ class Display {
 	int getHeight() {
 		return height;
 	}
+
+
 
 }
