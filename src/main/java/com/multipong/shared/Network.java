@@ -27,20 +27,18 @@ public class Network {
 	}
 	
 	static public class PropMessage {
-		public int width;
-		public int height;
-		public int diameter;
+		public int width, height, diameter;
 		public String position;
 	}
 
 	static public class BallMessage {
-		public int x;
-		public int y;
+		public int x, y, vx, vy;
 	}
 	
 	static public class PaddleMessage {
-		public int x;
-		public int y;
+		public int x, y;
+		public String position;
 	}
+	
 
 }

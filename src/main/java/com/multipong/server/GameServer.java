@@ -31,6 +31,7 @@ public class GameServer extends Server {
 					prop.position = "bottom";
 		            conn.sendTCP(prop);
 				}
+
 			}
 		});
 	}

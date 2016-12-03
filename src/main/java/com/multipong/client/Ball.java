@@ -51,6 +51,13 @@ public class Ball implements GameObject {
 		return new Point(worldWidth/2, worldHeight/2);
 	}
 
+	public void setPosition(int x, int y) {
+		
+	}
+
+	public void setSpeed(int vx, int vy) {
+	}
+
 	private boolean horisontalWallCollision() {
 		return upperLeft.y <= 0 || (upperLeft.y + diameter) >= height; // upper or lower wall
 	}
@@ -66,6 +73,5 @@ public class Ball implements GameObject {
 	private void bounceY() {
 		vy *= -1;
 	}
-
 
 }

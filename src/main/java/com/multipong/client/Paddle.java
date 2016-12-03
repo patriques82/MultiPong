@@ -55,4 +55,8 @@ public abstract class Paddle implements GameObject {
 		return null;
 	}
 
+	public void setPosition(int x, int y) {
+		
+	}
+
 }

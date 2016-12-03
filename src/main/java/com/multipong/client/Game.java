@@ -22,7 +22,10 @@ class Game implements Runnable {
 
 	private Thread thread;     // game loop
 	private Display display;   // game view
-	private World world;   	   // game state
+
+	private Ball ball;
+	private Paddle paddle;
+	private World world;
 
 	private boolean running;   
 	
@@ -38,13 +41,12 @@ class Game implements Runnable {
 			public void initGame(PropMessage props) {
 				display = Display.createDisplay(props.width, props.height);
 				display.addKeyListener(KeyManager.getKeyManager());
-				Ball ball = new Ball(props.width, props.height, props.diameter);
-				Paddle paddle = Paddle.getPaddle(props.position, props.width, props.height, ball);
+				ball = new Ball(props.width, props.height, props.diameter);
+				paddle = Paddle.getPaddle(props.position, props.width, props.height, ball);
 				world = new World(props.width, props.height, ball, paddle);
 			}
 		});
-		clientFacade.connect();
-
+		clientFacade.connect(ball, paddle);
 		thread = new Thread(this);
 		running = false;
 	}
