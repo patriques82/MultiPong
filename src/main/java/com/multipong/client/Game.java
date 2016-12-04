@@ -3,7 +3,8 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import com.multipong.shared.GameInitializer;
+import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.PropMessage;
 
 /**
@@ -23,47 +24,61 @@ class Game implements Runnable {
 	private Thread thread;     // game loop
 	private Display display;   // game view
 
-	private Ball ball;
-	private Paddle paddle;
 	private World world;
 
 	private boolean running;   
 	
-	private static final int FPS = 35;
+	private static final int FPS = 35; // frames per second
 	private static final double FRAME_RATE = 1000_000_000/FPS;
+
+	private static final int MPS = 1;  // messages per second
+	private static final double SEND_RATE = 1000_000_000/MPS;
 	
 	/**
 	 * Initializes all resources needed for the game (Client, Display, Threads etc)
 	 */
 	public Game() {
-		clientFacade = new ClientFacade(new GameInitializer() {
+		MessageTracker<BallMessage, Ball> ballTracker = new BallTracker();
+		MessageTracker<PaddleMessage, OtherPaddle> otherPaddleTracker = new PaddleTracker();
+		MessageSender<PaddleMessage, MyPaddle> myPaddleSender = new PaddleSender();
+
+		clientFacade = new ClientFacade(new MessageHandler<PropMessage>() {
 			@Override
-			public void initGame(PropMessage props) {
+			public void handle(PropMessage props) {
 				display = Display.createDisplay(props.width, props.height);
 				display.addKeyListener(KeyManager.getKeyManager());
-				ball = new Ball(props.width, props.height, props.diameter);
-				paddle = Paddle.getPaddle(props.position, props.width, props.height, ball);
-				world = new World(props.width, props.height, ball, paddle);
+
+				Ball ball = ballTracker.init(props.width, props.height, props.ball);
+				OtherPaddle other = otherPaddleTracker.init(props.width, props.height, props.otherPaddle);
+				MyPaddle myPaddle = MyPaddle.getPaddle(props.width, props.height, props.yourPaddle, ball);
+				myPaddleSender.setSender(myPaddle);
+				world = new World(props.width, props.height, ball, other, myPaddle);
 			}
 		});
-		clientFacade.connect(ball, paddle);
+		clientFacade.connect(ballTracker, otherPaddleTracker, myPaddleSender);
 		thread = new Thread(this);
 		running = false;
 	}
 
 	public void run() {
 		long lastTime = System.nanoTime();
-		long timer = 0; // counter for next tick.
+		long frameTimer = 0; // counter for next tick.
+		long sendTimer = 0; // counter for next send.
 		
 		// Game loop
 		while(running) {
 			long now = System.nanoTime();
-			timer += now - lastTime;
+			frameTimer += now - lastTime;
+			sendTimer += now - lastTime;
 			lastTime = System.nanoTime();
-			if(timer >= FRAME_RATE) {
+			if(frameTimer >= FRAME_RATE) {
 				tick();
 				render();
-				timer = 0;
+				frameTimer = 0;
+			}
+			if(sendTimer >= SEND_RATE) {
+				clientFacade.send();
+				sendTimer = 0;
 			}
 		}
 	}

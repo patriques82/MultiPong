@@ -1,18 +1,14 @@
 package com.multipong.client;
 
 import java.awt.Graphics;
-import java.awt.Point;
 
-public class VerticalPaddle extends Paddle implements GameObject {
+public class VerticalPaddle extends MyPaddle {
 
-	public VerticalPaddle(Position pos, int worldWidth, int worldHeight, GameObject ball) {
+	VerticalPaddle(String pos, int width, int height, int worldHeight, Ball ball) {
 		super(pos, ball);
-	}
-
-	@Override
-	public Point getUpperLeft(int w, int h) {
-		// TODO Auto-generated method stub
-		return null;
+		this.width = width;
+		this.height = height;
+//		this.worldHeight = worldHeight;
 	}
 
 	@Override

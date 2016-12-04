@@ -1,18 +1,9 @@
 package com.multipong.client;
 
 import java.awt.Graphics;
-import java.awt.Point;
 
-interface GameObject {
+public interface GameObject {
 
-	/**
-	 * Get the upper left corner used for rendering
-	 * @param worldWidth width of world
-	 * @param worldHeight height of world
-	 * @return point
-	 */
-	public Point getUpperLeft(int worldWidth, int worldHeight);
-	
 	/**
 	 * Update the object position.
 	 */

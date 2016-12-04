@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.multipong.shared.GameInitializer;
 import com.multipong.shared.Network;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
@@ -17,14 +16,18 @@ import com.multipong.shared.NetworkFactory;
 public class ClientFacade {
 
 	Client client;
-	GameInitializer initializer;
+	MessageHandler<PropMessage> propsHandler;
+	MessageSender<PaddleMessage, MyPaddle> paddleSender;
 
-	ClientFacade(GameInitializer initializer) {
+	ClientFacade(MessageHandler<PropMessage> propsHandler) {
 		this.client = NetworkFactory.getClient();
-		this.initializer = initializer;
+		this.propsHandler = propsHandler;
 	}
-	
-	public void connect(Ball ball, Paddle paddle) {
+
+	public void connect(MessageTracker<BallMessage, Ball> ballTracker,
+						MessageTracker<PaddleMessage, OtherPaddle> paddleTracker,
+						MessageSender<PaddleMessage, MyPaddle> paddleSender) {
+		this.paddleSender = paddleSender;
 		client.start();
 		Network.register(client);
 		try {
@@ -41,17 +44,16 @@ public class ClientFacade {
 			public void received(Connection connection, Object object) {
 				if (object instanceof PropMessage) {
 					PropMessage props = (PropMessage) object;
-					initializer.initGame(props);
+					propsHandler.handle(props);
 					Logger.getLogger("client").info("Initialized game with server info");
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
-					ball.setPosition(ballMessage.x, ballMessage.y);
-					ball.setSpeed(ballMessage.vx, ballMessage.vy);
+					ballTracker.track(ballMessage);
 				}
-				if (object instanceof PaddleMessage) {
+				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
-					paddle.setPosition(paddleMessage.x, paddleMessage.y);
+					paddleTracker.track(paddleMessage);
 				}
 			}
 			public void disconnected(Connection connection) {
@@ -59,7 +61,10 @@ public class ClientFacade {
 				Logger.getLogger("client").info("Disconnected from server");
 			}
 		});
-		
+	}
+	
+	public void send() {
+		client.sendTCP(paddleSender.toMessage());
 	}
 
 }

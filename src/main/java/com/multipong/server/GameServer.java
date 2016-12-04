@@ -25,13 +25,10 @@ public class GameServer extends Server {
 			public void received (Connection conn, Object object) {
 				if (object instanceof Register) {
 					PropMessage prop = new PropMessage();
-					prop.diameter = 4;
-					prop.height = 500;
 					prop.width = 500;
-					prop.position = "bottom";
+					prop.height = 500;
 		            conn.sendTCP(prop);
 				}
-
 			}
 		});
 	}

@@ -4,25 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
-public class Ball implements GameObject {
+
+public class Ball implements GameObject, Trackable {
 	
 	private Point upperLeft; // upper left corner
 	private int width, height;
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
 	
-	public Ball() {
-	}
-
 	public Ball(int worldWidth, int worldHeight, int diameter) {
 		width = worldWidth;
 		height = worldHeight;
-		upperLeft = getUpperLeft(worldWidth, worldHeight);
-		vx = ThreadLocalRandom.current().nextInt(-5, 6);
-		vy = ThreadLocalRandom.current().nextInt(-5, 6);
 		this.diameter = diameter;
 		Logger.getLogger("game").info("init ball");
 	}
@@ -47,15 +41,15 @@ public class Ball implements GameObject {
 	}
 
 	@Override
-	public Point getUpperLeft(int worldWidth, int worldHeight) {
-		return new Point(worldWidth/2, worldHeight/2);
-	}
-
 	public void setPosition(int x, int y) {
-		
+		upperLeft.x = x;
+		upperLeft.y = y;
 	}
 
+	@Override
 	public void setSpeed(int vx, int vy) {
+		this.vx = vx;
+		this.vy = vy;
 	}
 
 	private boolean horisontalWallCollision() {
@@ -67,10 +61,12 @@ public class Ball implements GameObject {
 	}
 	
 	private void bounceX() {
+		//TODO: send bounce
 		vx *= -1;
 	}
 
 	private void bounceY() {
+		//TODO: send bounce
 		vy *= -1;
 	}
 
