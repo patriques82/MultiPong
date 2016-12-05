@@ -36,15 +36,10 @@ class Game implements Runnable {
 	 * Initializes all resources needed for the game (Client, Display, Thread)
 	 */
 	public Game() {
-		clientFacade = new ClientFacade(new MessageHandler<PropMessage>() {
-			@Override
-			public void handle(PropMessage props) {
-				display = Display.createDisplay(props.width, props.height);
-				display.addKeyListener(KeyManager.getKeyManager());
-				world = clientFacade.initWorld(props);
-			}
-		});
-		clientFacade.connect();
+		clientFacade = new ClientFacade();
+		clientFacade.connectAndWait();
+		display = clientFacade.getDisplay();
+		world = clientFacade.getWorld();
 		thread = new Thread(this);
 		running = false;
 	}

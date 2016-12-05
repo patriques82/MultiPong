@@ -19,15 +19,15 @@ public class ClientFacade {
 	final BallTracker ballTracker;
 	final PaddleTracker otherPaddleTracker;
 	final PaddleSender myPaddleSender;
-	MessageHandler<PropMessage> propsHandler;
+	
+	private World world;
+	private Display display;
 
-
-	ClientFacade(MessageHandler<PropMessage> propsHandler) {
+	ClientFacade() {
 		client = NetworkFactory.getClient();
 		ballTracker = new BallTracker();
 		otherPaddleTracker = new PaddleTracker();
 		myPaddleSender = new PaddleSender();
-		this.propsHandler = propsHandler;
 	}
 
 	public World initWorld(PropMessage props) {
@@ -41,7 +41,8 @@ public class ClientFacade {
 						 myPaddleSender.getPaddle());
 	}
 
-	public void connect() {
+	public void connectAndWait() {
+		Object monitor = new Object(); // monitor for waiting for all objects getting init
 		client.start();
 		Network.register(client);
 		try {
@@ -58,7 +59,10 @@ public class ClientFacade {
 			public void received(Connection connection, Object object) {
 				if (object instanceof PropMessage) {
 					PropMessage props = (PropMessage) object;
-					propsHandler.handle(props);
+					display = Display.createDisplay(props.width, props.height);
+					display.addKeyListener(KeyManager.getKeyManager());
+					world = initWorld(props);
+					monitor.notifyAll(); // now we can stop waiting
 					Logger.getLogger("client").info("Initialized game with server info");
 				}
 				if (object instanceof BallMessage) {
@@ -74,10 +78,26 @@ public class ClientFacade {
 				System.exit(0);
 			}
 		});
+		
+		while(world == null) {
+			try {
+				monitor.wait();
+			} catch (InterruptedException e) {
+				Logger.getLogger("client").info("Was interrupted during wait");
+			}
+		}
 	}
 	
 	public void send() {
 		client.sendTCP(myPaddleSender.toMessage());
+	}
+	
+	public World getWorld() {
+		return world;
+	}
+	
+	public Display getDisplay() {
+		return display;
 	}
 
 
