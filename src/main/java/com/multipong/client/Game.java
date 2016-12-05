@@ -3,8 +3,6 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import com.multipong.shared.Network.BallMessage;
-import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.PropMessage;
 
 /**
@@ -38,21 +36,24 @@ class Game implements Runnable {
 	 * Initializes all resources needed for the game (Client, Display, Threads etc)
 	 */
 	public Game() {
-		MessageTracker<BallMessage, Ball> ballTracker = new BallTracker();
-		MessageTracker<PaddleMessage, OtherPaddle> otherPaddleTracker = new PaddleTracker();
-		MessageSender<PaddleMessage, MyPaddle> myPaddleSender = new PaddleSender();
+		final BallTracker ballTracker = new BallTracker();
+		final PaddleTracker otherPaddleTracker = new PaddleTracker();
+		final PaddleSender myPaddleSender = new PaddleSender();
 
 		clientFacade = new ClientFacade(new MessageHandler<PropMessage>() {
 			@Override
 			public void handle(PropMessage props) {
 				display = Display.createDisplay(props.width, props.height);
 				display.addKeyListener(KeyManager.getKeyManager());
-
-				Ball ball = ballTracker.init(props.width, props.height, props.ball);
-				OtherPaddle other = otherPaddleTracker.init(props.width, props.height, props.otherPaddle);
-				MyPaddle myPaddle = MyPaddle.getPaddle(props.width, props.height, props.yourPaddle, ball);
-				myPaddleSender.setSender(myPaddle);
-				world = new World(props.width, props.height, ball, other, myPaddle);
+				
+				ballTracker.init(props.ball);
+				otherPaddleTracker.init(props.other);
+				myPaddleSender.init(props.width, props.height, ballTracker.getBall(), props.your);
+				world = new World(props.width,
+								  props.height,
+								  ballTracker.getBall(),
+								  otherPaddleTracker.getPaddle(),
+								  myPaddleSender.getPaddle());
 			}
 		});
 		clientFacade.connect(ballTracker, otherPaddleTracker, myPaddleSender);
@@ -67,9 +68,9 @@ class Game implements Runnable {
 		
 		// Game loop
 		while(running) {
-			long now = System.nanoTime();
-			frameTimer += now - lastTime;
-			sendTimer += now - lastTime;
+			long diff = System.nanoTime() - lastTime;
+			frameTimer += diff;
+			sendTimer += diff;
 			lastTime = System.nanoTime();
 			if(frameTimer >= FRAME_RATE) {
 				tick();
@@ -77,7 +78,7 @@ class Game implements Runnable {
 				frameTimer = 0;
 			}
 			if(sendTimer >= SEND_RATE) {
-				clientFacade.send();
+				send();
 				sendTimer = 0;
 			}
 		}
@@ -113,6 +114,10 @@ class Game implements Runnable {
 			// Clean up
 			g.dispose();
 		}
+	}
+	
+	public void send() {
+		clientFacade.send();
 	}
 
 	/**

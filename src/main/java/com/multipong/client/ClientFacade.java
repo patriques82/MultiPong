@@ -17,17 +17,17 @@ public class ClientFacade {
 
 	Client client;
 	MessageHandler<PropMessage> propsHandler;
-	MessageSender<PaddleMessage, MyPaddle> paddleSender;
+	MessageSender<PaddleMessage> sender;
 
 	ClientFacade(MessageHandler<PropMessage> propsHandler) {
 		this.client = NetworkFactory.getClient();
 		this.propsHandler = propsHandler;
 	}
 
-	public void connect(MessageTracker<BallMessage, Ball> ballTracker,
-						MessageTracker<PaddleMessage, OtherPaddle> paddleTracker,
-						MessageSender<PaddleMessage, MyPaddle> paddleSender) {
-		this.paddleSender = paddleSender;
+	public void connect(MessageTracker<BallMessage> ballTracker,
+						MessageTracker<PaddleMessage> paddleTracker,
+						MessageSender<PaddleMessage> paddleSender) {
+		sender = paddleSender;
 		client.start();
 		Network.register(client);
 		try {
@@ -58,13 +58,12 @@ public class ClientFacade {
 			}
 			public void disconnected(Connection connection) {
 				System.exit(0);
-				Logger.getLogger("client").info("Disconnected from server");
 			}
 		});
 	}
 	
 	public void send() {
-		client.sendTCP(paddleSender.toMessage());
+		client.sendTCP(sender.toMessage());
 	}
 
 }

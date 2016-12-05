@@ -2,24 +2,34 @@ package com.multipong.client;
 
 import com.multipong.shared.Network.PaddleMessage;
 
-public class PaddleSender implements MessageSender<PaddleMessage, MyPaddle> {
+public class PaddleSender implements MessageSender<PaddleMessage>  {
 	
-	private MyPaddle myPaddle;
+	MyPaddle paddle;
 
-	@Override
-	public void setSender(MyPaddle sendable) {
-		this.myPaddle = sendable;
+	public void init(int worldWidth, int worldHeight, Ball ball, PaddleMessage m) {
+		String pos = m.position;
+		if(pos.equals("bottom") || pos.equals("up")) {
+			paddle = new HorizontalPaddle(pos, worldWidth, ball);
+		} else if(pos.equals("left") || pos.equals("right")) {
+			paddle = new VerticalPaddle(pos, worldHeight, ball);
+		} else {
+			throw new RuntimeException("Not known position of your paddle");
+		}
+	}
+	
+	public Paddle getPaddle() {
+		return paddle;
 	}
 
 	@Override
 	public PaddleMessage toMessage() {
 		PaddleMessage message = new PaddleMessage();
-		message.position = myPaddle.getPosition();
-		message.x = myPaddle.getPoint().x;
-		message.y = myPaddle.getPoint().y;
-		message.vx = myPaddle.getVx();
-		message.vy = myPaddle.getVy();
+		message.position = paddle.getPosition();
+		message.x = paddle.getPoint().x;
+		message.y = paddle.getPoint().y;
+		message.vx = paddle.getVx();
+		message.vy = paddle.getVy();
 		return message;
 	}
-
+	
 }

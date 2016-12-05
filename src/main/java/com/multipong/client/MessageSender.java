@@ -1,8 +1,6 @@
 package com.multipong.client;
 
-public interface MessageSender<Message, T extends Sendable> {
-
-	public void setSender(T sendable);
+public interface MessageSender<Message> {
 
 	/**
 	 * Sets properties of the game object according to message spec

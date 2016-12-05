@@ -29,12 +29,12 @@ public class Network {
 	static public class PropMessage {
 		public int width, height;
 		public BallMessage ball;
-		public PaddleMessage otherPaddle;
-		public PaddleMessage yourPaddle;
+		public PaddleMessage other;
+		public PaddleMessage your;
 	}
 
 	static public class BallMessage {
-		public int x, y, diameter, vx, vy;
+		public int x, y, vx, vy;
 	}
 	
 	static public class PaddleMessage {

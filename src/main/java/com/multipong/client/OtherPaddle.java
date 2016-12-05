@@ -1,10 +1,12 @@
 package com.multipong.client;
 
-public class OtherPaddle extends Paddle implements Trackable {
+
+public class OtherPaddle extends Paddle {
 
 	OtherPaddle(String pos) {
 		this.position = pos;
 	}
+
 
 	@Override
 	public void tick() {

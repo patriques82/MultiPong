@@ -4,10 +4,8 @@ import java.awt.Graphics;
 
 public class VerticalPaddle extends MyPaddle {
 
-	VerticalPaddle(String pos, int width, int height, int worldHeight, Ball ball) {
+	VerticalPaddle(String pos, int worldHeight, Ball ball) {
 		super(pos, ball);
-		this.width = width;
-		this.height = height;
 //		this.worldHeight = worldHeight;
 	}
 
@@ -21,5 +19,18 @@ public class VerticalPaddle extends MyPaddle {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void setPosition(int x, int y) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSpeed(int vx, int vy) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

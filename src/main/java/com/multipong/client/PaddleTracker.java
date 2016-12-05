@@ -2,16 +2,24 @@ package com.multipong.client;
 
 import com.multipong.shared.Network.PaddleMessage;
 
-public class PaddleTracker implements MessageTracker<PaddleMessage, OtherPaddle> {
+public class PaddleTracker implements MessageTracker<PaddleMessage> {
+
+	Paddle paddle;
 
 	@Override
-	public OtherPaddle init(int width, int height, PaddleMessage message) {
-		return null;
+	public void init(PaddleMessage m) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void track(PaddleMessage m) {
 
 	}
+	
+	public Paddle getPaddle() {
+		return paddle;
+	}
+
 
 }

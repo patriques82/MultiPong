@@ -4,23 +4,23 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.util.logging.Logger;
+
+import com.multipong.shared.Network.BallMessage;
 
 
-public class Ball implements GameObject, Trackable {
+public class Ball implements GameObject<BallMessage> {
 	
 	private Point upperLeft; // upper left corner
 	private int width, height;
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
 	
-	public Ball(int worldWidth, int worldHeight, int diameter) {
+	Ball(int worldWidth, int worldHeight, int diameter) {
 		width = worldWidth;
 		height = worldHeight;
 		this.diameter = diameter;
-		Logger.getLogger("game").info("init ball");
 	}
-
+	
 	@Override
 	public void tick() {
 		upperLeft.x += vx;
