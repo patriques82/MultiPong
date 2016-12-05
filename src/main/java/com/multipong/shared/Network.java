@@ -23,6 +23,11 @@ public class Network {
 		kryo.register(PaddleMessage.class);
 	}
 	
+	/**
+	 * Message from Client to Server when client wants to establish connection
+	 * @author patriknygren
+	 *
+	 */
 	static public class Register {
 	}
 	
@@ -34,7 +39,7 @@ public class Network {
 	}
 
 	static public class BallMessage {
-		public int x, y, vx, vy;
+		public int x, y, vx, vy, diameter;
 	}
 	
 	static public class PaddleMessage {

@@ -5,14 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 
-import com.multipong.shared.Network.PaddleMessage;
-
 /**
  * The paddle of Pong.
  * 
  * @author patriknygren
  */
-public abstract class Paddle implements GameObject<PaddleMessage> {
+public abstract class Paddle implements GameObject {
 	
 	protected static int SPEED = 5;
 	protected int width;

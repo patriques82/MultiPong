@@ -2,8 +2,11 @@ package com.multipong.client;
 
 import java.awt.Graphics;
 
-public interface GameObject<Message> {
-
+/**
+ * @author patriknygren
+ *
+ */
+public interface GameObject {
 
 	/**
 	 * Update the object position.

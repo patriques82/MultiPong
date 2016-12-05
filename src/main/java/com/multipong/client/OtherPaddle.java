@@ -7,9 +7,9 @@ public class OtherPaddle extends Paddle {
 		this.position = pos;
 	}
 
-
 	@Override
 	public void tick() {
+		// Does nothing since it is tracked
 	}
 
 	@Override

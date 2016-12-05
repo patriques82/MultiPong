@@ -7,7 +7,7 @@ public class PaddleTracker implements MessageTracker<PaddleMessage> {
 	Paddle paddle;
 
 	@Override
-	public void init(PaddleMessage m) {
+	public void init(int worldWidth, int worldHeight, PaddleMessage m) {
 		// TODO Auto-generated method stub
 		
 	}

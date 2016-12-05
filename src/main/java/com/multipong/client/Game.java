@@ -33,30 +33,18 @@ class Game implements Runnable {
 	private static final double SEND_RATE = 1000_000_000/MPS;
 	
 	/**
-	 * Initializes all resources needed for the game (Client, Display, Threads etc)
+	 * Initializes all resources needed for the game (Client, Display, Thread)
 	 */
 	public Game() {
-		final BallTracker ballTracker = new BallTracker();
-		final PaddleTracker otherPaddleTracker = new PaddleTracker();
-		final PaddleSender myPaddleSender = new PaddleSender();
-
 		clientFacade = new ClientFacade(new MessageHandler<PropMessage>() {
 			@Override
 			public void handle(PropMessage props) {
 				display = Display.createDisplay(props.width, props.height);
 				display.addKeyListener(KeyManager.getKeyManager());
-				
-				ballTracker.init(props.ball);
-				otherPaddleTracker.init(props.other);
-				myPaddleSender.init(props.width, props.height, ballTracker.getBall(), props.your);
-				world = new World(props.width,
-								  props.height,
-								  ballTracker.getBall(),
-								  otherPaddleTracker.getPaddle(),
-								  myPaddleSender.getPaddle());
+				world = clientFacade.initWorld(props);
 			}
 		});
-		clientFacade.connect(ballTracker, otherPaddleTracker, myPaddleSender);
+		clientFacade.connect();
 		thread = new Thread(this);
 		running = false;
 	}

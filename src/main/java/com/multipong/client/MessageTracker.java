@@ -5,11 +5,10 @@ package com.multipong.client;
  * @author patriknygren
  *
  * @param <Message> the message used to set the tracked game object
- * @param <T> the tracked game object
  */
 public interface MessageTracker<Message> {
 	
-	public void init(Message m);
+	public void init(int worldWidth, int worldHeight, Message m);
 	
 	/**
 	 * Sets properties of the game object according to message spec

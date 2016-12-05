@@ -6,9 +6,13 @@ public class HorizontalPaddle extends MyPaddle {
 	
 	private int worldWidth;
 
-	public HorizontalPaddle(String pos, int worldWidth, Ball ball) {
+	public HorizontalPaddle(String pos, int worldWidth, Ball ball, int height, int width, int x, int y) {
 		super(pos, ball);
 		this.worldWidth = worldWidth;
+		this.height = height;  
+		this.width = width;
+		this.upperLeft.x = x;
+		this.upperLeft.y = y;
 	}
 
 

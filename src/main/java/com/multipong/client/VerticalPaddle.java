@@ -4,7 +4,7 @@ import java.awt.Graphics;
 
 public class VerticalPaddle extends MyPaddle {
 
-	VerticalPaddle(String pos, int worldHeight, Ball ball) {
+	VerticalPaddle(String pos, int worldHeight, Ball ball, int height, int width, int x, int y) {
 		super(pos, ball);
 //		this.worldHeight = worldHeight;
 	}

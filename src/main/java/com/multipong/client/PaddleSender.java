@@ -9,9 +9,9 @@ public class PaddleSender implements MessageSender<PaddleMessage>  {
 	public void init(int worldWidth, int worldHeight, Ball ball, PaddleMessage m) {
 		String pos = m.position;
 		if(pos.equals("bottom") || pos.equals("up")) {
-			paddle = new HorizontalPaddle(pos, worldWidth, ball);
+			paddle = new HorizontalPaddle(pos, worldWidth, ball, m.height, m.width, m.x, m.y);
 		} else if(pos.equals("left") || pos.equals("right")) {
-			paddle = new VerticalPaddle(pos, worldHeight, ball);
+			paddle = new VerticalPaddle(pos, worldHeight, ball, m.height, m.width, m.x, m.y);
 		} else {
 			throw new RuntimeException("Not known position of your paddle");
 		}

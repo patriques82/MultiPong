@@ -4,14 +4,13 @@ import java.awt.Graphics;
 
 import com.multipong.shared.Network.BallMessage;
 
-public class BallTracker implements GameObject<BallMessage>, MessageTracker<BallMessage> {
+public class BallTracker implements GameObject, MessageTracker<BallMessage> {
 	
 	Ball ball;
 
 	@Override
-	public void init(BallMessage m) {
-		// TODO Auto-generated method stub
-		
+	public void init(int worldWidth, int worldHeight, BallMessage m) {
+		ball = new Ball(worldWidth, worldHeight, m.diameter);
 	}
 
 	@Override

@@ -15,19 +15,33 @@ import com.multipong.shared.NetworkFactory;
 
 public class ClientFacade {
 
-	Client client;
+	final Client client;
+	final BallTracker ballTracker;
+	final PaddleTracker otherPaddleTracker;
+	final PaddleSender myPaddleSender;
 	MessageHandler<PropMessage> propsHandler;
-	MessageSender<PaddleMessage> sender;
+
 
 	ClientFacade(MessageHandler<PropMessage> propsHandler) {
-		this.client = NetworkFactory.getClient();
+		client = NetworkFactory.getClient();
+		ballTracker = new BallTracker();
+		otherPaddleTracker = new PaddleTracker();
+		myPaddleSender = new PaddleSender();
 		this.propsHandler = propsHandler;
 	}
 
-	public void connect(MessageTracker<BallMessage> ballTracker,
-						MessageTracker<PaddleMessage> paddleTracker,
-						MessageSender<PaddleMessage> paddleSender) {
-		sender = paddleSender;
+	public World initWorld(PropMessage props) {
+		ballTracker.init(props.width, props.height, props.ball);
+		otherPaddleTracker.init(props.width, props.height, props.other);
+		myPaddleSender.init(props.width, props.height, ballTracker.getBall(), props.your);
+		return new World(props.width,
+						 props.height,
+						 ballTracker.getBall(),
+						 otherPaddleTracker.getPaddle(),
+						 myPaddleSender.getPaddle());
+	}
+
+	public void connect() {
 		client.start();
 		Network.register(client);
 		try {
@@ -53,7 +67,7 @@ public class ClientFacade {
 				}
 				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
-					paddleTracker.track(paddleMessage);
+					otherPaddleTracker.track(paddleMessage);
 				}
 			}
 			public void disconnected(Connection connection) {
@@ -63,7 +77,8 @@ public class ClientFacade {
 	}
 	
 	public void send() {
-		client.sendTCP(sender.toMessage());
+		client.sendTCP(myPaddleSender.toMessage());
 	}
+
 
 }
