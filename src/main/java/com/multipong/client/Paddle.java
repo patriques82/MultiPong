@@ -26,4 +26,16 @@ public abstract class Paddle implements GameObject {
 		g2d.fillRect(upperLeft.x, upperLeft.y, width, height);
 	}
 
+	@Override
+	public void setPosition(int x, int y) {
+		upperLeft.x = x;
+		upperLeft.y = y;
+	}
+
+	@Override
+	public void setSpeed(int vx, int vy) {
+		this.vx = vx;
+		this.vy = vy;
+	}
+
 }

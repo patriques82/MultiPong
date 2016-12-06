@@ -3,8 +3,6 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
-import com.multipong.shared.Network.PropMessage;
-
 /**
  * The infrastructure of the game, holds the game loop of the game.
  * 

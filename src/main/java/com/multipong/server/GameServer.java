@@ -26,9 +26,11 @@ public class GameServer extends Server {
 		
 		server.addListener(new Listener() {
 			public void received (Connection conn, Object object) {
+				// If client wants to register send game properties
 				if (object instanceof Register) {
 		            conn.sendTCP(getProperties());
 				}
+
 			}
 		});
 	}

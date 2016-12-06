@@ -10,11 +10,11 @@ class World {
 	private int height;
 
 	public World(int w, int h, GameObject ball, GameObject other, GameObject paddle) {
+		width = w;
+		height = h;
 		this.ball = ball;
 		this.other = other;
 		this.paddle = paddle;
-		width = w;
-		height = h;
 	}
 
 	public void tick() {

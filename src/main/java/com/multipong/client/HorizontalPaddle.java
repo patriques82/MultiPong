@@ -15,14 +15,14 @@ public class HorizontalPaddle extends MyPaddle {
 		this.upperLeft.y = y;
 	}
 
-
 	@Override
 	public void tick() {
 		if(KeyManager.getKeyManager().isLeftPressed()) {
-			vx = -SPEED;
-		}
-		if(KeyManager.getKeyManager().isRightPressed()) {
-			vx = SPEED;
+			setSpeed(-SPEED, 0);
+		} else if(KeyManager.getKeyManager().isRightPressed()) {
+			setSpeed(SPEED, 0);
+		} else {
+			setSpeed(0, 0);
 		}
 		move();
 	}
@@ -33,22 +33,11 @@ public class HorizontalPaddle extends MyPaddle {
 	}
 
 	private void move() {
-		upperLeft.x += SPEED;
+		upperLeft.x += vx;
 		if(upperLeft.x + width > worldWidth)
 			upperLeft.x = worldWidth - width;
 		if(upperLeft.x < 0) 
 			upperLeft.x = 0;
 	}
-
-	@Override
-	public void setPosition(int x, int y) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void setSpeed(int vx, int vy) {
-		// TODO Auto-generated method stub
-	}
-
 
 }
