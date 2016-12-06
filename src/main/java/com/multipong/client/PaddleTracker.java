@@ -19,5 +19,4 @@ public class PaddleTracker implements MessageTracker<PaddleMessage> {
 		return paddle;
 	}
 
-
 }
