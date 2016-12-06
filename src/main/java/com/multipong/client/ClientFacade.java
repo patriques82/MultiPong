@@ -23,13 +23,21 @@ public class ClientFacade {
 	private World world;
 	private Display display;
 
+	private Object monitor; // monitor for waiting for all objects getting init
+
 	ClientFacade() {
 		client = NetworkFactory.getClient();
 		ballTracker = new BallTracker();
 		otherPaddleTracker = new PaddleTracker();
 		myPaddleSender = new PaddleSender();
+		monitor = new Object();
 	}
 
+	/**
+	 * Initializer for the world, initializes trackers and senders
+	 * @param props message with game properties
+	 * @return world the World!
+	 */
 	public World initWorld(PropMessage props) {
 		ballTracker.init(props.width, props.height, props.ball);
 		otherPaddleTracker.init(props.width, props.height, props.other);
@@ -41,11 +49,14 @@ public class ClientFacade {
 						 myPaddleSender.getPaddle());
 	}
 
+	/**
+	 * Connect to server, add Listener for incoming messages from server and wait for connection.
+	 */
 	public void connectAndWait() {
-		Object monitor = new Object(); // monitor for waiting for all objects getting init
 		client.start();
 		Network.register(client);
 		try {
+			// Connect to server
 			client.connect(Network.CONNECT_TIMEOUT_MS,
 						   Network.HOST,
 						   Network.TCP_PORT,
@@ -55,6 +66,7 @@ public class ClientFacade {
 			Logger.getLogger("client").severe("Could not connect with server");
 		}
 		
+		// Add listener for incoming messages
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
 				if (object instanceof PropMessage) {
@@ -62,8 +74,9 @@ public class ClientFacade {
 					display = Display.createDisplay(props.width, props.height);
 					display.addKeyListener(KeyManager.getKeyManager());
 					world = initWorld(props);
-					monitor.notifyAll(); // now we can stop waiting
-					Logger.getLogger("client").info("Initialized game with server info");
+					synchronized (monitor) {
+						monitor.notifyAll(); // now we can stop waiting
+					}
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
@@ -78,24 +91,42 @@ public class ClientFacade {
 				System.exit(0);
 			}
 		});
-		
-		while(world == null) {
+		waitForInitialization();
+	}
+
+	/**
+	 * Waits for notification from listener (connectAndWait) for initialization 
+	 */
+	private void waitForInitialization() {
+		synchronized (monitor) {
 			try {
 				monitor.wait();
 			} catch (InterruptedException e) {
 				Logger.getLogger("client").info("Was interrupted during wait");
+				System.exit(0);
 			}
 		}
 	}
 	
+	/**
+	 * Send paddle position
+	 */
 	public void send() {
 		client.sendTCP(myPaddleSender.toMessage());
 	}
 	
+	/**
+	 * Getter for world
+	 * @return world the World!
+	 */
 	public World getWorld() {
 		return world;
 	}
 	
+	/**
+	 * Getter for display
+	 * @return display the Display!
+	 */
 	public Display getDisplay() {
 		return display;
 	}
