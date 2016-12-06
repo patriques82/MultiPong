@@ -25,8 +25,6 @@ public class Network {
 	
 	/**
 	 * Message from Client to Server when client wants to establish connection
-	 * @author patriknygren
-	 *
 	 */
 	static public class Register {
 	}

@@ -12,10 +12,11 @@ public class Ball implements GameObject {
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
 	
-	Ball(int worldWidth, int worldHeight, int diameter) {
+	Ball(int worldWidth, int worldHeight, int diameter, int x, int y) {
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
 		this.diameter = diameter;
+		this.upperLeft = new Point(x, y);
 	}
 	
 	@Override

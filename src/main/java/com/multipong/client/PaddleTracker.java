@@ -6,15 +6,13 @@ public class PaddleTracker implements MessageTracker<PaddleMessage> {
 
 	Paddle paddle;
 
-	@Override
 	public void init(int worldWidth, int worldHeight, PaddleMessage m) {
-		// TODO Auto-generated method stub
-		
+		paddle = new OtherPaddle(m.position, m.width, m.height, m.x, m.y);
 	}
 
 	@Override
 	public void track(PaddleMessage m) {
-
+		
 	}
 	
 	public Paddle getPaddle() {

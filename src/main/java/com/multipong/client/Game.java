@@ -44,6 +44,9 @@ class Game implements Runnable {
 		running = false;
 	}
 
+	/**
+	 * The Gameloop
+	 */
 	public void run() {
 		long lastTime = System.nanoTime();
 		long frameTimer = 0; // counter for next tick.

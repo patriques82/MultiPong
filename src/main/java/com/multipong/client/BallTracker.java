@@ -8,9 +8,8 @@ public class BallTracker implements GameObject, MessageTracker<BallMessage> {
 	
 	Ball ball;
 
-	@Override
-	public void init(int worldWidth, int worldHeight, BallMessage m) {
-		ball = new Ball(worldWidth, worldHeight, m.diameter);
+	public void init(int worldWidth, int worldHeight, BallMessage message) {
+		ball = new Ball(worldWidth, worldHeight, message.diameter, message.x, message.y);
 	}
 
 	@Override

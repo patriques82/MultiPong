@@ -15,10 +15,10 @@ import com.multipong.shared.NetworkFactory;
 
 public class ClientFacade {
 
-	final Client client;
-	final BallTracker ballTracker;
-	final PaddleTracker otherPaddleTracker;
-	final PaddleSender myPaddleSender;
+	private final Client client;
+	private final BallTracker ballTracker;
+	private final PaddleTracker otherPaddleTracker;
+	private final PaddleSender myPaddleSender;
 	
 	private World world;
 	private Display display;

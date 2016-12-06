@@ -9,6 +9,7 @@ public abstract class MyPaddle extends Paddle {
 	protected MyPaddle(String pos, Ball ball) {
 		this.position = pos;
 		this.ball = ball;
+		this.upperLeft = new Point();
 	}
 
 
