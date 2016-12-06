@@ -6,12 +6,9 @@ import java.util.logging.Logger;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
+
 import com.multipong.shared.Network;
-import com.multipong.shared.Network.BallMessage;
-import com.multipong.shared.Network.PaddleMessage;
-import com.multipong.shared.Network.PropMessage;
-import com.multipong.shared.Network.Register;
-import com.multipong.shared.NetworkFactory;
+import com.multipong.shared.Network.*;
 
 public class ClientFacade {
 
@@ -26,7 +23,7 @@ public class ClientFacade {
 	private Object monitor; // monitor for waiting for all objects getting init
 
 	ClientFacade() {
-		client = NetworkFactory.getClient();
+		client = new Client();
 		ballTracker = new BallTracker();
 		otherPaddleTracker = new PaddleTracker();
 		myPaddleSender = new PaddleSender();
