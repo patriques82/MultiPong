@@ -1,6 +1,7 @@
 package com.multipong.server;
 
 import java.io.IOException;
+import java.util.Random;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -14,8 +15,13 @@ public class GameServer extends Server {
 	private Server server;
 
 	public static void main (String[] args) throws IOException {
-		GameServer server = new GameServer();
-		server.start();
+//		GameServer server = new GameServer();
+//		server.start();
+
+		Random rand = new Random();
+		int x = rand.nextInt((10 - 0) + 1);
+		int y = 10 - x;
+		System.out.println("x: " + x + ", y: " + y);
 	}
 	
 	public GameServer() throws IOException {
@@ -30,8 +36,8 @@ public class GameServer extends Server {
 				// TODO: handle multiple connections
 
 				// If client wants to register send game properties
-				if (object instanceof Register) {
-					messageBus.register(conn);
+				if (object instanceof RegisterRequest) {
+					conn.sendTCP(messageBus.registerResponse());
 				}
 
 				// If client sends its Paddle position forward to others

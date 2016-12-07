@@ -58,7 +58,7 @@ public class ClientFacade {
 						   Network.HOST,
 						   Network.TCP_PORT,
 						   Network.UDP_PORT);
-			client.sendTCP(new Register());
+			client.sendTCP(new RegisterRequest());
 		} catch (IOException e) {
 			Logger.getLogger("client").severe("Could not connect with server");
 		}

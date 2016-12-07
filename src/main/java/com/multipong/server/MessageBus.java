@@ -2,13 +2,11 @@ package com.multipong.server;
 
 import java.util.Random;
 
-import com.esotericsoftware.kryonet.Connection;
-
 import com.multipong.shared.Network.*;
 
 public class MessageBus {
 	
-	public void register(Connection conn) {
+	public PropMessage registerResponse() {
 		RandPythagorean randPythagorean = new RandPythagorean(Conf.BALL_SPEED);
 		PropMessage prop = new PropMessage();
 		// World
@@ -33,7 +31,7 @@ public class MessageBus {
 		prop.your.width = Conf.PADDLE_LENGTH;
 		prop.your.x = 40;
 		prop.your.y = 40;
-		conn.sendTCP(prop);
+		return prop;
 	}
 	
 	/**
@@ -54,6 +52,4 @@ public class MessageBus {
 		}
 	}
 	
-	
-
 }
