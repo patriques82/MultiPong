@@ -1,6 +1,7 @@
 package com.multipong.client;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.multipong.shared.Network.BallMessage;
 
@@ -44,6 +45,12 @@ public class BallTracker implements GameObject, MessageTracker<BallMessage> {
 	public void setSpeed(int vx, int vy) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Rectangle getBoundingRect() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

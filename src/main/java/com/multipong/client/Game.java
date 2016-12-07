@@ -24,7 +24,7 @@ class Game implements Runnable {
 
 	private boolean running;   
 	
-	private static final int FPS = 35; // frames per second
+	private static final int FPS = 45; // frames per second
 	private static final double FRAME_RATE = 1000_000_000/FPS;
 
 	private static final int MPS = 1;  // messages per second

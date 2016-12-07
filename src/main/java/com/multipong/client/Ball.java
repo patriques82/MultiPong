@@ -1,9 +1,11 @@
 package com.multipong.client;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 public class Ball implements GameObject {
 	
@@ -11,12 +13,14 @@ public class Ball implements GameObject {
 	private int worldWidth, worldHeight;
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
+	private Rectangle rect;
 	
 	Ball(int worldWidth, int worldHeight, int diameter, int x, int y) {
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
 		this.diameter = diameter;
 		this.upperLeft = new Point(x, y);
+		rect = new Rectangle(upperLeft, new Dimension(diameter, diameter));
 	}
 	
 	@Override
@@ -66,6 +70,11 @@ public class Ball implements GameObject {
 	private void bounceY() {
 		//TODO: send bounce
 		vy *= -1;
+	}
+
+	@Override
+	public Rectangle getBoundingRect() {
+		return rect;
 	}
 
 }

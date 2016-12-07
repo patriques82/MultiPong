@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  * The paddle of Pong.
@@ -18,6 +19,7 @@ public abstract class Paddle implements GameObject {
 	protected Point upperLeft; // upper left corner (for rendering)
 	protected String position; // screen position of paddle
 	protected int vx, vy;
+	protected Rectangle rect;
 	
 	@Override
 	public void render(Graphics g) {
@@ -36,6 +38,11 @@ public abstract class Paddle implements GameObject {
 	public void setSpeed(int vx, int vy) {
 		this.vx = vx;
 		this.vy = vy;
+	}
+
+	@Override
+	public Rectangle getBoundingRect() {
+		return rect;
 	}
 
 }

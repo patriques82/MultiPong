@@ -15,13 +15,8 @@ public class GameServer extends Server {
 	private Server server;
 
 	public static void main (String[] args) throws IOException {
-//		GameServer server = new GameServer();
-//		server.start();
-
-		Random rand = new Random();
-		int x = rand.nextInt((10 - 0) + 1);
-		int y = 10 - x;
-		System.out.println("x: " + x + ", y: " + y);
+		GameServer server = new GameServer();
+		server.start();
 	}
 	
 	public GameServer() throws IOException {
@@ -37,7 +32,7 @@ public class GameServer extends Server {
 
 				// If client wants to register send game properties
 				if (object instanceof RegisterRequest) {
-					conn.sendTCP(messageBus.registerResponse());
+					messageBus.registerClient(conn);
 				}
 
 				// If client sends its Paddle position forward to others

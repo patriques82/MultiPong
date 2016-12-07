@@ -1,6 +1,8 @@
 package com.multipong.client;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class HorizontalPaddle extends MyPaddle {
 	
@@ -13,6 +15,7 @@ public class HorizontalPaddle extends MyPaddle {
 		this.width = width;
 		this.upperLeft.x = x;
 		this.upperLeft.y = y;
+		rect = new Rectangle(upperLeft, new Dimension(width, height));
 	}
 
 	@Override
@@ -39,5 +42,6 @@ public class HorizontalPaddle extends MyPaddle {
 		if(upperLeft.x < 0) 
 			upperLeft.x = 0;
 	}
+
 
 }
