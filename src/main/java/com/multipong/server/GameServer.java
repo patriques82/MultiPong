@@ -19,6 +19,7 @@ public class GameServer extends Server {
 	}
 	
 	public GameServer() throws IOException {
+		MessageBus messageBus = new MessageBus();
 		server = new Server();
 		server.start();
 		Network.register(server);
@@ -26,39 +27,21 @@ public class GameServer extends Server {
 		
 		server.addListener(new Listener() {
 			public void received (Connection conn, Object object) {
+				// TODO: handle multiple connections
+
 				// If client wants to register send game properties
 				if (object instanceof Register) {
-		            conn.sendTCP(getProperties());
+					messageBus.register(conn);
 				}
+
+				// If client sends its Paddle position forward to others
+				
+				// If client sends message that it hit ball forward to others
 
 			}
 		});
 	}
 	
-	private PropMessage getProperties() {
-		PropMessage prop = new PropMessage();
-		// World
-		prop.width = Conf.WIDTH;
-		prop.height = Conf.HEIGHT;
-		// Ball
-		prop.ball = new BallMessage();
-		prop.ball.x = Conf.BALL_START_X;
-		prop.ball.y = Conf.BALL_START_Y;
-		prop.ball.diameter = Conf.BALL_DIAMETER;
-		// other
-		prop.other = new PaddleMessage();
-		prop.other.position = "up";
-		prop.other.height = Conf.PADDLE_THICKNESS;
-		prop.other.width = Conf.PADDLE_LENGTH;
-		// your
-		prop.your = new PaddleMessage();
-		prop.your.position = "bottom";
-		prop.your.height = Conf.PADDLE_THICKNESS;
-		prop.your.width = Conf.PADDLE_LENGTH;
-		prop.your.x = 40;
-		prop.your.y = 40;
-		return prop;
-	}
 	
 
 }

@@ -37,7 +37,7 @@ public class Network {
 	}
 
 	static public class BallMessage {
-		public int x, y, vx, vy, diameter;
+		public int d, x, y, vx, vy;
 	}
 	
 	static public class PaddleMessage {
