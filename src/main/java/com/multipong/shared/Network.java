@@ -21,6 +21,7 @@ public class Network {
 		kryo.register(PropMessage.class);
 		kryo.register(BallMessage.class);
 		kryo.register(PaddleMessage.class);
+		kryo.register(WallHitMessage.class);
 	}
 	
 	static public interface Message {}
@@ -46,6 +47,8 @@ public class Network {
 		public int x, y, width, height, vx, vy;
 	}
 
-	
+	static public class WallHitMessage implements Message {
+		public int x, y;
+	}
 
 }

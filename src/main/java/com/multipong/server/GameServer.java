@@ -38,6 +38,16 @@ public class GameServer extends Server {
 				// If client sends its Paddle position forward to others
 				
 				// If client sends message that it hit ball forward to others
+				if (object instanceof BallMessage) {
+					BallMessage mess = (BallMessage) object;
+					System.out.print("Hit: " + mess.x + ", " + mess.y);
+				}
+				
+				// Wallhit
+				if (object instanceof WallHitMessage) {
+					WallHitMessage mess = (WallHitMessage) object;
+					System.out.println("Wall hit at: " + mess.x + ", " + mess.y);
+				}
 
 			}
 		});

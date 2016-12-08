@@ -7,31 +7,46 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Ball implements GameObject {
+import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.WallHitMessage;
+
+public class Ball implements GameObject, MessageSender {
 	
+	private ClientFacade clientFacade;
 	private Point upperLeft; // upper left corner
 	private int worldWidth, worldHeight;
 	private int vx, vy; 	 // velocity (x, y)
 	private int diameter;
 	private Rectangle rect;
 	
-	Ball(int worldWidth, int worldHeight, int diameter, int x, int y) {
+	private BallMessage ballMessage;
+	private WallHitMessage wallHitMessage;
+	
+	Ball(ClientFacade facade, int worldWidth, int worldHeight, int diameter, int x, int y) {
+		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
 		this.diameter = diameter;
 		this.upperLeft = new Point(x, y);
 		rect = new Rectangle(upperLeft, new Dimension(diameter, diameter));
+		ballMessage = new BallMessage();
+		wallHitMessage = new WallHitMessage();
 	}
 	
 	@Override
 	public void tick() {
 		upperLeft.x += vx;
 		upperLeft.y += vy;
-		if(horisontalWallCollision()) {
+		if(upperWallCollision()) {
 			bounceY();
 		}
 		if(verticalWallCollision()) {
 			bounceX();
+		}
+		if(lowerWallCollision()) {
+			wallHitMessage.x = upperLeft.x;
+			wallHitMessage.y = upperLeft.y;
+			clientFacade.emitEvent(wallHitMessage);
 		}
 	}
 
@@ -54,27 +69,38 @@ public class Ball implements GameObject {
 		this.vy = vy;
 	}
 
-	private boolean horisontalWallCollision() {
-		return upperLeft.y <= 0 || (upperLeft.y + diameter) >= worldHeight; // upper or lower wall
+	private boolean upperWallCollision() {
+		return upperLeft.y <= 0; // upper wall
 	}
 	
 	private boolean verticalWallCollision() {
 		return upperLeft.x <= 0 || (upperLeft.x + diameter) >= worldWidth; // left or right wall
 	}
 	
+	private boolean lowerWallCollision() {
+		return (upperLeft.y + diameter) >= worldHeight; // lower wall
+	}
+	
 	private void bounceX() {
-		//TODO: send bounce
 		vx *= -1;
 	}
 
 	private void bounceY() {
-		//TODO: send bounce
 		vy *= -1;
 	}
 
 	@Override
 	public Rectangle getBoundingRect() {
 		return rect;
+	}
+
+	@Override
+	public BallMessage toMessage() {
+		ballMessage.x = upperLeft.x;
+		ballMessage.y = upperLeft.y;
+		ballMessage.vx = vx;
+		ballMessage.vy = vy;
+		return ballMessage;
 	}
 
 }

@@ -9,8 +9,8 @@ public class BallTracker implements GameObject, MessageTracker<BallMessage> {
 	
 	Ball ball;
 
-	public void init(int worldWidth, int worldHeight, BallMessage message) {
-		ball = new Ball(worldWidth, worldHeight, message.d, message.x, message.y);
+	public void init(ClientFacade facade, int worldWidth, int worldHeight, BallMessage message) {
+		ball = new Ball(facade, worldWidth, worldHeight, message.d, message.x, message.y);
 		ball.setSpeed(message.vx, message.vy);
 	}
 

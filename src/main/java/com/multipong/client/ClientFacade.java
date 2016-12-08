@@ -36,9 +36,9 @@ public class ClientFacade {
 	 * @return world the World!
 	 */
 	public World initWorld(PropMessage props) {
-		ballTracker.init(props.width, props.height, props.ball);
+		ballTracker.init(this, props.width, props.height, props.ball);
 		otherPaddleTracker.init(props.width, props.height, props.other);
-		myPaddleSender.init(props.width, props.height, ballTracker.getBall(), props.your);
+		myPaddleSender.init(this, props.width, props.height, ballTracker.getBall(), props.your);
 		return new World(props.width,
 						 props.height,
 						 ballTracker.getBall(),
@@ -111,6 +111,10 @@ public class ClientFacade {
 	public void send() {
 		client.sendTCP(myPaddleSender.toMessage());
 	}
+
+	public void emitEvent(Message message) {
+		client.sendTCP(message);
+	}
 	
 	/**
 	 * Getter for world
@@ -127,6 +131,7 @@ public class ClientFacade {
 	public Display getDisplay() {
 		return display;
 	}
+
 
 
 }

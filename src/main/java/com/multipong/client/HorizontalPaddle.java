@@ -7,12 +7,14 @@ import java.awt.Rectangle;
 public class HorizontalPaddle extends MyPaddle {
 	
 	private int worldWidth;
+	private ClientFacade clientFacade;
 
-	public HorizontalPaddle(String pos, int worldWidth, Ball ball, int height, int width, int x, int y) {
+	public HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int h, int w, int x, int y) {
 		super(pos, ball);
+		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
-		this.height = height;  
-		this.width = width;
+		this.height = h;  
+		this.width = w;
 		this.upperLeft.x = x;
 		this.upperLeft.y = y;
 		rect = new Rectangle(upperLeft, new Dimension(width, height));
@@ -20,6 +22,9 @@ public class HorizontalPaddle extends MyPaddle {
 
 	@Override
 	public void tick() {
+		if(ballHit()) {
+			clientFacade.emitEvent(ball.toMessage());
+		}
 		if(KeyManager.getKeyManager().isLeftPressed()) {
 			setSpeed(-SPEED, 0);
 		} else if(KeyManager.getKeyManager().isRightPressed()) {
@@ -30,6 +35,10 @@ public class HorizontalPaddle extends MyPaddle {
 		move();
 	}
 	
+	private boolean ballHit() {
+		return rect.intersects(ball.getBoundingRect());
+	}
+
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
