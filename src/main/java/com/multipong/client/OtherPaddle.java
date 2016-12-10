@@ -2,7 +2,9 @@ package com.multipong.client;
 
 import java.awt.Point;
 
-public class OtherPaddle extends Paddle {
+import com.multipong.shared.Network.PaddleMessage;
+
+public class OtherPaddle extends Paddle implements MessageTracker<PaddleMessage> {
 
 	OtherPaddle(String pos, int width, int height, int x, int y) {
 		this.position = pos;
@@ -14,6 +16,11 @@ public class OtherPaddle extends Paddle {
 	@Override
 	public void tick() {
 		// Does nothing since it is tracked
+	}
+
+	@Override
+	public void track(PaddleMessage m) {
+		
 	}
 
 }

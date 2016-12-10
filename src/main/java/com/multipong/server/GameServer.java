@@ -1,7 +1,6 @@
 package com.multipong.server;
 
 import java.io.IOException;
-import java.util.Random;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;

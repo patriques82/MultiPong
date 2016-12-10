@@ -10,7 +10,10 @@ import java.awt.Rectangle;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
 
-public class Ball implements GameObject, MessageSender {
+/**
+ * Both tracks by following messages and calculates interpolation in between messages.
+ */
+public class Ball implements GameObject, MessageSender<BallMessage>, MessageTracker<BallMessage> {
 	
 	private ClientFacade clientFacade;
 	private Point upperLeft; // upper left corner
@@ -22,12 +25,14 @@ public class Ball implements GameObject, MessageSender {
 	private BallMessage ballMessage;
 	private WallHitMessage wallHitMessage;
 	
-	Ball(ClientFacade facade, int worldWidth, int worldHeight, int diameter, int x, int y) {
+	Ball(ClientFacade facade, int worldWidth, int worldHeight, int diameter, int x, int y, int vx, int vy) {
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
 		this.diameter = diameter;
 		this.upperLeft = new Point(x, y);
+		this.vx = vx;
+		this.vy = vy;
 		rect = new Rectangle(upperLeft, new Dimension(diameter, diameter));
 		ballMessage = new BallMessage();
 		wallHitMessage = new WallHitMessage();
@@ -46,7 +51,8 @@ public class Ball implements GameObject, MessageSender {
 		if(lowerWallCollision()) {
 			wallHitMessage.x = upperLeft.x;
 			wallHitMessage.y = upperLeft.y;
-			clientFacade.emitEvent(wallHitMessage);
+			clientFacade.emitEvent(wallHitMessage); // You lost the game!
+			bounceY();
 		}
 	}
 
@@ -101,6 +107,11 @@ public class Ball implements GameObject, MessageSender {
 		ballMessage.vx = vx;
 		ballMessage.vy = vy;
 		return ballMessage;
+	}
+
+	@Override
+	public void track(BallMessage m) {
+		// TODO: implement me!!!!
 	}
 
 }

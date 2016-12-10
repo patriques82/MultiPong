@@ -13,20 +13,17 @@ import com.multipong.shared.Network.*;
 public class ClientFacade {
 
 	private final Client client;
-	private final BallTracker ballTracker;
-	private final PaddleTracker otherPaddleTracker;
-	private final PaddleSender myPaddleSender;
 	
 	private World world;
+	private Ball ball; // kept only to handle messages
+	private OtherPaddle other; // kept only to handle messages
+	private MyPaddle paddle;  // kept only to send messages
 	private Display display;
 
 	private Object monitor; // monitor for waiting for all objects getting init
 
 	ClientFacade() {
 		client = new Client();
-		ballTracker = new BallTracker();
-		otherPaddleTracker = new PaddleTracker();
-		myPaddleSender = new PaddleSender();
 		monitor = new Object();
 	}
 
@@ -35,15 +32,15 @@ public class ClientFacade {
 	 * @param props message with game properties
 	 * @return world the World!
 	 */
-	public World initWorld(PropMessage props) {
-		ballTracker.init(this, props.width, props.height, props.ball);
-		otherPaddleTracker.init(props.width, props.height, props.other);
-		myPaddleSender.init(this, props.width, props.height, ballTracker.getBall(), props.your);
-		return new World(props.width,
-						 props.height,
-						 ballTracker.getBall(),
-						 otherPaddleTracker.getPaddle(),
-						 myPaddleSender.getPaddle());
+	public World initWorld(WorldProperties props) {
+
+		ball = new Ball(this, props.width, props.height, props.ball.d, props.ball.x, props.ball.y, props.ball.vx, props.ball.vy);
+		other = new OtherPaddle(props.other.position, props.other.width, props.other.height, props.other.x, props.other.y);
+		paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
+		if(ball == null || other == null || paddle == null) {
+			throw new NullPointerException("unknown ball, otherpaddle or paddle");
+		}
+		return new World(props.width, props.height, ball, other, paddle);
 	}
 
 	/**
@@ -66,8 +63,8 @@ public class ClientFacade {
 		// Add listener for incoming messages
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
-				if (object instanceof PropMessage) {
-					PropMessage props = (PropMessage) object;
+				if (object instanceof WorldProperties) {
+					WorldProperties props = (WorldProperties) object;
 					display = Display.createDisplay(props.width, props.height);
 					display.addKeyListener(KeyManager.getKeyManager());
 					world = initWorld(props);
@@ -77,11 +74,11 @@ public class ClientFacade {
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
-					ballTracker.track(ballMessage);
+					ball.track(ballMessage);
 				}
 				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
-					otherPaddleTracker.track(paddleMessage);
+					other.track(paddleMessage);
 				}
 			}
 			public void disconnected(Connection connection) {
@@ -106,12 +103,16 @@ public class ClientFacade {
 	}
 	
 	/**
-	 * Send paddle position
+	 * Send paddle message, called by Game at scheduled times
 	 */
 	public void send() {
-		client.sendTCP(myPaddleSender.toMessage());
+		client.sendTCP(paddle.toMessage());
 	}
-
+	
+	/**
+	 * Send event message, called by some Sender 
+	 * @param message
+	 */
 	public void emitEvent(Message message) {
 		client.sendTCP(message);
 	}

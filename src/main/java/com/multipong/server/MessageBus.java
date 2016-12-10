@@ -13,7 +13,7 @@ public class MessageBus {
 	
 	public void registerClient(Connection conn) {
 		RandPythagorean randPythagorean = new RandPythagorean(Conf.BALL_SPEED);
-		PropMessage prop = new PropMessage();
+		WorldProperties prop = new WorldProperties();
 		// World
 		prop.width = Conf.WIDTH;
 		prop.height = Conf.HEIGHT;

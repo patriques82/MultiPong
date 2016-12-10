@@ -1,7 +1,6 @@
 package com.multipong.client;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class HorizontalPaddle extends MyPaddle {
@@ -9,11 +8,11 @@ public class HorizontalPaddle extends MyPaddle {
 	private int worldWidth;
 	private ClientFacade clientFacade;
 
-	public HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int h, int w, int x, int y) {
+	public HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int w, int h, int x, int y) {
 		super(pos, ball);
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
-		this.height = h;  
+		this.height = h;
 		this.width = w;
 		this.upperLeft.x = x;
 		this.upperLeft.y = y;
@@ -23,7 +22,7 @@ public class HorizontalPaddle extends MyPaddle {
 	@Override
 	public void tick() {
 		if(ballHit()) {
-			clientFacade.emitEvent(ball.toMessage());
+			clientFacade.emitEvent(ball.toMessage()); // You bounced the ball!
 		}
 		if(KeyManager.getKeyManager().isLeftPressed()) {
 			setSpeed(-SPEED, 0);
@@ -37,11 +36,6 @@ public class HorizontalPaddle extends MyPaddle {
 	
 	private boolean ballHit() {
 		return rect.intersects(ball.getBoundingRect());
-	}
-
-	@Override
-	public void render(Graphics g) {
-		super.render(g);
 	}
 
 	private void move() {

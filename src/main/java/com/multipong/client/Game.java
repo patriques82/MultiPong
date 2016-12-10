@@ -67,6 +67,23 @@ class Game implements Runnable {
 			}
 		}
 	}
+
+	/**
+	 * Start the game
+	 */
+	public void start() {
+		if(!running) {
+			running = true;
+			thread.start();
+		}
+	}
+	
+	/**
+	 * Stop the game
+	 */
+	public void stop() {
+		running = false;
+	}
 	
 	/**
 	 * Update game state
@@ -100,25 +117,8 @@ class Game implements Runnable {
 		}
 	}
 	
-	public void send() {
+	private void send() {
 		clientFacade.send();
-	}
-
-	/**
-	 * Start the game
-	 */
-	public void start() {
-		if(!running) {
-			running = true;
-			thread.start();
-		}
-	}
-	
-	/**
-	 * Stop the game
-	 */
-	public void stop() {
-		running = false;
 	}
 	
 }
