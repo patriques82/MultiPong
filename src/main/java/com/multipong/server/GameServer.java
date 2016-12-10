@@ -39,7 +39,7 @@ public class GameServer extends Server {
 				// If client sends message that it hit ball forward to others
 				if (object instanceof BallMessage) {
 					BallMessage mess = (BallMessage) object;
-					System.out.print("Hit: " + mess.x + ", " + mess.y);
+					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y);
 				}
 				
 				// Wallhit

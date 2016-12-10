@@ -18,17 +18,17 @@ class World {
 	}
 
 	public void tick() {
-		ball.tick();
-		other.tick();
 		paddle.tick();
+		other.tick();
+		ball.tick();
 	}
 
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
-		ball.render(g);
-		other.render(g);
 		paddle.render(g);
+		other.render(g);
+		ball.render(g);
 	}
 
 }

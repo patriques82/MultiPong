@@ -1,16 +1,12 @@
 package com.multipong.client;
 
-import java.awt.Point;
-
 import com.multipong.shared.Network.PaddleMessage;
 
 public class OtherPaddle extends Paddle implements MessageTracker<PaddleMessage> {
 
-	OtherPaddle(String pos, int width, int height, int x, int y) {
+	OtherPaddle(String pos, int x, int y, int width, int height) {
+		super(x, y, width, height);
 		this.position = pos;
-		this.width = width;
-		this.height = height;
-		this.upperLeft = new Point(x, y);
 	}
 
 	@Override

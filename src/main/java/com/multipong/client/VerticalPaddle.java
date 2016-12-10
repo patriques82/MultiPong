@@ -4,8 +4,8 @@ import java.awt.Graphics;
 
 public class VerticalPaddle extends MyPaddle {
 
-	VerticalPaddle(ClientFacade facade, String pos, int worldHeight, Ball ball, int w, int h, int x, int y) {
-		super(pos, ball);
+	VerticalPaddle(ClientFacade facade, String pos, int worldHeight, Ball ball, int x, int y, int w, int h) {
+		super(x, y, w, h, pos, ball);
 //		this.worldHeight = worldHeight;
 	}
 

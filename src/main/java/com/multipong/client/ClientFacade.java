@@ -33,14 +33,14 @@ public class ClientFacade {
 	 * @return world the World!
 	 */
 	public World initWorld(WorldProperties props) {
-
 		ball = new Ball(this, props.width, props.height, props.ball.d, props.ball.x, props.ball.y, props.ball.vx, props.ball.vy);
-		other = new OtherPaddle(props.other.position, props.other.width, props.other.height, props.other.x, props.other.y);
+		other = new OtherPaddle(props.other.position, props.other.x, props.other.y, props.other.width, props.other.height);
 		paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
 		if(ball == null || other == null || paddle == null) {
 			throw new NullPointerException("unknown ball, otherpaddle or paddle");
+		} else {
+			return new World(props.width, props.height, ball, other, paddle);
 		}
-		return new World(props.width, props.height, ball, other, paddle);
 	}
 
 	/**
