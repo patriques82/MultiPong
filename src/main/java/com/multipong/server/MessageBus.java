@@ -7,10 +7,6 @@ import com.multipong.shared.Network.*;
 
 public class MessageBus {
 	
-	public Message response(Object request) {
-		return null;
-	}
-	
 	public void registerClient(Connection conn) {
 		RandPythagorean randPythagorean = new RandPythagorean(Conf.BALL_SPEED);
 		WorldProperties prop = new WorldProperties();
@@ -26,12 +22,14 @@ public class MessageBus {
 		prop.ball.vy = randPythagorean.getY(); // set random speed-y
 		// other
 		prop.other = new PaddleMessage();
-		prop.other.position = "up";
+		prop.other.position = "bottom";
 		prop.other.height = Conf.PADDLE_THICKNESS;
 		prop.other.width = Conf.PADDLE_LENGTH;
+		prop.other.x = Conf.PADDLE_UP_UPPER_LEFT_X;
+		prop.other.y = Conf.PADDLE_UP_UPPER_LEFT_Y;
 		// your
 		prop.your = new PaddleMessage();
-		prop.your.position = "bottom";
+		prop.your.position = "up";
 		prop.your.height = Conf.PADDLE_THICKNESS;
 		prop.your.width = Conf.PADDLE_LENGTH;
 		prop.your.x = Conf.PADDLE_BOTTOM_UPPER_LEFT_X;

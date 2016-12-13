@@ -1,5 +1,9 @@
 package com.multipong.server;
 
+/**
+ * Configuration class for game properties.
+ *
+ */
 public class Conf {
 	// Global
 	public static final int WIDTH = 500;
@@ -16,7 +20,7 @@ public class Conf {
 	public static final int PADDLE_LENGTH = 50;
 	
 	// Paddle up
-	public static final int PADDLE_UP_UPPER_LEFT_X = 0;
+	public static final int PADDLE_UP_UPPER_LEFT_X = WIDTH/2 - PADDLE_THICKNESS/2;
 	public static final int PADDLE_UP_UPPER_LEFT_Y = 0;
 
 	// Paddle bottom

@@ -1,7 +1,6 @@
 package com.multipong.client;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 
 /**
  * @author patriknygren
@@ -20,8 +19,6 @@ public interface GameObject {
 	 */
 	public void render(Graphics g);
 	
-	public Rectangle getBoundingRect();
-
 	public void setPosition(int x, int y);
 
 	public void setSpeed(int vx, int vy);

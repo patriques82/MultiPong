@@ -20,14 +20,14 @@ class Game implements Runnable {
 	private Thread thread;     // game loop
 	private Display display;   // game view
 
-	private World world;
+	private World world; 	   // game logic
 
 	private boolean running;   
 	
 	private static final int FPS = 45; // frames per second
 	private static final double FRAME_RATE = 1000_000_000/FPS;
 
-	private static final int MPS = 1;  // messages per second
+	private static final int MPS = 1;  // messages per second (to send)
 	private static final double SEND_RATE = 1000_000_000/MPS;
 	
 	/**

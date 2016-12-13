@@ -22,20 +22,20 @@ public class Ball implements GameObject, MessageSender<BallMessage>, MessageTrac
 	private BallMessage ballMessage;
 	private WallHitMessage wallHitMessage;
 	
-	Ball(ClientFacade facade, int worldWidth, int worldHeight, int diameter, int x, int y, int vx, int vy) {
+	Ball(ClientFacade facade, int worldWidth, int worldHeight, BallMessage ballProps) {
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
-		rect = new Rectangle(x, y, diameter, diameter); 
-		this.vx = vx;
-		this.vy = vy;
+		this.vx = ballProps.vx;
+		this.vy = ballProps.vy;
+		rect = new Rectangle(ballProps.x, ballProps.y, ballProps.d, ballProps.d); 
 		ballMessage = new BallMessage();
 		wallHitMessage = new WallHitMessage();
 	}
 
 	@Override
 	public void tick() {
-		rect.setLocation(rect.x + vx, rect.y + vy);
+		setPosition(rect.x + vx, rect.y + vy);
 		if(upperWallCollision()) {
 			bounceY();
 		}
@@ -88,7 +88,6 @@ public class Ball implements GameObject, MessageSender<BallMessage>, MessageTrac
 		vy *= -1;
 	}
 
-	@Override
 	public Rectangle getBoundingRect() {
 		return rect;
 	}

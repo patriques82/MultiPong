@@ -15,9 +15,9 @@ public class ClientFacade {
 	private final Client client;
 	
 	private World world;
-	private Ball ball; // kept only to handle messages
-	private OtherPaddle other; // kept only to handle messages
-	private MyPaddle paddle;  // kept only to send messages
+	private Ball ball; 			// kept only to handle messages
+	private OtherPaddle other; 	// kept only to handle messages
+	private MyPaddle paddle;  	// kept only to send messages
 	private Display display;
 
 	private Object monitor; // monitor for waiting for all objects getting init
@@ -32,9 +32,9 @@ public class ClientFacade {
 	 * @param props message with game properties
 	 * @return world the World!
 	 */
-	public World initWorld(WorldProperties props) {
-		ball = new Ball(this, props.width, props.height, props.ball.d, props.ball.x, props.ball.y, props.ball.vx, props.ball.vy);
-		other = new OtherPaddle(props.other.position, props.other.x, props.other.y, props.other.width, props.other.height);
+	World initWorld(WorldProperties props) {
+		ball = new Ball(this, props.width, props.height, props.ball);
+		other = new OtherPaddle(props.other);
 		paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
 		if(ball == null || other == null || paddle == null) {
 			throw new NullPointerException("unknown ball, otherpaddle or paddle");
@@ -46,7 +46,7 @@ public class ClientFacade {
 	/**
 	 * Connect to server, add Listener for incoming messages from server and wait for connection.
 	 */
-	public void connectAndWait() {
+	void connectAndWait() {
 		client.start();
 		Network.register(client);
 		try {
@@ -121,7 +121,7 @@ public class ClientFacade {
 	 * Getter for world
 	 * @return world the World!
 	 */
-	public World getWorld() {
+	World getWorld() {
 		return world;
 	}
 	
@@ -129,7 +129,7 @@ public class ClientFacade {
 	 * Getter for display
 	 * @return display the Display!
 	 */
-	public Display getDisplay() {
+	Display getDisplay() {
 		return display;
 	}
 
