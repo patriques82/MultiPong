@@ -28,15 +28,15 @@ public class HorizontalPaddle extends MyPaddle {
 	}
 	
 	private boolean ballHit() {
-		return rect.intersects(ball.getBoundingRect());
+		return collidesWith(ball);
 	}
 
 	private void move() {
-		rect.setLocation(rect.x + vx, rect.y);
-		if(rect.x + rect.width > worldWidth)
-			rect.x = worldWidth - rect.width;
-		if(rect.x < 0) 
-			rect.x = 0;
+		setPosition(getX() + getVx(), getY());
+		if(getX() + getWidth() > worldWidth)
+			setX(worldWidth - getWidth());
+		if(getX() < 0) 
+			setX(0);
 	}
 
 

@@ -3,7 +3,6 @@ package com.multipong.client;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
@@ -12,30 +11,27 @@ import com.multipong.shared.Network.WallHitMessage;
  * The Ball game object. Both tracks, by following messages, and calculates interpolation in between messages.
  * Sends wall hit events.
  */
-public class Ball implements GameObject, MessageSender<BallMessage>, MessageTracker<BallMessage> {
+public class Ball extends GameObject implements MessageSender<BallMessage>, MessageTracker<BallMessage> {
 	
 	private ClientFacade clientFacade;
 	private int worldWidth, worldHeight;
-	private int vx, vy; 	 // velocity (x, y)
-	private Rectangle rect;
 	
 	private BallMessage ballMessage;
 	private WallHitMessage wallHitMessage;
 	
 	Ball(ClientFacade facade, int worldWidth, int worldHeight, BallMessage ballProps) {
+		super(ballProps.x, ballProps.y, ballProps.d, ballProps.d); 
+		setSpeed(ballProps.vx, ballProps.vy);
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
-		this.vx = ballProps.vx;
-		this.vy = ballProps.vy;
-		rect = new Rectangle(ballProps.x, ballProps.y, ballProps.d, ballProps.d); 
 		ballMessage = new BallMessage();
 		wallHitMessage = new WallHitMessage();
 	}
 
 	@Override
 	public void tick() {
-		setPosition(rect.x + vx, rect.y + vy);
+		setPosition(getX() + getVy(), getY() + getVy());
 		if(upperWallCollision()) {
 			bounceY();
 		}
@@ -43,8 +39,8 @@ public class Ball implements GameObject, MessageSender<BallMessage>, MessageTrac
 			bounceX();
 		}
 		if(lowerWallCollision()) {
-			wallHitMessage.x = rect.x;
-			wallHitMessage.y = rect.y;
+			wallHitMessage.x = getX();
+			wallHitMessage.y = getY();
 			clientFacade.emitEvent(wallHitMessage); // You lost the game!
 			bounceY();
 		}
@@ -54,30 +50,19 @@ public class Ball implements GameObject, MessageSender<BallMessage>, MessageTrac
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.WHITE);
-		g2d.fillOval(rect.x, rect.y, rect.width, rect.height);
-	}
-
-	@Override
-	public void setPosition(int x, int y) {
-		rect.setLocation(x, y);
-	}
-
-	@Override
-	public void setSpeed(int vx, int vy) {
-		this.vx = vx;
-		this.vy = vy;
+		g2d.fillOval(getX(), getY(), getWidth(), getHeight());
 	}
 
 	private boolean upperWallCollision() {
-		return rect.y <= 0; // upper wall
+		return getY() <= 0; // upper wall
 	}
 	
 	private boolean verticalWallCollision() {
-		return rect.x <= 0 || (rect.x + rect.width) >= worldWidth; // left or right wall
+		return getX() <= 0 || (getX() + getWidth()) >= worldWidth; // left or right wall
 	}
 	
 	private boolean lowerWallCollision() {
-		return (rect.y + rect.height) >= worldHeight; // lower wall
+		return (getY() + getHeight()) >= worldHeight; // lower wall
 	}
 	
 	public void bounceX() {
@@ -88,16 +73,12 @@ public class Ball implements GameObject, MessageSender<BallMessage>, MessageTrac
 		vy *= -1;
 	}
 
-	public Rectangle getBoundingRect() {
-		return rect;
-	}
-
 	@Override
 	public BallMessage toMessage() {
-		ballMessage.x = rect.x;
-		ballMessage.y = rect.y;
-		ballMessage.vx = vx;
-		ballMessage.vy = vy;
+		ballMessage.x = getX();
+		ballMessage.y = getY();
+		ballMessage.vx = getVx();
+		ballMessage.vy = getVy();
 		return ballMessage;
 	}
 

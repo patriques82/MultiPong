@@ -20,10 +20,10 @@ public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMes
 	@Override
 	public PaddleMessage toMessage() {
 		message.position = position;
-		message.x = rect.x;
-		message.y = rect.y;
-		message.vx = vx;
-		message.vy = vy;
+		message.x = getX();
+		message.y = getY();
+		message.vx = getVx();
+		message.vy = getVy();
 		return message;
 	}
 
