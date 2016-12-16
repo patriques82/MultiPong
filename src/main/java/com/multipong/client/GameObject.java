@@ -30,11 +30,6 @@ public abstract class GameObject {
 		rect.setLocation(x, y);
 	}
 
-	public void setSpeed(int vx, int vy) {
-		this.vx = vx;
-		this.vy = vy;
-	}
-	
 	public void setX(int x) {
 		rect.x = x;
 	}
@@ -51,6 +46,27 @@ public abstract class GameObject {
 		return rect.y;
 	}
 	
+	public void setSpeed(int vx, int vy) {
+		setVx(vx);
+		setVy(vy);
+	}
+
+	public void setVx(int vx) {
+		this.vx = vx;
+	}
+
+	public int getVx() {
+		return vx;
+	}
+
+	public void setVy(int vy) {
+		this.vy = vy;
+	}
+
+	public int getVy() {
+		return vy;
+	}
+
 	public int getWidth() {
 		return rect.width;
 	}
@@ -59,14 +75,6 @@ public abstract class GameObject {
 		return rect.height;
 	}
 
-	public int getVx() {
-		return vx;
-	}
-
-	public int getVy() {
-		return vy;
-	}
-	
 	public boolean collidesWith(GameObject other) {
 		return rect.intersects(other.rect);
 	}

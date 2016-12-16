@@ -31,7 +31,7 @@ public class Ball extends GameObject implements MessageSender<BallMessage>, Mess
 
 	@Override
 	public void tick() {
-		setPosition(getX() + getVy(), getY() + getVy());
+		setPosition(getX() + getVx(), getY() + getVy());
 		if(upperWallCollision()) {
 			bounceY();
 		}
@@ -53,24 +53,12 @@ public class Ball extends GameObject implements MessageSender<BallMessage>, Mess
 		g2d.fillOval(getX(), getY(), getWidth(), getHeight());
 	}
 
-	private boolean upperWallCollision() {
-		return getY() <= 0; // upper wall
-	}
-	
-	private boolean verticalWallCollision() {
-		return getX() <= 0 || (getX() + getWidth()) >= worldWidth; // left or right wall
-	}
-	
-	private boolean lowerWallCollision() {
-		return (getY() + getHeight()) >= worldHeight; // lower wall
-	}
-	
 	public void bounceX() {
-		vx *= -1;
+		setVx(getVx() * -1);
 	}
 
 	public void bounceY() {
-		vy *= -1;
+		setVy(getVy() * -1);
 	}
 
 	@Override
@@ -86,5 +74,18 @@ public class Ball extends GameObject implements MessageSender<BallMessage>, Mess
 	public void track(BallMessage m) {
 		// TODO: implement me!!!!
 	}
+
+	private boolean upperWallCollision() {
+		return getY() <= 0; // upper wall
+	}
+	
+	private boolean verticalWallCollision() {
+		return getX() <= 0 || (getX() + getWidth()) >= worldWidth; // left or right wall
+	}
+	
+	private boolean lowerWallCollision() {
+		return (getY() + getHeight()) >= worldHeight; // lower wall
+	}
+	
 
 }
