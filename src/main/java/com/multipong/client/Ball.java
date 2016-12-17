@@ -7,12 +7,7 @@ import java.awt.Graphics2D;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
 
-/**
- * The Ball game object. Both tracks, by following messages, and calculates interpolation in between messages.
- * Sends wall hit events.
- */
 public class Ball extends GameObject implements MessageSender<BallMessage>, MessageTracker<BallMessage> {
-	
 	private ClientFacade clientFacade;
 	private int worldWidth, worldHeight;
 	
@@ -71,20 +66,29 @@ public class Ball extends GameObject implements MessageSender<BallMessage>, Mess
 	}
 
 	@Override
-	public void track(BallMessage m) {
-		// TODO: implement me!!!!
+	public void trackMessage(BallMessage m) {
+		setPosition(m.x, m.y);
+		setSpeed(m.vx, m.vy);
 	}
 
 	private boolean upperWallCollision() {
-		return getY() <= 0; // upper wall
+		return getY() <= 0;
 	}
 	
 	private boolean verticalWallCollision() {
-		return getX() <= 0 || (getX() + getWidth()) >= worldWidth; // left or right wall
+		return leftWallCollision() || rightWallCollision();
+	}
+	
+	private boolean rightWallCollision() {
+		return (getX() + getWidth()) >= worldWidth;
+	}
+
+	private boolean leftWallCollision() {
+		return getX() <= 0;
 	}
 	
 	private boolean lowerWallCollision() {
-		return (getY() + getHeight()) >= worldHeight; // lower wall
+		return (getY() + getHeight()) >= worldHeight;
 	}
 	
 

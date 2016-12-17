@@ -12,23 +12,23 @@ class World {
 	public World(int w, int h, GameObject ball, GameObject other, GameObject paddle) {
 		width = w;
 		height = h;
-		this.ball = ball;
-		this.other = other;
 		this.paddle = paddle;
+		this.other = other;
+		this.ball = ball;
 	}
 
 	public void tick() {
-		ball.tick();
 		paddle.tick();
 		other.tick();
+		ball.tick();
 	}
 
 	public void render(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
-		ball.render(g);
 		paddle.render(g);
 		other.render(g);
+		ball.render(g);
 	}
 
 }

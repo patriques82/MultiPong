@@ -1,6 +1,6 @@
 package com.multipong.client;
 
-public class Launcher {
+public class GameClient {
 
 	public static void main(String[] args) {
 		Game g = new Game();

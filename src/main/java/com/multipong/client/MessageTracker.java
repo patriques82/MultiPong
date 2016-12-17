@@ -13,5 +13,5 @@ public interface MessageTracker<M extends Message> {
 	 * Sets properties of the game object according to message spec
 	 * @param m
 	 */
-	public void track(M m);
+	public void trackMessage(M m);
 }

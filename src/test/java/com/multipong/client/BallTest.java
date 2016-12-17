@@ -105,5 +105,20 @@ public class BallTest {
 		assertThat(mess.vx, is(equalTo(ball.getVx())));
 		assertThat(mess.vy, is(equalTo(ball.getVy())));
 	}
+	
+	@Test
+	public void testTrackMessage() {
+		BallMessage mess = new BallMessage();
+		mess.d = 0;
+		mess.x = 11;
+		mess.y = 11;
+		mess.vx = 5;
+		mess.vy = 5;
+		ball.trackMessage(mess);
+		assertThat(ball.getX(), is(equalTo(mess.x)));
+		assertThat(ball.getY(), is(equalTo(mess.y)));
+		assertThat(ball.getVx(), is(equalTo(mess.vx)));
+		assertThat(ball.getVy(), is(equalTo(mess.vy)));
+	}
 
 }

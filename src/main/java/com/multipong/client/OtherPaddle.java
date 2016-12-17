@@ -15,7 +15,7 @@ public class OtherPaddle extends Paddle implements MessageTracker<PaddleMessage>
 	}
 
 	@Override
-	public void track(PaddleMessage m) {
+	public void trackMessage(PaddleMessage m) {
 		
 	}
 

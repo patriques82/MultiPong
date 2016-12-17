@@ -13,25 +13,19 @@ import com.multipong.shared.Network.*;
 public class ClientFacade {
 
 	private final Client client;
-	
 	private World world;
-	private Ball ball; 			// kept only to handle messages
-	private OtherPaddle other; 	// kept only to handle messages
-	private MyPaddle paddle;  	// kept only to send messages
 	private Display display;
+	private Object monitor; // monitor for waiting for all objects getting initialized
 
-	private Object monitor; // monitor for waiting for all objects getting init
+	private Ball ball; 			// messages handler
+	private OtherPaddle other; 	// messages handler
+	private MyPaddle paddle;  	// message sender
 
 	ClientFacade() {
 		client = new Client();
 		monitor = new Object();
 	}
 
-	/**
-	 * Initializer for the world, initializes trackers and senders
-	 * @param props message with game properties
-	 * @return world the World!
-	 */
 	World initWorld(WorldProperties props) {
 		ball = new Ball(this, props.width, props.height, props.ball);
 		other = new OtherPaddle(props.other);
@@ -43,9 +37,6 @@ public class ClientFacade {
 		}
 	}
 
-	/**
-	 * Connect to server, add Listener for incoming messages from server and wait for connection.
-	 */
 	void connectAndWait() {
 		client.start();
 		Network.register(client);
@@ -74,11 +65,11 @@ public class ClientFacade {
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
-					ball.track(ballMessage);
+					ball.trackMessage(ballMessage);
 				}
 				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
-					other.track(paddleMessage);
+					other.trackMessage(paddleMessage);
 				}
 			}
 			public void disconnected(Connection connection) {
@@ -88,9 +79,6 @@ public class ClientFacade {
 		waitForInitialization();
 	}
 
-	/**
-	 * Waits for notification from listener (connectAndWait) for initialization 
-	 */
 	private void waitForInitialization() {
 		synchronized (monitor) {
 			try {
@@ -117,18 +105,10 @@ public class ClientFacade {
 		client.sendTCP(message);
 	}
 	
-	/**
-	 * Getter for world
-	 * @return world the World!
-	 */
 	World getWorld() {
 		return world;
 	}
 	
-	/**
-	 * Getter for display
-	 * @return display the Display!
-	 */
 	Display getDisplay() {
 		return display;
 	}

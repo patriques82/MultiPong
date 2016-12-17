@@ -29,12 +29,6 @@ public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMes
 
 	/**
 	 * Factory method for getting your paddle
-	 * @param client client facade, used for sending events
-	 * @param worldWidth
-	 * @param worldHeight
-	 * @param ball
-	 * @param your message with configuration for your paddle
-	 * @return paddle your paddle configured according to server sent world properties
 	 */
 	public static MyPaddle getPaddle(ClientFacade client, int worldWidth, int worldHeight, Ball ball, PaddleMessage your) {
 		String pos = your.position;
