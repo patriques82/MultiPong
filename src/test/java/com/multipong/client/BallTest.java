@@ -14,21 +14,18 @@ import com.multipong.shared.Network.BallMessage;
 
 public class BallTest {
 	
-	private static int WIDTH = 10;
-	private static int HEIGHT = 10;
-	ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
-	BallMessage props;
-	Ball ball;
+	private static int WORLDWIDTH = 10;
+	private static int WORLDHEIGHT = 10;
+	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
+	private Ball ball;
 
 	@Before
 	public void setUp() throws Exception {
-		props = new BallMessage();
-		ball = new Ball(clientMock, WIDTH, HEIGHT, props);
+		ball = new Ball(clientMock, WORLDWIDTH, WORLDHEIGHT, new BallMessage());
 	}
 
 	@After
 	public void tearDown() throws Exception {
-		props = null;
 		ball = null;
 	}
 
@@ -63,7 +60,7 @@ public class BallTest {
 		ball.setSpeed(0, 1); // vx, vy
 		ball.tick(); // collides with wall
 		assertThat(ball.getX(), is(equalTo(0)));
-		assertThat(ball.getY(), is(equalTo(HEIGHT)));
+		assertThat(ball.getY(), is(equalTo(WORLDHEIGHT)));
 		assertThat(ball.getVy(), is(equalTo(-1))); // new speed
 		ball.tick();
 		assertThat(ball.getX(), is(equalTo(0)));
@@ -88,7 +85,7 @@ public class BallTest {
 		ball.setPosition(9, 0);
 		ball.setSpeed(1, 0); // vx, vy
 		ball.tick(); // collides with wall
-		assertThat(ball.getX(), is(equalTo(WIDTH)));
+		assertThat(ball.getX(), is(equalTo(WORLDWIDTH)));
 		assertThat(ball.getVx(), is(equalTo(-1))); // new speed
 		assertThat(ball.getY(), is(equalTo(0)));
 		ball.tick();

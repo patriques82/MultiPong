@@ -37,7 +37,7 @@ public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMes
 		} else if(pos.equals("left") || pos.equals("right")) {
 			return new VerticalPaddle(client, pos, worldHeight, ball, your.x, your.y, your.width, your.height);
 		} else {
-			return null;
+			throw new IllegalArgumentException("Unknown paddle position");
 		}
 	}
 

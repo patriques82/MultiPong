@@ -4,11 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-/**
- * The paddle of Pong.
- * 
- * @author patriknygren
- */
 public abstract class Paddle extends GameObject {
 	
 	protected static int SPEED = 5;
@@ -23,6 +18,10 @@ public abstract class Paddle extends GameObject {
 		Graphics2D g2d = (Graphics2D) g;
 	    g2d.setColor(Color.GREEN);
 		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
+
+	public String getPosition() {
+		return position;
 	}
 
 }
