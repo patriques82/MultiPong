@@ -25,11 +25,15 @@ task client(type: JavaExec) {
    standardOutput = System.out
 }
 
-
 // This task is used to run the server on the server
+// Usage: 'gradle server'
+//        'gradle server -Poptions={2..4},500,500' // players, width, height
 task server(type: JavaExec) {
    main = "com.multipong.server.GameServer"
    classpath = sourceSets.main.runtimeClasspath
    standardInput = System.in
    standardOutput = System.out
+   if(project.hasProperty('options')) {
+   	  args(options.split(','))
+   }
 }

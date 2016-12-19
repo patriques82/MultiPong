@@ -15,7 +15,7 @@ public class MessageBusTest {
 
 	@Before
 	public void setUp() throws Exception {
-		messageBus = new MessageBus();
+//		messageBus = new MessageBus();
 	}
 
 	@Test

@@ -6,9 +6,16 @@ import com.esotericsoftware.kryonet.Connection;
 import com.multipong.shared.Network.*;
 
 public class MessageBus {
+
+//	private List<Client> clients;
 	
+	public MessageBus(Options options) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void registerClient(Connection conn) {
 		RandPythagorean randPythagorean = new RandPythagorean(Conf.BALL_SPEED);
+//		conn.sendTCP(options.worldProperties());
 		WorldProperties prop = new WorldProperties();
 		// World
 		prop.width = Conf.WIDTH;
@@ -54,5 +61,14 @@ public class MessageBus {
 			return y;
 		}
 	}
+
+	public void forwardBallHit(int x, int y, int vx, int vy) {
+
+	}
+
+	public void forwardWallHit(String position, int x, int y, int vx, int vy) {
+		
+	}
+
 	
 }

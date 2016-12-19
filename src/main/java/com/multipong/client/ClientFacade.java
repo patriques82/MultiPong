@@ -17,8 +17,8 @@ public class ClientFacade {
 	private Display display;
 	private Object monitor; // monitor for waiting for all objects getting initialized
 
-	private Ball ball; 			// messages handler
-	private OtherPaddle other; 	// messages handler
+	private Ball ball; 			// message handler
+	private OtherPaddle other; 	// message handler
 	private MyPaddle paddle;  	// message sender
 
 	ClientFacade() {
@@ -26,15 +26,14 @@ public class ClientFacade {
 		monitor = new Object();
 	}
 
-	World initWorld(WorldProperties props) {
+	void initWorld(WorldProperties props) {
+		if(!validProperties(props)) {
+			throw new IllegalArgumentException("unknown ball, otherpaddle or paddle");
+		}
 		ball = new Ball(this, props.width, props.height, props.ball);
 		other = new OtherPaddle(props.other);
 		paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
-		if(ball == null || other == null || paddle == null) {
-			throw new NullPointerException("unknown ball, otherpaddle or paddle");
-		} else {
-			return new World(props.width, props.height, ball, other, paddle);
-		}
+		world = new World(props.width, props.height, ball, other, paddle);
 	}
 
 	void connectAndWait() {
@@ -58,10 +57,12 @@ public class ClientFacade {
 					WorldProperties props = (WorldProperties) object;
 					display = Display.createDisplay(props.width, props.height);
 					display.addKeyListener(KeyManager.getKeyManager());
-					world = initWorld(props);
-					synchronized (monitor) {
-						monitor.notifyAll(); // now we can stop waiting
+					try {
+						initWorld(props);
+					} catch(IllegalArgumentException e) {
+						Logger.getLogger("client").severe(e.getMessage());
 					}
+					stopWaiting();
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
@@ -79,17 +80,6 @@ public class ClientFacade {
 		waitForInitialization();
 	}
 
-	private void waitForInitialization() {
-		synchronized (monitor) {
-			try {
-				monitor.wait();
-			} catch (InterruptedException e) {
-				Logger.getLogger("client").info("Was interrupted during wait");
-				System.exit(0);
-			}
-		}
-	}
-	
 	/**
 	 * Send paddle message, called by Game at scheduled times
 	 */
@@ -113,6 +103,35 @@ public class ClientFacade {
 		return display;
 	}
 
+	private boolean validProperties(WorldProperties props) {
+		boolean worldDimension = props.height > 0 && props.width > 0; 
+		boolean ballSpeed = props.ball.vx > 0 && props.ball.vy > 0;
+		boolean ballPosition = props.ball.x > 0 && props.ball.x < props.width &&
+							   props.ball.y > 0 && props.ball.y < props.height;
+		boolean ballProps = props.ball.d > 0 && ballSpeed && ballPosition;
+		boolean myPaddleDimension = props.your.height > 0 && props.your.height < props.height &&
+									props.your.width > 0 && props.your.width < props.width;
+		boolean otherPaddleDimension = props.other.height > 0 && props.other.height < props.height &&
+									   props.other.width > 0 && props.other.width < props.width;
+		return worldDimension && ballProps && myPaddleDimension && otherPaddleDimension;
+	}
 
+
+	private void waitForInitialization() {
+		synchronized (monitor) {
+			try {
+				monitor.wait();
+			} catch (InterruptedException e) {
+				Logger.getLogger("client").info("Was interrupted during wait");
+				System.exit(0);
+			}
+		}
+	}
+	
+	private void stopWaiting() {
+		synchronized (monitor) {
+			monitor.notifyAll(); // now we can stop waiting
+		}
+	}
 
 }

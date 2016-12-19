@@ -8,7 +8,7 @@ class World {
 	private GameObject ball, other, paddle;
 	private int width;
 	private int height;
-
+	
 	public World(int w, int h, GameObject ball, GameObject other, GameObject paddle) {
 		width = w;
 		height = h;

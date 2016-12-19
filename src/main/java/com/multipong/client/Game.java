@@ -11,7 +11,7 @@ import java.awt.image.BufferStrategy;
  */
 class Game implements Runnable {
 	
-	private ClientFacade clientFacade; // Server communication
+	private ClientFacade client; // Server communication
 
 	// Graphics
 	private BufferStrategy bs;
@@ -33,11 +33,11 @@ class Game implements Runnable {
 	/**
 	 * Initializes all resources needed for the game (Client, Display, Thread)
 	 */
-	public Game() {
-		clientFacade = new ClientFacade();
-		clientFacade.connectAndWait();
-		display = clientFacade.getDisplay();
-		world = clientFacade.getWorld();
+	public Game(ClientFacade clientFacade) {
+		client = clientFacade;
+		client.connectAndWait();
+		display = client.getDisplay();
+		world = client.getWorld();
 		thread = new Thread(this);
 		running = false;
 	}
@@ -118,7 +118,7 @@ class Game implements Runnable {
 	}
 	
 	private void send() {
-		clientFacade.send();
+		client.send();
 	}
 	
 }
