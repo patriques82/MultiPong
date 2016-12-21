@@ -18,6 +18,7 @@ public class Network {
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
 		kryo.register(RegisterRequest.class);
+		kryo.register(WaitForOthersResponse.class);
 		kryo.register(WorldProperties.class);
 		kryo.register(BallMessage.class);
 		kryo.register(PaddleMessage.class);
@@ -33,7 +34,10 @@ public class Network {
 	/**
 	 * Message from Client to Server when client wants to establish connection
 	 */
-	static public class RegisterRequest {
+	static public class RegisterRequest { }
+	
+	static public class WaitForOthersResponse {
+		public int currentPlayers;
 	}
 	
 	static public class WorldProperties {
