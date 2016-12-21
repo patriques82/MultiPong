@@ -15,13 +15,13 @@ import com.multipong.shared.Network.WallHitMessage;
 
 public class GameServer {
 	
-//	private MessageBus bus;
 	private Server server;
 	private List<Connection> connections;
+	private MessageFactory messageFactory;
 
-	GameServer(Options opts) {
-//		this.bus = bus;
+	GameServer(MessageFactory factory) {
 		server = new Server();
+		messageFactory = factory;
 	}
 	
 	public void start() {
@@ -38,11 +38,17 @@ public class GameServer {
 
 				// If client wants to register send game properties
 				if (object instanceof RegisterRequest) {
-				// save connection & send WaitResponse/WorldProperties to all waiting
+					// save connection
+					// if full => send WorldProperties to all waiting
+					// else => send Wait
 //					conn.sendTCP(messageFactory.worlProperties);
 				}
 
 				// If client sends its Paddle position forward to others
+				if (object instanceof PaddleMessage) {
+					PaddleMessage mess = (PaddleMessage) object;
+					// sendToAll(mess)
+				}
 				
 				// If client sends message that it hit ball forward to others
 				if (object instanceof BallMessage) {
@@ -62,7 +68,8 @@ public class GameServer {
 	}
 
 	public static void main (String[] args) {
-		GameServer server = new GameServer(new Options(args));
+		Options.init(args);
+		GameServer server = new GameServer(new MessageFactory());
 		server.start();
 	}
 }

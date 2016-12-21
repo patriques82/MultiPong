@@ -9,23 +9,15 @@ public class Options {
 
 	private static final int BALL_SPEED = 10;
 	private static final int BALL_DIAMETER = 10;
-//	private static final int BALL_START_X = WIDTH/2;
-//	private static final int BALL_START_Y = HEIGHT/2;
-	
+
 	private static final int PADDLE_THICKNESS = 10;
 	private static final int PADDLE_LENGTH = 50;
 	
-//	private static final int PADDLE_UP_UPPER_LEFT_X = WIDTH/2 - PADDLE_THICKNESS/2;
-//	private static final int PADDLE_UP_UPPER_LEFT_Y = 0;
-//
-//	private static final int PADDLE_BOTTOM_UPPER_LEFT_X = WIDTH/2 - PADDLE_THICKNESS/2;
-//	private static final int PADDLE_BOTTOM_UPPER_LEFT_Y = HEIGHT - PADDLE_THICKNESS;
-	
-	private int nrOfPlayers;
-	private int worldWidth, worldHeight;
-	private int ballVx, ballVy;
+	private static int nrOfPlayers;
+	private static int worldWidth, worldHeight;
+	private static int ballVx, ballVy;
 
-	Options(String[] args) {
+	static void init(String[] args) {
 		setRandomBallSpeed();
 		setDefaultValues();
 		if(args.length > 0) {
@@ -43,27 +35,48 @@ public class Options {
 		}
 	}
 	
-	private void setRandomBallSpeed() {
-		ballVx = new Random().nextInt((BALL_SPEED) + 1);
+	private static void setRandomBallSpeed() {
+		ballVx = new Random().nextInt(BALL_SPEED + 1);
 		ballVy = BALL_SPEED - ballVx;
 	}
 
-	private void setDefaultValues() {
+	private static void setDefaultValues() {
 		nrOfPlayers = DEFAULT_PLAYERS;
 		worldWidth = DEFAULT_WORLD_WIDTH;
 		worldHeight = DEFAULT_WORLD_HEIGHT;
 	}
 
-	int getNrOfPlayers() {
+	static int getNrOfPlayers() {
 		return nrOfPlayers;
 	}
 
-	int getWorldWidth() {
+	static int getWorldWidth() {
 		return worldWidth;
 	}
 
-	int getWorldHeight() {
+	static int getWorldHeight() {
 		return worldHeight;
 	}
+
+	static int getBallVx() {
+		return ballVx;
+	}
+
+	static int getBallVy() {
+		return ballVy;
+	}
+
+	static int getBallDiameter() {
+		return BALL_DIAMETER;
+	}
+
+	public static int getPaddleThickness() {
+		return PADDLE_THICKNESS;
+	}
+
+	public static int getPaddleLength() {
+		return PADDLE_LENGTH;
+	}
+
 
 }
