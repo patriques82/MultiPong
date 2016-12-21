@@ -10,7 +10,7 @@ public interface ClientFacade {
 	void connectAndWait();
 	
 	/**
-	 * Send repeatedly to client
+	 * Send message, called by Game at scheduled times
 	 */
 	void send();
 	

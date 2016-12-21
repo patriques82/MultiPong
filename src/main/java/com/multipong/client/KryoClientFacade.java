@@ -20,9 +20,8 @@ public class KryoClientFacade implements ClientFacade {
 	private Display display;
 	private Object monitor; // monitor for waiting for all objects getting initialized
 
-	private Ball ball; 			// message handler
-	private OtherPaddle other; 	// message handler
-	private MyPaddle paddle;  	// message sender
+	private MessageHandler<BallMessage> ballHandler;
+	private MessageHandler<PaddleMessage> myPaddleHandler, otherPaddleHandler;
 
 	KryoClientFacade() {
 		client = new Client();
@@ -59,11 +58,11 @@ public class KryoClientFacade implements ClientFacade {
 				}
 				if (object instanceof BallMessage) {
 					BallMessage ballMessage = (BallMessage) object;
-					ball.trackMessage(ballMessage);
+					ballHandler.trackMessage(ballMessage);
 				}
 				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
-					other.trackMessage(paddleMessage);
+					otherPaddleHandler.trackMessage(paddleMessage);
 				}
 			}
 			public void disconnected(Connection connection) {
@@ -77,10 +76,30 @@ public class KryoClientFacade implements ClientFacade {
 		if(!validProperties(props)) {
 			throw new IllegalArgumentException("unknown ball, otherpaddle or paddle");
 		}
-		ball = new Ball(this, props.width, props.height, props.ball);
-		other = new OtherPaddle(props.other);
-		paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
+		Ball ball = new Ball(this, props.width, props.height, props.ball);
+		OtherPaddle other = new OtherPaddle(props.other);
+		MyPaddle paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
+		setMessageHandlers(ball, other, paddle);
 		world = new World(props.width, props.height, ball, other, paddle);
+	}
+
+	private void setMessageHandlers(Ball ball, OtherPaddle other, MyPaddle paddle) {
+		otherPaddleHandler = other;
+		ballHandler = ball;
+		myPaddleHandler = paddle;
+	}
+
+	private boolean validProperties(WorldProperties props) {
+		boolean worldDimension = props.height > 0 && props.width > 0; 
+		boolean ballSpeed = props.ball.vx > 0 && props.ball.vy > 0;
+		boolean ballPosition = props.ball.x > 0 && props.ball.x < props.width &&
+							   props.ball.y > 0 && props.ball.y < props.height;
+		boolean ballProps = props.ball.d > 0 && ballSpeed && ballPosition;
+		boolean myPaddleDimension = props.your.height > 0 && props.your.height < props.height &&
+									props.your.width > 0 && props.your.width < props.width;
+		boolean otherPaddleDimension = props.other.height > 0 && props.other.height < props.height &&
+									   props.other.width > 0 && props.other.width < props.width;
+		return worldDimension && ballProps && myPaddleDimension && otherPaddleDimension;
 	}
 
 	private void waitForInitialization() {
@@ -100,12 +119,9 @@ public class KryoClientFacade implements ClientFacade {
 		}
 	}
 
-	/**
-	 * Send paddle message, called by Game at scheduled times
-	 */
 	@Override
 	public void send() {
-		client.sendUDP(paddle.toMessage());
+		client.sendUDP(myPaddleHandler.toMessage());
 	}
 	
 	@Override
@@ -121,19 +137,6 @@ public class KryoClientFacade implements ClientFacade {
 	@Override
 	public Display getDisplay() {
 		return display;
-	}
-
-	private boolean validProperties(WorldProperties props) {
-		boolean worldDimension = props.height > 0 && props.width > 0; 
-		boolean ballSpeed = props.ball.vx > 0 && props.ball.vy > 0;
-		boolean ballPosition = props.ball.x > 0 && props.ball.x < props.width &&
-							   props.ball.y > 0 && props.ball.y < props.height;
-		boolean ballProps = props.ball.d > 0 && ballSpeed && ballPosition;
-		boolean myPaddleDimension = props.your.height > 0 && props.your.height < props.height &&
-									props.your.width > 0 && props.your.width < props.width;
-		boolean otherPaddleDimension = props.other.height > 0 && props.other.height < props.height &&
-									   props.other.width > 0 && props.other.width < props.width;
-		return worldDimension && ballProps && myPaddleDimension && otherPaddleDimension;
 	}
 
 }
