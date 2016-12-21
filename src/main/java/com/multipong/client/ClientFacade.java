@@ -10,6 +10,9 @@ import com.esotericsoftware.kryonet.Listener;
 import com.multipong.shared.Network;
 import com.multipong.shared.Network.*;
 
+/**
+ * Facade for Kryonet client
+ */
 public class ClientFacade {
 
 	private final Client client;

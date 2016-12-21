@@ -1,5 +1,7 @@
 package com.multipong.client;
 
+import com.multipong.shared.Network.PaddleMessage;
+
 public class HorizontalPaddle extends MyPaddle {
 	
 	private int worldWidth;

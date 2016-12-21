@@ -5,7 +5,7 @@ import com.multipong.shared.Network.PaddleMessage;
 /**
  * Abstract class for paddles that the client controls 
  */
-public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMessage> {
+public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
 	protected Ball ball;
 	private PaddleMessage message;
@@ -15,16 +15,6 @@ public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMes
 		this.position = pos;
 		this.ball = ball;
 		message = new PaddleMessage();
-	}
-
-	@Override
-	public PaddleMessage toMessage() {
-		message.position = position;
-		message.x = getX();
-		message.y = getY();
-		message.vx = getVx();
-		message.vy = getVy();
-		return message;
 	}
 
 	/**
@@ -38,6 +28,24 @@ public abstract class MyPaddle extends Paddle implements MessageSender<PaddleMes
 			return new VerticalPaddle(client, pos, worldHeight, ball, your.x, your.y, your.width, your.height);
 		} else {
 			throw new IllegalArgumentException("Unknown paddle position");
+		}
+	}
+
+	@Override
+	public PaddleMessage toMessage() {
+		message.position = position;
+		message.x = getX();
+		message.y = getY();
+		message.vx = getVx();
+		message.vy = getVy();
+		return message;
+	}
+	
+	@Override
+	public void trackMessage(PaddleMessage message) {
+		if(position.equals(message.position)) {
+			setPosition(message.x, message.y);
+			setSpeed(message.vx, message.vy);
 		}
 	}
 

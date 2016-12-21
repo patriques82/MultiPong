@@ -2,7 +2,7 @@ package com.multipong.client;
 
 import com.multipong.shared.Network.PaddleMessage;
 
-public class OtherPaddle extends Paddle implements MessageTracker<PaddleMessage> {
+public class OtherPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
 	OtherPaddle(PaddleMessage paddleProps) {
 		super(paddleProps.x, paddleProps.y, paddleProps.width, paddleProps.height);
@@ -17,6 +17,11 @@ public class OtherPaddle extends Paddle implements MessageTracker<PaddleMessage>
 	@Override
 	public void trackMessage(PaddleMessage m) {
 		
+	}
+
+	@Override
+	public PaddleMessage toMessage() {
+		return null;
 	}
 
 }

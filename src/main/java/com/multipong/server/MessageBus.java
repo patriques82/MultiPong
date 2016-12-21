@@ -10,12 +10,16 @@ public class MessageBus {
 //	private List<Client> clients;
 	
 	public MessageBus(Options options) {
-		// TODO Auto-generated constructor stub
+		// clients = size of options.getNrOfPlayers
 	}
 
 	public void registerClient(Connection conn) {
+		// save connection details
+		// if clients is full => send worldproperties to all clients
+		// else send wait
+		
+//		conn.sendTCP(options.getWorldProperties());
 		RandPythagorean randPythagorean = new RandPythagorean(Conf.BALL_SPEED);
-//		conn.sendTCP(options.worldProperties());
 		WorldProperties prop = new WorldProperties();
 		// World
 		prop.width = Conf.WIDTH;

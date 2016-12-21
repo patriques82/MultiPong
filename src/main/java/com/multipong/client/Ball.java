@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
 
-public class Ball extends GameObject implements MessageSender<BallMessage>, MessageTracker<BallMessage> {
+public class Ball extends GameObject implements MessageHandler<BallMessage> {
 	private ClientFacade clientFacade;
 	private int worldWidth, worldHeight;
 	
@@ -66,9 +66,9 @@ public class Ball extends GameObject implements MessageSender<BallMessage>, Mess
 	}
 
 	@Override
-	public void trackMessage(BallMessage m) {
-		setPosition(m.x, m.y);
-		setSpeed(m.vx, m.vy);
+	public void trackMessage(BallMessage message) {
+		setPosition(message.x, message.y);
+		setSpeed(message.vx, message.vy);
 	}
 
 	private boolean upperWallCollision() {
