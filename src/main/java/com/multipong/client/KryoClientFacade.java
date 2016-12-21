@@ -29,7 +29,7 @@ public class KryoClientFacade implements ClientFacade {
 	}
 
 	@Override
-	public void connectAndWait() {
+	public void connect() {
 		client.start();
 		Network.register(client);
 		try {

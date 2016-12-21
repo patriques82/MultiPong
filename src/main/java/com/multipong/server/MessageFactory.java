@@ -5,15 +5,17 @@ import java.util.Random;
 import com.esotericsoftware.kryonet.Connection;
 import com.multipong.shared.Network.*;
 
-public class MessageBus {
+public class MessageFactory {
 
+	// save connections
 //	private List<Client> clients;
+
 	
-	public MessageBus(Options options) {
+	public MessageFactory(Options options) {
 		// clients = size of options.getNrOfPlayers
 	}
 
-	public void registerClient(Connection conn) {
+	public void worldProperties() {
 		// save connection details
 		// if clients is full => send worldproperties to all clients
 		// else send wait
@@ -45,7 +47,6 @@ public class MessageBus {
 		prop.your.width = Conf.PADDLE_LENGTH;
 		prop.your.x = Conf.PADDLE_BOTTOM_UPPER_LEFT_X;
 		prop.your.y = Conf.PADDLE_BOTTOM_UPPER_LEFT_Y;
-		conn.sendTCP(prop);
 	}
 	
 	/**
@@ -65,14 +66,5 @@ public class MessageBus {
 			return y;
 		}
 	}
-
-	public void forwardBallHit(int x, int y, int vx, int vy) {
-
-	}
-
-	public void forwardWallHit(String position, int x, int y, int vx, int vy) {
-		
-	}
-
 	
 }

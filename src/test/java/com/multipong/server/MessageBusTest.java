@@ -11,7 +11,6 @@ import org.junit.Test;
 
 public class MessageBusTest {
 
-	MessageBus messageBus;
 
 	@Before
 	public void setUp() throws Exception {

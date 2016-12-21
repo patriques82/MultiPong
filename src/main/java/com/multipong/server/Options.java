@@ -26,19 +26,21 @@ public class Options {
 	private int ballVx, ballVy;
 
 	Options(String[] args) {
-		setDefaultValues();
-		try {
-			if(args.length > 0 && args.length < 3) {
-				nrOfPlayers = Integer.parseInt(args[0]);
-			} else if(args.length == 3) {
-				nrOfPlayers = Integer.parseInt(args[0]);
-				worldWidth = Integer.parseInt(args[1]);
-				worldHeight = Integer.parseInt(args[2]);
-			}
-		} catch(NumberFormatException e) {
-			setDefaultValues();
-		}
 		setRandomBallSpeed();
+		setDefaultValues();
+		if(args.length > 0) {
+			try {
+				if(args.length < 3) {
+					nrOfPlayers = Integer.parseInt(args[0]);
+				} else if(args.length == 3) {
+					nrOfPlayers = Integer.parseInt(args[0]);
+					worldWidth = Integer.parseInt(args[1]);
+					worldHeight = Integer.parseInt(args[2]);
+				}
+			} catch(NumberFormatException e) {
+				setDefaultValues();
+			}
+		}
 	}
 	
 	private void setRandomBallSpeed() {

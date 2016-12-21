@@ -4,10 +4,7 @@ import com.multipong.shared.Network.Message;
 
 public interface ClientFacade {
 	
-	/**
-	 * Wait for connection, this should happen before any other action
-	 */
-	void connectAndWait();
+	void connect();
 	
 	/**
 	 * Send message, called by Game at scheduled times

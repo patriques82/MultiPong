@@ -35,7 +35,7 @@ class Game implements Runnable {
 	 */
 	public Game(ClientFacade clientFacade) {
 		client = clientFacade;
-		client.connectAndWait();
+		client.connect();
 		display = client.getDisplay();
 		world = client.getWorld();
 		thread = new Thread(this);
