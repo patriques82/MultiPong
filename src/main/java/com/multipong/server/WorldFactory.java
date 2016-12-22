@@ -6,14 +6,9 @@ import com.multipong.shared.Network.*;
  * Used by clients controller to create messages
  *
  */
-public class MessageFactory {
+public class WorldFactory {
 
-	public static WaitForOthersResponse waitResponse() {
-		WaitForOthersResponse wait = new WaitForOthersResponse();
-		return wait;
-	}
-	
-	public static Response worldProperties(String pos) throws IllegalArgumentException {
+	public static Response properties(String pos) throws IllegalArgumentException {
 		WorldPropertiesResponse prop = new WorldPropertiesResponse();
 		prop.width = Options.getWorldWidth();
 		prop.height = Options.getWorldHeight();

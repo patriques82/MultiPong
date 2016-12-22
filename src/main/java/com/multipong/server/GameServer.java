@@ -39,20 +39,16 @@ public class GameServer {
 		}
 		server.addListener(new Listener() {
 			public void received (Connection conn, Object object) {
+
 				if (object instanceof RegisterRequest) {
-					try {
-						if(clientsManager.isFull()) {
-							conn.sendTCP(new GameIsFullResponse());
-						} else {
-							Client client = new Client(conn);
-							clientsManager.add(client);
-							if(clientsManager.isFull())
-								clientsManager.initGame();
-							else
-								clientsManager.sendToAll(new WaitForOthersResponse());
-						}
-					} catch(IndexOutOfBoundsException e) {
-						// send full
+					if(clientsManager.isFull()) {
+						conn.sendTCP(new GameIsFullResponse());
+					} else {
+						clientsManager.add(new Client(conn));
+						if(clientsManager.isFull())
+							clientsManager.initGame();
+						else
+							clientsManager.sendToAll(new WaitForOthersResponse());
 					}
 				}
 

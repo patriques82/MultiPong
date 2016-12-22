@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.multipong.shared.Network.Message;
 import com.multipong.shared.Network.Response;
-import com.multipong.shared.Network.WaitForOthersResponse;
 
 public class ClientsManager {
 
@@ -25,23 +24,22 @@ public class ClientsManager {
 		return connections.size() == Options.getNrOfPlayers();
 	}
 
-	public void initGame() {
+	void initGame() {
 		for(Client c : connections) {
-			c.sendResponse(MessageFactory.worldProperties(c.getPosition()));
+			c.sendResponse(WorldFactory.properties(c.getPosition()));
 		}
 	}
 
-	public void sendToAll(Message message) {
+	void sendToAll(Message message) {
 		for(Client c : connections) {
 			c.sendMessage(message);
 		}
 	}
 
-	public void sendToAll(Response response) {
+	void sendToAll(Response response) {
 		for(Client c : connections) {
 			c.sendResponse(response);
 		}
 	}
-
 
 }
