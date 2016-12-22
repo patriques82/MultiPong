@@ -1,6 +1,8 @@
 package com.multipong.server;
 
 import com.esotericsoftware.kryonet.Connection;
+import com.multipong.shared.Network.Message;
+import com.multipong.shared.Network.Response;
 
 public class Client {
 
@@ -11,6 +13,8 @@ public class Client {
 	private String position;
 
 	public Client (Connection conn) {
+		if(posIndex == positions.length)
+			throw new IndexOutOfBoundsException("position index is out of bounds");
 		connection = conn;
 		position = positions[posIndex++];
 	}
@@ -25,5 +29,13 @@ public class Client {
 
 	public void setPosition(String pos) {
 		position = pos;
+	}
+
+	public void sendResponse(Response response) {
+		connection.sendTCP(response);
+	}
+
+	public void sendMessage(Message message) {
+		connection.sendTCP(message);
 	}
 }

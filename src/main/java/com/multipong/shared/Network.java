@@ -18,8 +18,11 @@ public class Network {
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
 		kryo.register(RegisterRequest.class);
+		kryo.register(Response.class);
 		kryo.register(WaitForOthersResponse.class);
-		kryo.register(WorldProperties.class);
+		kryo.register(GameIsFullResponse.class);
+		kryo.register(WorldPropertiesResponse.class);
+		kryo.register(Message.class);
 		kryo.register(BallMessage.class);
 		kryo.register(PaddleMessage.class);
 		kryo.register(WallHitMessage.class);
@@ -30,20 +33,24 @@ public class Network {
 	 */
 	static public class RegisterRequest { }
 	
-	static public class WaitForOthersResponse { }
+	static public interface Response { }
 	
+	static public class WaitForOthersResponse implements Response { }
+
+	static public class GameIsFullResponse implements Response { }
+	
+	static public class WorldPropertiesResponse implements Response {
+		public int width, height;
+		public BallMessage ball;
+		public PaddleMessage other;
+		public PaddleMessage your;
+	}
+
 	/**
 	 * This represents the messages that describe the current game state
 	 */
 	static public abstract class Message {
 		public int x, y, vx, vy;
-	}
-
-	static public class WorldProperties {
-		public int width, height;
-		public BallMessage ball;
-		public PaddleMessage other;
-		public PaddleMessage your;
 	}
 
 	static public class BallMessage extends Message {

@@ -13,8 +13,8 @@ public class MessageFactory {
 		return wait;
 	}
 	
-	public static WorldProperties worldProperties(String pos) {
-		WorldProperties prop = new WorldProperties();
+	public static Response worldProperties(String pos) throws IllegalArgumentException {
+		WorldPropertiesResponse prop = new WorldPropertiesResponse();
 		prop.width = Options.getWorldWidth();
 		prop.height = Options.getWorldHeight();
 		prop.ball = ballMessage(prop.width, prop.height);
@@ -23,7 +23,7 @@ public class MessageFactory {
 		return prop;
 	}
 
-	private static BallMessage ballMessage(int width, int height) {
+	private static BallMessage ballMessage(int width, int height) throws IllegalArgumentException {
 		BallMessage ballMessage = new BallMessage();
 		ballMessage.x = width/2;
 		ballMessage.y = height/2;
@@ -33,7 +33,7 @@ public class MessageFactory {
 		return ballMessage;
 	}
 
-	private static String opposite(String pos) {
+	private static String opposite(String pos) throws IllegalArgumentException {
 		if(pos.equals("up"))
 			return "bottom";
 		else if(pos.equals("bottom"))
@@ -46,7 +46,7 @@ public class MessageFactory {
 			throw new IllegalArgumentException("Unknown position");
 	}
 
-	private static PaddleMessage paddleMessage(String pos) {
+	private static PaddleMessage paddleMessage(String pos) throws IllegalArgumentException {
 		PaddleMessage other = new PaddleMessage();
 		other.position = pos;
 		other.width = paddleWidth(pos);
@@ -56,7 +56,7 @@ public class MessageFactory {
 		return other;
 	}
 
-	private static int paddleWidth(String pos) {
+	private static int paddleWidth(String pos) throws IllegalArgumentException {
 		if(pos.equals("up") || pos.equals("bottom"))
 			return Options.getPaddleLength();
 		else if(pos.equals("left") || pos.equals("right"))
@@ -65,7 +65,7 @@ public class MessageFactory {
 			throw new IllegalArgumentException("Unknown position");
 	}
 
-	private static int paddleHeight(String pos) {
+	private static int paddleHeight(String pos) throws IllegalArgumentException {
 		if(pos.equals("up") || pos.equals("bottom"))
 			return Options.getPaddleThickness();
 		else if(pos.equals("left") || pos.equals("right"))
@@ -74,7 +74,7 @@ public class MessageFactory {
 			throw new IllegalArgumentException("Unknown position");
 	}
 
-	private static int paddleXPos(String pos) {
+	private static int paddleXPos(String pos) throws IllegalArgumentException {
 		if(pos.equals("up") || pos.equals("bottom"))
 			return Options.getWorldWidth()/2 - Options.getPaddleLength()/2;
 		else if(pos.equals("left"))
@@ -85,7 +85,7 @@ public class MessageFactory {
 			throw new IllegalArgumentException("Unknown position");
 	}
 
-	private static int paddleYPos(String pos) {
+	private static int paddleYPos(String pos) throws IllegalArgumentException {
 		if(pos.equals("up"))
 			return 0;
 		else if(pos.equals("bottom"))

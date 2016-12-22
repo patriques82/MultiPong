@@ -1,8 +1,6 @@
 package com.multipong.server;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
@@ -11,21 +9,23 @@ import com.multipong.shared.Network;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
+import com.multipong.shared.Network.GameIsFullResponse;
+import com.multipong.shared.Network.WaitForOthersResponse;
 import com.multipong.shared.Network.WallHitMessage;
 
 public class GameServer {
 
 	private Server server;
-	private ClientsController clientsController;
+	private ClientsManager clientsManager;
 
 	public static void main (String[] args) {
 		Options.init(args);
-		GameServer server = new GameServer(new ClientsController());
+		GameServer server = new GameServer(new ClientsManager());
 		server.start();
 	}
 
-	GameServer(ClientsController controller) {
-		clientsController = controller;
+	GameServer(ClientsManager mngr) {
+		clientsManager = mngr;
 		server = new Server();
 	}
 	
@@ -39,35 +39,38 @@ public class GameServer {
 		}
 		server.addListener(new Listener() {
 			public void received (Connection conn, Object object) {
-
-				// If client wants to register send game properties
 				if (object instanceof RegisterRequest) {
-					Client client = new Client(conn);
-					if(clientsController.isFull()) {
-						// send worldProperties to all waiting
-					} else {
-						clientsController.add(client);
-						// send wait
+					try {
+						if(clientsManager.isFull()) {
+							conn.sendTCP(new GameIsFullResponse());
+						} else {
+							Client client = new Client(conn);
+							clientsManager.add(client);
+							if(clientsManager.isFull())
+								clientsManager.initGame();
+							else
+								clientsManager.sendToAll(new WaitForOthersResponse());
+						}
+					} catch(IndexOutOfBoundsException e) {
+						// send full
 					}
 				}
 
-				// If client sends its Paddle position forward to others
 				if (object instanceof PaddleMessage) {
 					PaddleMessage mess = (PaddleMessage) object;
-					// sendToAll(mess)
+					clientsManager.sendToAll(mess);
 				}
 				
-				// If client sends message that it hit ball forward to others
 				if (object instanceof BallMessage) {
 					BallMessage mess = (BallMessage) object;
 					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y);
-					// sendToAll(ballMessage)
+					clientsManager.sendToAll(mess);
 				}
 				
 				if (object instanceof WallHitMessage) {
 					WallHitMessage mess = (WallHitMessage) object;
 					System.out.println("Wall hit at: " + mess.x + ", " + mess.y);
-					// sendToAll(WallHitMessage)
+					clientsManager.sendToAll(mess);
 				}
 
 			}
