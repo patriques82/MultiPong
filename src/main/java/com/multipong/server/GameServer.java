@@ -1,6 +1,7 @@
 package com.multipong.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -8,20 +9,26 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.multipong.shared.Network;
 import com.multipong.shared.Network.BallMessage;
-import com.multipong.shared.Network.Message;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
 import com.multipong.shared.Network.WallHitMessage;
 
 public class GameServer {
-	
+
 	private Server server;
-	private List<Connection> connections;
+	private ClientsController clientsController;
 	private MessageFactory messageFactory;
 
+	public static void main (String[] args) {
+		Options.init(args);
+		GameServer server = new GameServer(new MessageFactory());
+		server.start();
+	}
+
 	GameServer(MessageFactory factory) {
-		server = new Server();
+		clientsController = new ClientsController();
 		messageFactory = factory;
+		server = new Server();
 	}
 	
 	public void start() {
@@ -34,14 +41,16 @@ public class GameServer {
 		}
 		server.addListener(new Listener() {
 			public void received (Connection conn, Object object) {
-				// TODO: handle multiple connections
 
 				// If client wants to register send game properties
 				if (object instanceof RegisterRequest) {
-					// save connection
-					// if full => send WorldProperties to all waiting
-					// else => send Wait
-//					conn.sendTCP(messageFactory.worlProperties);
+					clientsController.add(new Client(conn));
+					if(clientsController.isFull()) {
+						// send worldProperties to all waiting
+					} else {
+						// send wait
+					}
+					conn.sendTCP(messageFactory.worldProperties("up"));
 				}
 
 				// If client sends its Paddle position forward to others
@@ -67,9 +76,4 @@ public class GameServer {
 		});
 	}
 
-	public static void main (String[] args) {
-		Options.init(args);
-		GameServer server = new GameServer(new MessageFactory());
-		server.start();
-	}
 }

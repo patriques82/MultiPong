@@ -4,10 +4,17 @@ import com.multipong.shared.Network.*;
 
 public class MessageFactory {
 
+	private String[] positions = {"left", "right", "bottom", "up"};
+	private int positionIndex = 0;
+
 	public WaitForOthersResponse waitResponse() {
 		WaitForOthersResponse wait = new WaitForOthersResponse();
 		wait.currentPlayers = 2;
 		return wait;
+	}
+	
+	public String getCurrentPosition() {
+		return positions[++positionIndex];
 	}
 
 	public WorldProperties worldProperties(String pos) {
