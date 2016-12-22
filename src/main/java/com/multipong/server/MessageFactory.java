@@ -2,48 +2,83 @@ package com.multipong.server;
 
 import com.multipong.shared.Network.*;
 
+/**
+ * Used by clients controller to create messages
+ *
+ */
 public class MessageFactory {
 
-	private String[] positions = {"left", "right", "bottom", "up"};
-	private int positionIndex = 0;
-
-	public WaitForOthersResponse waitResponse() {
+	public static WaitForOthersResponse waitResponse() {
 		WaitForOthersResponse wait = new WaitForOthersResponse();
-		wait.currentPlayers = 2;
 		return wait;
 	}
 	
-	public String getCurrentPosition() {
-		return positions[++positionIndex];
-	}
-
-	public WorldProperties worldProperties(String pos) {
+	public static WorldProperties worldProperties(String pos) {
 		WorldProperties prop = new WorldProperties();
 		// World
 		prop.width = Options.getWorldWidth();
 		prop.height = Options.getWorldHeight();
 		// Ball
-		prop.ball = new BallMessage();
-		prop.ball.x = prop.width/2;
-		prop.ball.y = prop.height/2;
-		prop.ball.d = Options.getBallDiameter();
-		prop.ball.vx = Options.getBallVx();
-		prop.ball.vy = Options.getBallVy();
+		prop.ball = ballMessage(prop.width, prop.height);
 		// other
-		prop.other = new PaddleMessage();
-		prop.other.position = "bottom";
-		prop.other.height = Conf.PADDLE_THICKNESS;
-		prop.other.width = Conf.PADDLE_LENGTH;
-		prop.other.x = Conf.PADDLE_UP_UPPER_LEFT_X;
-		prop.other.y = Conf.PADDLE_UP_UPPER_LEFT_Y;
+		prop.other = paddleMessage(opposite(pos));
 		// your
 		prop.your = new PaddleMessage();
-		prop.your.position = "up";
+		prop.your.position = pos;
 		prop.your.height = Conf.PADDLE_THICKNESS;
 		prop.your.width = Conf.PADDLE_LENGTH;
 		prop.your.x = Conf.PADDLE_BOTTOM_UPPER_LEFT_X;
 		prop.your.y = Conf.PADDLE_BOTTOM_UPPER_LEFT_Y;
 		return prop;
+	}
+
+	private static PaddleMessage paddleMessage(String opposite) {
+		PaddleMessage other = new PaddleMessage();
+		other.position = opposite;
+		other.width = paddleWidth(opposite);
+		other.height = paddleHeight(opposite);
+		other.x = paddleXPos(opposite); 
+		other.y = paddleYPos(opposite);
+		return other;
+	}
+
+	private static int paddleYPos(String opposite) {
+		return 0;
+	}
+
+	private static int paddleXPos(String opposite) {
+		return 0;
+	}
+
+	private static int paddleHeight(String opposite) {
+		return 0;
+	}
+
+	private static int paddleWidth(String opposite) {
+		return 0;
+	}
+
+	private static String opposite(String pos) {
+		if(pos.equals("up"))
+			return "bottom";
+		else if(pos.equals("bottom"))
+			return "up";
+		else if(pos.equals("left"))
+			return "right";
+		else if(pos.equals("right"))
+			return "left";
+		else
+			throw new IllegalArgumentException("Unknown position");
+	}
+
+	private static BallMessage ballMessage(int width, int height) {
+		BallMessage ballMessage = new BallMessage();
+		ballMessage.x = width/2;
+		ballMessage.y = height/2;
+		ballMessage.d = Options.getBallDiameter();
+		ballMessage.vx = Options.getBallVx();
+		ballMessage.vy = Options.getBallVy();
+		return ballMessage;
 	}
 	
 }

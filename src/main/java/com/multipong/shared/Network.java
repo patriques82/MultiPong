@@ -24,6 +24,13 @@ public class Network {
 		kryo.register(PaddleMessage.class);
 		kryo.register(WallHitMessage.class);
 	}
+
+	/**
+	 * Message from Client to Server when client wants to establish connection
+	 */
+	static public class RegisterRequest { }
+	
+	static public class WaitForOthersResponse { }
 	
 	/**
 	 * This represents the messages that describe the current game state
@@ -31,15 +38,7 @@ public class Network {
 	static public abstract class Message {
 		public int x, y, vx, vy;
 	}
-	/**
-	 * Message from Client to Server when client wants to establish connection
-	 */
-	static public class RegisterRequest { }
-	
-	static public class WaitForOthersResponse {
-		public int currentPlayers;
-	}
-	
+
 	static public class WorldProperties {
 		public int width, height;
 		public BallMessage ball;

@@ -17,17 +17,15 @@ public class GameServer {
 
 	private Server server;
 	private ClientsController clientsController;
-	private MessageFactory messageFactory;
 
 	public static void main (String[] args) {
 		Options.init(args);
-		GameServer server = new GameServer(new MessageFactory());
+		GameServer server = new GameServer(new ClientsController());
 		server.start();
 	}
 
-	GameServer(MessageFactory factory) {
-		clientsController = new ClientsController();
-		messageFactory = factory;
+	GameServer(ClientsController controller) {
+		clientsController = controller;
 		server = new Server();
 	}
 	
@@ -44,13 +42,13 @@ public class GameServer {
 
 				// If client wants to register send game properties
 				if (object instanceof RegisterRequest) {
-					clientsController.add(new Client(conn));
+					Client client = new Client(conn);
 					if(clientsController.isFull()) {
 						// send worldProperties to all waiting
 					} else {
+						clientsController.add(client);
 						// send wait
 					}
-					conn.sendTCP(messageFactory.worldProperties("up"));
 				}
 
 				// If client sends its Paddle position forward to others
