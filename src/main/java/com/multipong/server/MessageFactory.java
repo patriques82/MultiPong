@@ -47,13 +47,13 @@ class MessageFactory {
 	}
 
 	private static PaddleMessage paddleMessage(String pos) {
-		PaddleMessage other = new PaddleMessage();
-		other.position = pos;
-		other.width = paddleWidth(pos);
-		other.height = paddleHeight(pos);
-		other.x = paddleXPos(pos); 
-		other.y = paddleYPos(pos);
-		return other;
+		PaddleMessage paddle = new PaddleMessage();
+		paddle.position = pos;
+		paddle.width = paddleWidth(pos);
+		paddle.height = paddleHeight(pos);
+		paddle.x = paddleXPos(pos); 
+		paddle.y = paddleYPos(pos);
+		return paddle;
 	}
 
 	private static int paddleWidth(String pos) {

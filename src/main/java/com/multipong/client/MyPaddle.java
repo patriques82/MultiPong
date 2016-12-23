@@ -7,8 +7,10 @@ import com.multipong.shared.Network.PaddleMessage;
  */
 public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
-	protected Ball ball;
 	private PaddleMessage message;
+
+	protected Ball ball;
+	protected ClientFacade clientFacade;
 
 	protected MyPaddle(int x, int y, int w, int h, String pos, Ball ball) {
 		super(x, y, w, h);
@@ -29,6 +31,10 @@ public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMe
 		} else {
 			throw new IllegalArgumentException("Unknown paddle position");
 		}
+	}
+
+	protected boolean ballHit() {
+		return collidesWith(ball);
 	}
 
 	@Override

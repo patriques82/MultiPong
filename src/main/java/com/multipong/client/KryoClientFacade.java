@@ -99,12 +99,6 @@ public class KryoClientFacade implements ClientFacade {
 									props.your.width > 0 && props.your.width < props.width;
 		boolean otherPaddleDimension = props.other.height > 0 && props.other.height < props.height &&
 									   props.other.width > 0 && props.other.width < props.width;
-		System.out.println("worldDimension: " + worldDimension);
-		System.out.println("ballSpeed: " + ballSpeed);
-		System.out.println("ballPosition: " + ballPosition);
-		System.out.println("ballProps: " + ballProps);
-		System.out.println("myPaddleDimension: " + myPaddleDimension);
-		System.out.println("otherPaddleDimension: " + otherPaddleDimension);
 		return worldDimension && ballProps && myPaddleDimension && otherPaddleDimension;
 	}
 

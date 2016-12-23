@@ -64,4 +64,12 @@ class KeyManager implements KeyListener {
 		return ARROW_KEYS[RIGHT];
 	}
 
+	public boolean isUpPressed() {
+		return ARROW_KEYS[UP];
+	}
+
+	public boolean isDownPressed() {
+		return ARROW_KEYS[DOWN];
+	}
+
 }

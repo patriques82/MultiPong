@@ -50,6 +50,7 @@ class GameServer {
 					} else {
 						clientsManager.add(client);
 						clientsManager.initGame();
+						// TODO: handle multiple
 //						if(clientsManager.isFull())
 //							clientsManager.initGame();
 //						else

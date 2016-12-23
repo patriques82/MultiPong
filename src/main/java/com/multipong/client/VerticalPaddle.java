@@ -1,36 +1,37 @@
 package com.multipong.client;
 
-import java.awt.Graphics;
-
 public class VerticalPaddle extends MyPaddle {
+
+	private int worldHeight;
 
 	VerticalPaddle(ClientFacade facade, String pos, int worldHeight, Ball ball, int x, int y, int w, int h) {
 		super(x, y, w, h, pos, ball);
-//		this.worldHeight = worldHeight;
+		this.clientFacade = facade;
+		this.worldHeight = worldHeight;
 	}
 
 	@Override
 	public void tick() {
-		// TODO Auto-generated method stub
+		if(ballHit()) {
+			ball.bounceX();
+			clientFacade.emitEvent(ball.toMessage()); // You bounced the ball!
+		}
+		if(KeyManager.getKeyManager().isUpPressed()) {
+			setSpeed(0, -SPEED);
+		} else if(KeyManager.getKeyManager().isDownPressed()) {
+			setSpeed(0, SPEED);
+		} else {
+			setSpeed(0, 0);
+		}
+		move();
 	}
 
-	@Override
-	public void render(Graphics g) {
-		// TODO Auto-generated method stub
-		
+	private void move() {
+		setPosition(getX(), getY() + getVy());
+		if(getY() + getHeight() > worldHeight)
+			setY(worldHeight - getHeight());
+		if(getY() < 0) 
+			setY(0);
 	}
-
-	@Override
-	public void setPosition(int x, int y) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setSpeed(int vx, int vy) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 }

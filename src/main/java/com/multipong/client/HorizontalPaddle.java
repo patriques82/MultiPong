@@ -3,7 +3,6 @@ package com.multipong.client;
 public class HorizontalPaddle extends MyPaddle {
 	
 	private int worldWidth;
-	private ClientFacade clientFacade;
 
 	public HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int x, int y, int w, int h) {
 		super(x, y, w, h, pos, ball);
@@ -15,7 +14,7 @@ public class HorizontalPaddle extends MyPaddle {
 	public void tick() {
 		if(ballHit()) {
 			ball.bounceY();
-			clientFacade.emitEvent(ball.toMessage()); // You bounced the ball!
+			clientFacade.emitEvent(ball.toMessage());
 		}
 		if(KeyManager.getKeyManager().isLeftPressed()) {
 			setSpeed(-SPEED, 0);
@@ -27,10 +26,6 @@ public class HorizontalPaddle extends MyPaddle {
 		move();
 	}
 	
-	private boolean ballHit() {
-		return collidesWith(ball);
-	}
-
 	private void move() {
 		setPosition(getX() + getVx(), getY());
 		if(getX() + getWidth() > worldWidth)
