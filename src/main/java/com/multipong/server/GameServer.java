@@ -9,9 +9,7 @@ import com.multipong.shared.Network;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
-import com.multipong.shared.Network.GameIsFull;
 import com.multipong.shared.Network.Message;
-import com.multipong.shared.Network.WaitForOthers;
 import com.multipong.shared.Network.WallHitMessage;
 
 class GameServer {

@@ -2,8 +2,6 @@ package com.multipong.server;
 
 import com.multipong.shared.Network.Message;
 
-import com.esotericsoftware.kryonet.Connection;
-
 class Client {
 
 	private final static String[] positions = {"right", "left", "up", "bottom"};
