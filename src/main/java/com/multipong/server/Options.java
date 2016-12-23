@@ -2,7 +2,7 @@ package com.multipong.server;
 
 import java.util.Random;
 
-public class Options {
+class Options {
 	private static final int DEFAULT_PLAYERS = 2;
 	private static final int DEFAULT_WORLD_WIDTH = 500;
 	private static final int DEFAULT_WORLD_HEIGHT = 500;
@@ -19,19 +19,20 @@ public class Options {
 
 	static void init(String[] args) {
 		setRandomBallSpeed();
-		setDefaultValues();
 		if(args.length > 0) {
 			try {
 				if(args.length < 3) {
 					nrOfPlayers = Integer.parseInt(args[0]);
-				} else if(args.length == 3) {
+				} else if(args.length >= 3) {
 					nrOfPlayers = Integer.parseInt(args[0]);
-					worldWidth = Integer.parseInt(args[1]);
 					worldHeight = Integer.parseInt(args[2]);
+					worldWidth = Integer.parseInt(args[1]);
 				}
 			} catch(NumberFormatException e) {
 				setDefaultValues();
 			}
+		} else {
+			setDefaultValues();
 		}
 	}
 	
@@ -42,8 +43,8 @@ public class Options {
 
 	private static void setDefaultValues() {
 		nrOfPlayers = DEFAULT_PLAYERS;
-		worldWidth = DEFAULT_WORLD_WIDTH;
 		worldHeight = DEFAULT_WORLD_HEIGHT;
+		worldWidth = DEFAULT_WORLD_WIDTH;
 	}
 
 	static int getNrOfPlayers() {
@@ -70,13 +71,12 @@ public class Options {
 		return BALL_DIAMETER;
 	}
 
-	public static int getPaddleThickness() {
+	static int getPaddleThickness() {
 		return PADDLE_THICKNESS;
 	}
 
-	public static int getPaddleLength() {
+	static int getPaddleLength() {
 		return PADDLE_LENGTH;
 	}
-
 
 }

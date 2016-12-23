@@ -5,9 +5,9 @@ import com.multipong.shared.Network.*;
 /**
  * Used by clients controller to create messages
  */
-public class WorldFactory {
+class WorldFactory {
 
-	public static WorldProperties properties(String pos) throws IllegalArgumentException {
+	static WorldProperties properties(String pos) throws IllegalArgumentException {
 		if(!validPosition(pos))
 			throw new IllegalArgumentException("Unknown position");
 		else {

@@ -5,32 +5,32 @@ import java.util.List;
 
 import com.multipong.shared.Network.Message;
 
-public class ClientsManager {
+class ClientsManager {
 
-	private List<Client> connections;
+	private List<Client> clients;
 	
 	ClientsManager() {
-		connections = new ArrayList<>(Options.getNrOfPlayers());
+		clients = new ArrayList<>(Options.getNrOfPlayers());
 	}
 	
 	void add(Client client) {
 		if(!isFull()) {
-			connections.add(client);
+			clients.add(client);
 		}
 	}
 
 	boolean isFull() {
-		return connections.size() == Options.getNrOfPlayers();
+		return clients.size() == Options.getNrOfPlayers();
 	}
 
 	void initGame() {
-		for(Client c : connections) {
+		for(Client c : clients) {
 			c.send(WorldFactory.properties(c.getPosition()));
 		}
 	}
 
 	void sendToAll(Message message) {
-		for(Client c : connections) {
+		for(Client c : clients) {
 			c.send(message);
 		}
 	}

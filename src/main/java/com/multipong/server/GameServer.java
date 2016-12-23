@@ -10,10 +10,11 @@ import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
 import com.multipong.shared.Network.GameIsFull;
+import com.multipong.shared.Network.Message;
 import com.multipong.shared.Network.WaitForOthers;
 import com.multipong.shared.Network.WallHitMessage;
 
-public class GameServer {
+class GameServer {
 
 	private Server server;
 	private ClientsManager clientsManager;
@@ -29,7 +30,7 @@ public class GameServer {
 		server = new Server();
 	}
 	
-	public void start() {
+	void start() {
 		server.start();
 		Network.register(server);
 		try {
@@ -41,7 +42,11 @@ public class GameServer {
 			public void received (Connection conn, Object object) {
 
 				if (object instanceof RegisterRequest) {
-					Client client = new Client(conn);
+					Client client = new Client(new Sender() {
+						public void send(Message message) {
+							conn.sendTCP(message);
+						}
+					});
 					if(clientsManager.isFull()) {
 						client.send(new GameIsFull());
 					} else {

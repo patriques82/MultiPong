@@ -4,34 +4,26 @@ import com.multipong.shared.Network.Message;
 
 import com.esotericsoftware.kryonet.Connection;
 
-public class Client {
+class Client {
 
+	private final static String[] positions = {"right", "left", "up", "bottom"};
 	private static int posIndex = 0;
-	private static String[] positions = {"right", "left", "up", "bottom"};
 
-	private Connection connection;
-	private String position;
+	private final String position;
+	private final Sender sender;
 
-	public Client (Connection conn) {
+	Client (Sender sender) {
 		if(posIndex == positions.length)
 			throw new IndexOutOfBoundsException("position index is out of bounds");
-		connection = conn;
+		this.sender = sender;
 		position = positions[posIndex++];
 	}
 
-	public Connection getConnection() {
-		return connection;
-	}
-
-	public String getPosition() {
+	String getPosition() {
 		return position;
 	}
 
-	public void setPosition(String pos) {
-		position = pos;
-	}
-
-	public void send(Message message) {
-		connection.sendTCP(message);
+	void send(Message message) {
+		sender.send(message);
 	}
 }
