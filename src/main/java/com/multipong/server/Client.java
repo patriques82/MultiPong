@@ -1,8 +1,8 @@
 package com.multipong.server;
 
-import com.esotericsoftware.kryonet.Connection;
 import com.multipong.shared.Network.Message;
-import com.multipong.shared.Network.Response;
+
+import com.esotericsoftware.kryonet.Connection;
 
 public class Client {
 
@@ -31,11 +31,7 @@ public class Client {
 		position = pos;
 	}
 
-	public void sendResponse(Response response) {
-		connection.sendTCP(response);
-	}
-
-	public void sendMessage(Message message) {
+	public void send(Message message) {
 		connection.sendTCP(message);
 	}
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.multipong.shared.Network.Message;
-import com.multipong.shared.Network.Response;
 
 public class ClientsManager {
 
@@ -26,19 +25,13 @@ public class ClientsManager {
 
 	void initGame() {
 		for(Client c : connections) {
-			c.sendResponse(WorldFactory.properties(c.getPosition()));
+			c.send(WorldFactory.properties(c.getPosition()));
 		}
 	}
 
 	void sendToAll(Message message) {
 		for(Client c : connections) {
-			c.sendMessage(message);
-		}
-	}
-
-	void sendToAll(Response response) {
-		for(Client c : connections) {
-			c.sendResponse(response);
+			c.send(message);
 		}
 	}
 

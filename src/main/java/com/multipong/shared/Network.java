@@ -17,29 +17,29 @@ public class Network {
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
+		kryo.register(Message.class);
 		kryo.register(RegisterRequest.class);
-		kryo.register(Response.class);
-		kryo.register(WaitForOthersResponse.class);
-		kryo.register(GameIsFullResponse.class);
-		kryo.register(WorldPropertiesResponse.class);
+		kryo.register(WaitForOthers.class);
+		kryo.register(GameIsFull.class);
+		kryo.register(WorldProperties.class);
+		kryo.register(ObjectMessage.class);
 		kryo.register(Message.class);
 		kryo.register(BallMessage.class);
 		kryo.register(PaddleMessage.class);
 		kryo.register(WallHitMessage.class);
 	}
 
+	static public interface Message { }
 	/**
 	 * Message from Client to Server when client wants to establish connection
 	 */
-	static public class RegisterRequest { }
+	static public class RegisterRequest implements Message { }
 	
-	static public interface Response { }
-	
-	static public class WaitForOthersResponse implements Response { }
+	static public class WaitForOthers implements Message { }
 
-	static public class GameIsFullResponse implements Response { }
+	static public class GameIsFull implements Message { }
 	
-	static public class WorldPropertiesResponse implements Response {
+	static public class WorldProperties implements Message {
 		public int width, height;
 		public BallMessage ball;
 		public PaddleMessage other;
@@ -49,20 +49,20 @@ public class Network {
 	/**
 	 * This represents the messages that describe the current game state
 	 */
-	static public abstract class Message {
+	static public abstract class ObjectMessage implements Message {
 		public int x, y, vx, vy;
 	}
 
-	static public class BallMessage extends Message {
+	static public class BallMessage extends ObjectMessage {
 		public int d;
 	}
 	
-	static public class PaddleMessage extends Message {
+	static public class PaddleMessage extends ObjectMessage {
 		public String position;
 		public int width, height;
 	}
 
-	static public class WallHitMessage extends Message {
+	static public class WallHitMessage extends ObjectMessage {
 		public String position;
 	}
 

@@ -4,21 +4,28 @@ import com.multipong.shared.Network.*;
 
 /**
  * Used by clients controller to create messages
- *
  */
 public class WorldFactory {
 
-	public static Response properties(String pos) throws IllegalArgumentException {
-		WorldPropertiesResponse prop = new WorldPropertiesResponse();
-		prop.width = Options.getWorldWidth();
-		prop.height = Options.getWorldHeight();
-		prop.ball = ballMessage(prop.width, prop.height);
-		prop.other = paddleMessage(opposite(pos));
-		prop.your = paddleMessage(pos);
-		return prop;
+	public static WorldProperties properties(String pos) throws IllegalArgumentException {
+		if(!validPosition(pos))
+			throw new IllegalArgumentException("Unknown position");
+		else {
+			WorldProperties prop = new WorldProperties();
+			prop.width = Options.getWorldWidth();
+			prop.height = Options.getWorldHeight();
+			prop.ball = ballMessage(prop.width, prop.height);
+			prop.other = paddleMessage(opposite(pos));
+			prop.your = paddleMessage(pos);
+			return prop;
+		}
 	}
 
-	private static BallMessage ballMessage(int width, int height) throws IllegalArgumentException {
+	private static boolean validPosition(String pos) {
+		return pos.equals("up") || pos.equals("bottom") || pos.equals("left") || pos.equals("right");
+	}
+
+	private static BallMessage ballMessage(int width, int height) {
 		BallMessage ballMessage = new BallMessage();
 		ballMessage.x = width/2;
 		ballMessage.y = height/2;
@@ -28,20 +35,18 @@ public class WorldFactory {
 		return ballMessage;
 	}
 
-	private static String opposite(String pos) throws IllegalArgumentException {
+	private static String opposite(String pos) {
 		if(pos.equals("up"))
 			return "bottom";
 		else if(pos.equals("bottom"))
 			return "up";
 		else if(pos.equals("left"))
 			return "right";
-		else if(pos.equals("right"))
-			return "left";
 		else
-			throw new IllegalArgumentException("Unknown position");
+			return "left";
 	}
 
-	private static PaddleMessage paddleMessage(String pos) throws IllegalArgumentException {
+	private static PaddleMessage paddleMessage(String pos) {
 		PaddleMessage other = new PaddleMessage();
 		other.position = pos;
 		other.width = paddleWidth(pos);
@@ -51,44 +56,36 @@ public class WorldFactory {
 		return other;
 	}
 
-	private static int paddleWidth(String pos) throws IllegalArgumentException {
+	private static int paddleWidth(String pos) {
 		if(pos.equals("up") || pos.equals("bottom"))
 			return Options.getPaddleLength();
-		else if(pos.equals("left") || pos.equals("right"))
-			return Options.getPaddleThickness();
 		else
-			throw new IllegalArgumentException("Unknown position");
+			return Options.getPaddleThickness();
 	}
 
-	private static int paddleHeight(String pos) throws IllegalArgumentException {
+	private static int paddleHeight(String pos) {
 		if(pos.equals("up") || pos.equals("bottom"))
 			return Options.getPaddleThickness();
-		else if(pos.equals("left") || pos.equals("right"))
+		else 
 			return Options.getPaddleLength();
-		else
-			throw new IllegalArgumentException("Unknown position");
 	}
 
-	private static int paddleXPos(String pos) throws IllegalArgumentException {
-		if(pos.equals("up") || pos.equals("bottom"))
-			return Options.getWorldWidth()/2 - Options.getPaddleLength()/2;
-		else if(pos.equals("left"))
+	private static int paddleXPos(String pos) {
+		if(pos.equals("left"))
 			return 0;
 		else if(pos.equals("right"))
 			return Options.getWorldWidth() - Options.getPaddleThickness();
 		else
-			throw new IllegalArgumentException("Unknown position");
+			return Options.getWorldWidth()/2 - Options.getPaddleLength()/2;
 	}
 
-	private static int paddleYPos(String pos) throws IllegalArgumentException {
+	private static int paddleYPos(String pos) {
 		if(pos.equals("up"))
 			return 0;
 		else if(pos.equals("bottom"))
 			return Options.getWorldHeight() - Options.getPaddleThickness();
-		else if(pos.equals("left") || pos.equals("right"))
+		else 
 			return Options.getWorldHeight()/2 - Options.getPaddleLength()/2;
-		else
-			throw new IllegalArgumentException("Unknown position");
 	}
 	
 }

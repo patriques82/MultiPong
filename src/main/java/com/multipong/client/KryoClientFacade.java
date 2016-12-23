@@ -45,8 +45,8 @@ public class KryoClientFacade implements ClientFacade {
 		// Add listener for incoming messages
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
-				if (object instanceof WorldPropertiesResponse) {
-					WorldPropertiesResponse props = (WorldPropertiesResponse) object;
+				if (object instanceof WorldProperties) {
+					WorldProperties props = (WorldProperties) object;
 					display = Display.createDisplay(props.width, props.height);
 					display.addKeyListener(KeyManager.getKeyManager());
 					try {
@@ -72,7 +72,7 @@ public class KryoClientFacade implements ClientFacade {
 		waitForInitialization();
 	}
 
-	private void initWorld(WorldPropertiesResponse props) {
+	private void initWorld(WorldProperties props) {
 		if(!validProperties(props)) {
 			throw new IllegalArgumentException("unknown ball, otherpaddle or paddle");
 		}
@@ -89,7 +89,7 @@ public class KryoClientFacade implements ClientFacade {
 		myPaddleHandler = paddle;
 	}
 
-	private boolean validProperties(WorldPropertiesResponse props) {
+	private boolean validProperties(WorldProperties props) {
 		boolean worldDimension = props.height > 0 && props.width > 0; 
 		boolean ballSpeed = props.ball.vx > 0 && props.ball.vy > 0;
 		boolean ballPosition = props.ball.x > 0 && props.ball.x < props.width &&
