@@ -5,11 +5,12 @@ import java.io.IOException;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
+
 import com.multipong.shared.Network;
+import com.multipong.shared.Network.Message;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
-import com.multipong.shared.Network.Message;
 import com.multipong.shared.Network.WallHitMessage;
 
 class GameServer {
@@ -40,7 +41,7 @@ class GameServer {
 			public void received (Connection conn, Object object) {
 
 				if (object instanceof RegisterRequest) {
-					Client client = new Client(new Sender() {
+					Client client = new Client(new Sender() { // add callback
 						public void send(Message message) {
 							conn.sendTCP(message);
 						}
@@ -66,13 +67,13 @@ class GameServer {
 				if (object instanceof BallMessage) {
 					BallMessage mess = (BallMessage) object;
 					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y);
-					clientsManager.sendToAll(mess);
+//					clientsManager.sendToAll(mess);
 				}
 				
 				if (object instanceof WallHitMessage) {
 					WallHitMessage mess = (WallHitMessage) object;
 					System.out.println("Wall hit at: " + mess.x + ", " + mess.y);
-					clientsManager.sendToAll(mess);
+//					clientsManager.sendToAll(mess);
 				}
 
 			}

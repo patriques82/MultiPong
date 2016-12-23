@@ -1,6 +1,11 @@
 package com.multipong.server;
 
-import com.multipong.shared.Network.*;
+import com.multipong.shared.Network.Message;
+import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.PaddleMessage;
+import com.multipong.shared.Network.WorldProperties;
+import com.multipong.shared.Network.GameIsFull;
+import com.multipong.shared.Network.WaitForOthers;
 
 /**
  * Used by clients controller to create messages
