@@ -5,12 +5,12 @@ import com.multipong.shared.Network.*;
 /**
  * Used by clients controller to create messages
  */
-class WorldFactory {
-
-	static WorldProperties properties(String pos) throws IllegalArgumentException {
-		if(!validPosition(pos))
+class MessageFactory {
+	
+	static Message worldProperties(String pos) throws IllegalArgumentException {
+		if(!validPosition(pos)) {
 			throw new IllegalArgumentException("Unknown position");
-		else {
+		} else {
 			WorldProperties prop = new WorldProperties();
 			prop.width = Options.getWorldWidth();
 			prop.height = Options.getWorldHeight();
@@ -87,5 +87,13 @@ class WorldFactory {
 		else 
 			return Options.getWorldHeight()/2 - Options.getPaddleLength()/2;
 	}
+
+	static Message gameIsFull() {
+		return new GameIsFull();
+	}
 	
+	static Message waitForOthers() {
+		return new WaitForOthers();
+	}
+
 }

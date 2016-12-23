@@ -25,7 +25,7 @@ class ClientsManager {
 
 	void initGame() {
 		for(Client c : clients) {
-			c.send(WorldFactory.properties(c.getPosition()));
+			c.send(MessageFactory.worldProperties(c.getPosition()));
 		}
 	}
 

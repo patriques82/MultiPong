@@ -48,13 +48,13 @@ class GameServer {
 						}
 					});
 					if(clientsManager.isFull()) {
-						client.send(new GameIsFull());
+						client.send(MessageFactory.gameIsFull());
 					} else {
 						clientsManager.add(client);
 						if(clientsManager.isFull())
 							clientsManager.initGame();
 						else
-							client.send(new WaitForOthers());
+							client.send(MessageFactory.waitForOthers());
 					}
 				}
 
