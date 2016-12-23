@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.multipong.shared.Network.PaddleMessage;
 
-public class MyPaddleTestTest {
+public class MyPaddleTest {
 
 	@Test
 	public void testToMessage() {

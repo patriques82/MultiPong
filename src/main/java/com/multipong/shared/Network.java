@@ -30,6 +30,7 @@ public class Network {
 	}
 
 	static public interface Message { }
+
 	/**
 	 * Message from Client to Server when client wants to establish connection
 	 */
