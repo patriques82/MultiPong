@@ -19,6 +19,7 @@ class Options {
 
 	static void init(String[] args) {
 		setRandomBallSpeed();
+		setDefaultValues();
 		if(args.length > 0) {
 			try {
 				if(args.length < 3) {
@@ -31,8 +32,6 @@ class Options {
 			} catch(NumberFormatException e) {
 				setDefaultValues();
 			}
-		} else {
-			setDefaultValues();
 		}
 	}
 	

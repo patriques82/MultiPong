@@ -49,10 +49,11 @@ class GameServer {
 						client.send(MessageFactory.gameIsFull());
 					} else {
 						clientsManager.add(client);
-						if(clientsManager.isFull())
-							clientsManager.initGame();
-						else
-							client.send(MessageFactory.waitForOthers());
+						clientsManager.initGame();
+//						if(clientsManager.isFull())
+//							clientsManager.initGame();
+//						else
+//							client.send(MessageFactory.waitForOthers());
 					}
 				}
 
