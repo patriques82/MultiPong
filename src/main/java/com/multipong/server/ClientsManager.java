@@ -5,29 +5,32 @@ import com.multipong.shared.Network.Message;
 class ClientsManager {
 
 	private final static String[] positions = {"right", "left", "up", "bottom"};
-	private static int posIndex = 0;
-
 	private Client[] clients;
+	private int index;
+
 	private int nrOfPlayers;
 	
-	ClientsManager(int players) {
+	ClientsManager(int players) throws IllegalArgumentException {
+		if(players > positions.length)
+			throw new IllegalArgumentException(String.format("Max %d players", positions.length));
 		nrOfPlayers = players;
 		clients = new Client[nrOfPlayers];
+		index = 0;
 	}
 	
 	void add(Client client) {
 		if(!isFull()) {
-			clients[posIndex] = client;
-			posIndex++;
+			clients[index] = client;
+			index++;
 		}
 	}
 
 	boolean isFull() {
-		return posIndex == nrOfPlayers-1 ;
+		return index == nrOfPlayers;
 	}
 
 	void initGame() {
-		for(int i = 0; i < clients.length; i++) {
+		for(int i = 0; i < nrOfPlayers; i++) {
 			clients[i].send(MessageFactory.worldProperties(positions[i]));
 		}
 	}

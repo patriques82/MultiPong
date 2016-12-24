@@ -46,6 +46,7 @@ class GameServer {
 
 				if (object instanceof RegisterRequest) {
 					Client client = new Client() {
+						@Override
 						public void send(Message message) {
 							conn.sendTCP(message);
 						}
