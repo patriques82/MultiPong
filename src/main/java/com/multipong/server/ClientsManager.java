@@ -1,42 +1,41 @@
 package com.multipong.server;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.Message;
 
 class ClientsManager {
 
-	private List<Client> clients;
+	private final static String[] positions = {"right", "left", "up", "bottom"};
+	private static int posIndex = 0;
+
+	private Client[] clients;
 	private int nrOfPlayers;
 	
 	ClientsManager(int players) {
 		nrOfPlayers = players;
-		clients = new ArrayList<>(nrOfPlayers);
+		clients = new Client[nrOfPlayers];
 	}
 	
 	void add(Client client) {
 		if(!isFull()) {
-			//Tuple<String, String> tup = new Tuple<>();
-			clients.add(client);
+			clients[posIndex] = client;
+			posIndex++;
 		}
 	}
 
 	boolean isFull() {
-		return clients.size() == nrOfPlayers;
+		return posIndex == nrOfPlayers-1 ;
 	}
 
 	void initGame() {
-		for(Client c : clients) {
-			c.send(MessageFactory.worldProperties(c.getPosition()));
+		for(int i = 0; i < clients.length; i++) {
+			clients[i].send(MessageFactory.worldProperties(positions[i]));
 		}
 	}
 
-	public void sendToAllExcept(Message message, String position) {
-		for(Client c : clients) {
-			if(!c.getPosition().equals(position)) {
-				c.send(message);
+	void sendToAllExcept(Message message, String position) {
+		for(int i = 0; i < clients.length; i++) {
+			if(!positions[i].equals(position)) {
+				clients[i].send(message);
 			}
 		}
 	}

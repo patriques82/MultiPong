@@ -45,11 +45,11 @@ class GameServer {
 			public void received (Connection conn, Object object) {
 
 				if (object instanceof RegisterRequest) {
-					Client client = new Client(new Sender() { // callback
+					Client client = new Client() {
 						public void send(Message message) {
 							conn.sendTCP(message);
 						}
-					});
+					};
 					if(clientsManager.isFull()) {
 						client.send(MessageFactory.gameIsFull());
 					} else {

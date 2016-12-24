@@ -24,8 +24,8 @@ public class KryoClientFacade implements ClientFacade {
 	private MessageHandler<PaddleMessage> myPaddleHandler, otherPaddleHandler;
 
 	KryoClientFacade() {
-		client = new Client();
 		monitor = new Object();
+		client = new Client();
 	}
 
 	@Override
@@ -45,6 +45,7 @@ public class KryoClientFacade implements ClientFacade {
 		// Add listener for incoming messages
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
+
 				if (object instanceof WorldProperties) {
 					WorldProperties props = (WorldProperties) object;
 					display = Display.createDisplay(props.width, props.height);
@@ -56,14 +57,17 @@ public class KryoClientFacade implements ClientFacade {
 					}
 					stopWaiting();
 				}
-				if (object instanceof BallHitMessage) {
+
+				if (object instanceof BallHitMessage) { // other paddles ball hits
 					BallHitMessage ballMessage = (BallHitMessage) object;
 					ballHandler.trackMessage(ballMessage);
 				}
+
 				if (object instanceof PaddleMessage) { // other paddles
 					PaddleMessage paddleMessage = (PaddleMessage) object;
 					otherPaddleHandler.trackMessage(paddleMessage);
 				}
+
 			}
 			public void disconnected(Connection connection) {
 				System.exit(0);

@@ -14,7 +14,6 @@ import com.multipong.shared.Network.WaitForOthers;
  * Used by clients controller to create messages
  */
 class MessageFactory {
-	
 
 	private static final int BALL_SPEED = 10;
 	private static final int BALL_DIAMETER = 10;
