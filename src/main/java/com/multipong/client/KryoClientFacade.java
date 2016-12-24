@@ -20,7 +20,7 @@ public class KryoClientFacade implements ClientFacade {
 	private Display display;
 	private Object monitor; // monitor for waiting for all objects getting initialized
 
-	private MessageHandler<BallMessage> ballHandler;
+	private MessageHandler<BallHitMessage> ballHandler;
 	private MessageHandler<PaddleMessage> myPaddleHandler, otherPaddleHandler;
 
 	KryoClientFacade() {
@@ -56,8 +56,8 @@ public class KryoClientFacade implements ClientFacade {
 					}
 					stopWaiting();
 				}
-				if (object instanceof BallMessage) {
-					BallMessage ballMessage = (BallMessage) object;
+				if (object instanceof BallHitMessage) {
+					BallHitMessage ballMessage = (BallHitMessage) object;
 					ballHandler.trackMessage(ballMessage);
 				}
 				if (object instanceof PaddleMessage) { // other paddles

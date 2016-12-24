@@ -1,5 +1,6 @@
 package com.multipong.client;
 
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.PaddleMessage;
 
 /**
@@ -35,6 +36,11 @@ public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMe
 
 	protected boolean ballHit() {
 		return collidesWith(ball);
+	}
+
+	protected void sendBallHit(BallHitMessage message) {
+		message.position = position;
+		clientFacade.emitEvent(message); // You bounced the ball!
 	}
 
 	@Override

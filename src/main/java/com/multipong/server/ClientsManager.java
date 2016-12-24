@@ -3,6 +3,7 @@ package com.multipong.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.Message;
 
 class ClientsManager {
@@ -17,6 +18,7 @@ class ClientsManager {
 	
 	void add(Client client) {
 		if(!isFull()) {
+			//Tuple<String, String> tup = new Tuple<>();
 			clients.add(client);
 		}
 	}
@@ -31,9 +33,11 @@ class ClientsManager {
 		}
 	}
 
-	void sendToAll(Message message) {
+	public void sendToAllExcept(Message message, String position) {
 		for(Client c : clients) {
-			c.send(message);
+			if(!c.getPosition().equals(position)) {
+				c.send(message);
+			}
 		}
 	}
 

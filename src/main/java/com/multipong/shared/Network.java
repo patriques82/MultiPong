@@ -26,6 +26,7 @@ public class Network {
 		kryo.register(Message.class);
 		kryo.register(BallMessage.class);
 		kryo.register(PaddleMessage.class);
+		kryo.register(BallHitMessage.class);
 		kryo.register(WallHitMessage.class);
 	}
 
@@ -61,6 +62,10 @@ public class Network {
 	static public class PaddleMessage extends ObjectMessage {
 		public String position;
 		public int width, height;
+	}
+	
+	static public class BallHitMessage extends ObjectMessage {
+		public String position;
 	}
 
 	static public class WallHitMessage extends ObjectMessage {

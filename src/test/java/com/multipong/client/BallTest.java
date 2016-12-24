@@ -3,13 +3,13 @@ package com.multipong.client;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.allOf;
 import static org.mockito.Mockito.mock;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.BallMessage;
 
 public class BallTest {
@@ -95,8 +95,7 @@ public class BallTest {
 	
 	@Test
 	public void testToMessage() {
-		BallMessage mess = ball.toMessage();
-		assertThat(mess.d, allOf(is(ball.getWidth()), is(ball.getHeight())));
+		BallHitMessage mess = ball.toMessage();
 		assertThat(mess.x, is(equalTo(ball.getX())));
 		assertThat(mess.y, is(equalTo(ball.getY())));
 		assertThat(mess.vx, is(equalTo(ball.getVx())));
@@ -105,8 +104,7 @@ public class BallTest {
 	
 	@Test
 	public void testTrackMessage() {
-		BallMessage mess = new BallMessage();
-		mess.d = 0;
+		BallHitMessage mess = new BallHitMessage();
 		mess.x = 11;
 		mess.y = 11;
 		mess.vx = 5;

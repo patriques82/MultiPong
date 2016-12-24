@@ -14,7 +14,7 @@ public class VerticalPaddle extends MyPaddle {
 	public void tick() {
 		if(ballHit()) {
 			ball.bounceX();
-			clientFacade.emitEvent(ball.toMessage()); // You bounced the ball!
+			sendBallHit(ball.toMessage());
 		}
 		if(KeyManager.getKeyManager().isUpPressed()) {
 			setSpeed(0, -SPEED);

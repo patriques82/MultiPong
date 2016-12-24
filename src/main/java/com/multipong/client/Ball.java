@@ -4,14 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
 
-public class Ball extends GameObject implements MessageHandler<BallMessage> {
+public class Ball extends GameObject implements MessageHandler<BallHitMessage> {
+
 	private ClientFacade clientFacade;
 	private int worldWidth, worldHeight;
 	
-	private BallMessage ballMessage;
+	private BallHitMessage ballHit;
 	private WallHitMessage wallHitMessage;
 	
 	Ball(ClientFacade facade, int worldWidth, int worldHeight, BallMessage ballProps) {
@@ -20,7 +22,7 @@ public class Ball extends GameObject implements MessageHandler<BallMessage> {
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
 		this.worldHeight = worldHeight;
-		ballMessage = new BallMessage();
+		ballHit = new BallHitMessage();
 		wallHitMessage = new WallHitMessage();
 	}
 
@@ -57,16 +59,16 @@ public class Ball extends GameObject implements MessageHandler<BallMessage> {
 	}
 
 	@Override
-	public BallMessage toMessage() {
-		ballMessage.x = getX();
-		ballMessage.y = getY();
-		ballMessage.vx = getVx();
-		ballMessage.vy = getVy();
-		return ballMessage;
+	public BallHitMessage toMessage() {
+		ballHit.x = getX();
+		ballHit.y = getY();
+		ballHit.vx = getVx();
+		ballHit.vy = getVy();
+		return ballHit;
 	}
 
 	@Override
-	public void trackMessage(BallMessage message) {
+	public void trackMessage(BallHitMessage message) {
 		setPosition(message.x, message.y);
 		setSpeed(message.vx, message.vy);
 	}

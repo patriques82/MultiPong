@@ -8,7 +8,7 @@ import com.esotericsoftware.kryonet.Server;
 
 import com.multipong.shared.Network;
 import com.multipong.shared.Network.Message;
-import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.RegisterRequest;
 import com.multipong.shared.Network.WallHitMessage;
@@ -45,7 +45,7 @@ class GameServer {
 			public void received (Connection conn, Object object) {
 
 				if (object instanceof RegisterRequest) {
-					Client client = new Client(new Sender() { // add callback
+					Client client = new Client(new Sender() { // callback
 						public void send(Message message) {
 							conn.sendTCP(message);
 						}
@@ -54,24 +54,24 @@ class GameServer {
 						client.send(MessageFactory.gameIsFull());
 					} else {
 						clientsManager.add(client);
-						clientsManager.initGame();
+//						clientsManager.initGame();
 						// TODO: handle multiple
-//						if(clientsManager.isFull())
-//							clientsManager.initGame();
-//						else
-//							client.send(MessageFactory.waitForOthers());
+						if(clientsManager.isFull())
+							clientsManager.initGame();
+						else
+							client.send(MessageFactory.waitForOthers());
 					}
 				}
 
 				if (object instanceof PaddleMessage) {
 					PaddleMessage mess = (PaddleMessage) object;
-					clientsManager.sendToAll(mess);
+					clientsManager.sendToAllExcept(mess, mess.position);
 				}
 				
-				if (object instanceof BallMessage) {
-					BallMessage mess = (BallMessage) object;
-					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y);
-//					clientsManager.sendToAll(mess);
+				if (object instanceof BallHitMessage) {
+					BallHitMessage mess = (BallHitMessage) object;
+					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y + " by " + mess.position);
+					clientsManager.sendToAllExcept(mess, mess.position);
 				}
 				
 				if (object instanceof WallHitMessage) {
