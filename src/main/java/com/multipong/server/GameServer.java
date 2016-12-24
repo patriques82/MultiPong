@@ -15,12 +15,16 @@ import com.multipong.shared.Network.WallHitMessage;
 
 class GameServer {
 
+	private static final int PLAYERS = 2;
+	private static final int WORLD_WIDTH = 500;
+	private static final int WORLD_HEIGHT = 500;
+
 	private Server server;
 	private ClientsManager clientsManager;
 
 	public static void main (String[] args) {
-		Options.init(args);
-		GameServer server = new GameServer(new ClientsManager());
+		MessageFactory.init(WORLD_WIDTH, WORLD_HEIGHT);
+		GameServer server = new GameServer(new ClientsManager(PLAYERS));
 		server.start();
 	}
 

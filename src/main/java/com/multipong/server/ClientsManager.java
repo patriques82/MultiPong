@@ -8,9 +8,11 @@ import com.multipong.shared.Network.Message;
 class ClientsManager {
 
 	private List<Client> clients;
+	private int nrOfPlayers;
 	
-	ClientsManager() {
-		clients = new ArrayList<>(Options.getNrOfPlayers());
+	ClientsManager(int players) {
+		nrOfPlayers = players;
+		clients = new ArrayList<>(nrOfPlayers);
 	}
 	
 	void add(Client client) {
@@ -20,7 +22,7 @@ class ClientsManager {
 	}
 
 	boolean isFull() {
-		return clients.size() == Options.getNrOfPlayers();
+		return clients.size() == nrOfPlayers;
 	}
 
 	void initGame() {

@@ -1,6 +1,9 @@
 package com.multipong.server;
 
 import com.multipong.shared.Network.Message;
+
+import java.util.Random;
+
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.WorldProperties;
@@ -12,13 +15,42 @@ import com.multipong.shared.Network.WaitForOthers;
  */
 class MessageFactory {
 	
+
+	private static final int BALL_SPEED = 10;
+	private static final int BALL_DIAMETER = 10;
+
+	private static final int PADDLE_THICKNESS = 10;
+	private static final int PADDLE_LENGTH = 50;
+	
+	private static int worldWidth, worldHeight;
+	private static int ballVx, ballVy;
+	
+	static void init(int w, int h) {
+		setRandomBallSpeed();
+		worldWidth = w;
+		worldHeight = h;
+	}
+
+	private static void setRandomBallSpeed() {
+		ballVx = new Random().nextInt(BALL_SPEED + 1);
+		ballVy = BALL_SPEED - ballVx;
+	}
+
+	static Message gameIsFull() {
+		return new GameIsFull();
+	}
+	
+	static Message waitForOthers() {
+		return new WaitForOthers();
+	}
+	
 	static Message worldProperties(String pos) throws IllegalArgumentException {
 		if(!validPosition(pos)) {
 			throw new IllegalArgumentException("Unknown position");
 		} else {
 			WorldProperties prop = new WorldProperties();
-			prop.width = Options.getWorldWidth();
-			prop.height = Options.getWorldHeight();
+			prop.width = worldWidth;
+			prop.height = worldHeight;
 			prop.ball = ballMessage(prop.width, prop.height);
 			prop.other = paddleMessage(opposite(pos));
 			prop.your = paddleMessage(pos);
@@ -34,9 +66,9 @@ class MessageFactory {
 		BallMessage ballMessage = new BallMessage();
 		ballMessage.x = width/2;
 		ballMessage.y = height/2;
-		ballMessage.d = Options.getBallDiameter();
-		ballMessage.vx = Options.getBallVx();
-		ballMessage.vy = Options.getBallVy();
+		ballMessage.d = BALL_DIAMETER;
+		ballMessage.vx = ballVx;
+		ballMessage.vy = ballVy;
 		return ballMessage;
 	}
 
@@ -63,42 +95,34 @@ class MessageFactory {
 
 	private static int paddleWidth(String pos) {
 		if(pos.equals("up") || pos.equals("bottom"))
-			return Options.getPaddleLength();
+			return PADDLE_LENGTH;
 		else
-			return Options.getPaddleThickness();
+			return PADDLE_THICKNESS;
 	}
 
 	private static int paddleHeight(String pos) {
 		if(pos.equals("up") || pos.equals("bottom"))
-			return Options.getPaddleThickness();
+			return PADDLE_THICKNESS;
 		else 
-			return Options.getPaddleLength();
+			return PADDLE_LENGTH;
 	}
 
 	private static int paddleXPos(String pos) {
 		if(pos.equals("left"))
 			return 0;
 		else if(pos.equals("right"))
-			return Options.getWorldWidth() - Options.getPaddleThickness();
+			return worldWidth - PADDLE_THICKNESS;
 		else
-			return Options.getWorldWidth()/2 - Options.getPaddleLength()/2;
+			return worldWidth/2 - PADDLE_LENGTH/2;
 	}
 
 	private static int paddleYPos(String pos) {
 		if(pos.equals("up"))
 			return 0;
 		else if(pos.equals("bottom"))
-			return Options.getWorldHeight() - Options.getPaddleThickness();
+			return worldHeight - PADDLE_THICKNESS;
 		else 
-			return Options.getWorldHeight()/2 - Options.getPaddleLength()/2;
-	}
-
-	static Message gameIsFull() {
-		return new GameIsFull();
-	}
-	
-	static Message waitForOthers() {
-		return new WaitForOthers();
+			return worldHeight/2 - PADDLE_LENGTH/2;
 	}
 
 }
