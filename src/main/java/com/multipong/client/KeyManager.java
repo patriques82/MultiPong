@@ -56,19 +56,19 @@ class KeyManager implements KeyListener {
 		}
 	}
 
-	public boolean isLeftPressed() {
+	boolean isLeftPressed() {
 		return ARROW_KEYS[LEFT];
 	}
 
-	public boolean isRightPressed() {
+	boolean isRightPressed() {
 		return ARROW_KEYS[RIGHT];
 	}
 
-	public boolean isUpPressed() {
+	boolean isUpPressed() {
 		return ARROW_KEYS[UP];
 	}
 
-	public boolean isDownPressed() {
+	boolean isDownPressed() {
 		return ARROW_KEYS[DOWN];
 	}
 

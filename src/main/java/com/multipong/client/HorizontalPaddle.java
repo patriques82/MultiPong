@@ -1,10 +1,10 @@
 package com.multipong.client;
 
-public class HorizontalPaddle extends MyPaddle {
+class HorizontalPaddle extends MyPaddle {
 	
 	private int worldWidth;
 
-	public HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int x, int y, int w, int h) {
+	HorizontalPaddle(ClientFacade facade, String pos, int worldWidth, Ball ball, int x, int y, int w, int h) {
 		super(x, y, w, h, pos, ball);
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;

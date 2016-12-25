@@ -13,7 +13,7 @@ import com.multipong.shared.Network.*;
 /**
  * Facade for Kryonet client
  */
-public class KryoClientFacade implements ClientFacade {
+class KryoClientFacade implements ClientFacade {
 
 	private final Client client;
 	private World world;

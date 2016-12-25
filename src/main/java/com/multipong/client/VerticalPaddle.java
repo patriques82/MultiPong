@@ -1,6 +1,6 @@
 package com.multipong.client;
 
-public class VerticalPaddle extends MyPaddle {
+class VerticalPaddle extends MyPaddle {
 
 	private int worldHeight;
 

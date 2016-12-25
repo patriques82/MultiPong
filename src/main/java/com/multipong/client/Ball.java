@@ -8,7 +8,7 @@ import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.BallMessage;
 import com.multipong.shared.Network.WallHitMessage;
 
-public class Ball extends GameObject implements MessageHandler<BallHitMessage> {
+class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 
 	private ClientFacade clientFacade;
 	private int worldWidth, worldHeight;
@@ -50,11 +50,11 @@ public class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 		g2d.fillOval(getX(), getY(), getWidth(), getHeight());
 	}
 
-	public void bounceX() {
+	void bounceX() {
 		setVx(getVx() * -1);
 	}
 
-	public void bounceY() {
+	void bounceY() {
 		setVy(getVy() * -1);
 	}
 

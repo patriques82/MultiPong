@@ -4,12 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-public abstract class Paddle extends GameObject {
+abstract class Paddle extends GameObject {
 	
 	protected static int SPEED = 5;
 	protected String position; // screen position of paddle
 	
-	public Paddle(int x, int y, int width, int height) {
+	Paddle(int x, int y, int width, int height) {
 		super(x, y, width, height);
 	}
 	
@@ -20,7 +20,7 @@ public abstract class Paddle extends GameObject {
 		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
-	public String getPosition() {
+	String getPosition() {
 		return position;
 	}
 

@@ -6,7 +6,7 @@ import com.multipong.shared.Network.PaddleMessage;
 /**
  * Abstract class for paddles that the client controls 
  */
-public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> {
+abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
 	private PaddleMessage message;
 
@@ -23,7 +23,7 @@ public abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMe
 	/**
 	 * Factory method for getting your paddle
 	 */
-	public static MyPaddle getPaddle(ClientFacade client, int worldWidth, int worldHeight, Ball ball, PaddleMessage your) {
+	static MyPaddle getPaddle(ClientFacade client, int worldWidth, int worldHeight, Ball ball, PaddleMessage your) {
 		String pos = your.position;
 		if(pos.equals("bottom") || pos.equals("up")) {
 			return new HorizontalPaddle(client, pos, worldWidth, ball, your.x, your.y, your.width, your.height);
