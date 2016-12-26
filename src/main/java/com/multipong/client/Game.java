@@ -5,9 +5,6 @@ import java.awt.image.BufferStrategy;
 
 /**
  * The infrastructure of the game, holds the game loop of the game.
- * 
- * @author patriknygren
- *
  */
 class Game implements Runnable {
 	
@@ -27,7 +24,7 @@ class Game implements Runnable {
 	private static final int FPS = 45; // frames per second
 	private static final double FRAME_RATE = 1000_000_000/FPS;
 
-	private static final int MPS = 1;  // messages per second (to send)
+	private static final int MPS = 20;  // messages per second (to send)
 	private static final double SEND_RATE = 1000_000_000/MPS;
 	
 	/**

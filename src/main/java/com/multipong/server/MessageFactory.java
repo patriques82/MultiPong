@@ -52,7 +52,10 @@ class MessageFactory {
 	}
 
 	private static boolean validPosition(String pos) {
-		return pos.equals("up") || pos.equals("bottom") || pos.equals("left") || pos.equals("right");
+		return pos.equals("up") ||
+			   pos.equals("bottom") ||
+			   pos.equals("left") ||
+			   pos.equals("right");
 	}
 
 	private static BallProperties ballProperties() {
