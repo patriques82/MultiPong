@@ -12,16 +12,10 @@ class HorizontalPaddle extends MyPaddle {
 
 	@Override
 	public void tick() {
+		updateSpeed();
 		if(ballHit()) {
 			ball.bounceY();
-			clientFacade.emitEvent(ball.toMessage());
-		}
-		if(KeyManager.getKeyManager().isLeftPressed()) {
-			setSpeed(-SPEED, 0);
-		} else if(KeyManager.getKeyManager().isRightPressed()) {
-			setSpeed(SPEED, 0);
-		} else {
-			setSpeed(0, 0);
+			sendBallHit(ball.toMessage());
 		}
 		move();
 	}

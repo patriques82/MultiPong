@@ -17,7 +17,7 @@ class GameServer {
 
 	private static final int WORLD_WIDTH = 500;
 	private static final int WORLD_HEIGHT = 500;
-	private static final int PLAYERS = 2;
+	private static final int PLAYERS = 1;
 
 	private Server server; // Kryonet server
 	private ClientsManager clientsManager;
@@ -55,8 +55,6 @@ class GameServer {
 						client.send(MessageFactory.gameIsFull());
 					} else {
 						clientsManager.add(client);
-//						clientsManager.initGame();
-						// TODO: handle multiple
 						if(clientsManager.isFull())
 							clientsManager.initGame();
 						else
@@ -78,7 +76,6 @@ class GameServer {
 				if (object instanceof WallHitMessage) {
 					WallHitMessage mess = (WallHitMessage) object;
 					System.out.println("Wall hit at: " + mess.x + ", " + mess.y);
-//					clientsManager.sendToAll(mess);
 				}
 
 			}

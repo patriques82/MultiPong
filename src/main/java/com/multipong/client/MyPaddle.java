@@ -40,7 +40,19 @@ abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> 
 
 	protected void sendBallHit(BallHitMessage message) {
 		message.position = position;
-		clientFacade.emitEvent(message); // You bounced the ball!
+		clientFacade.emitEvent(message);
+	}
+	
+	protected void updateSpeed() {
+		setSpeed(0,0);
+		if(KeyManager.getKeyManager().isLeftPressed())
+			setVx(-SPEED);
+		if(KeyManager.getKeyManager().isRightPressed())
+			setVx(SPEED);
+		if(KeyManager.getKeyManager().isUpPressed())
+			setVy(-SPEED);
+		if(KeyManager.getKeyManager().isDownPressed())
+			setVy(SPEED);
 	}
 
 	@Override

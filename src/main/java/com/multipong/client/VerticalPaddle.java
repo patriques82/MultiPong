@@ -12,16 +12,10 @@ class VerticalPaddle extends MyPaddle {
 
 	@Override
 	public void tick() {
+		updateSpeed();
 		if(ballHit()) {
 			ball.bounceX();
 			sendBallHit(ball.toMessage());
-		}
-		if(KeyManager.getKeyManager().isUpPressed()) {
-			setSpeed(0, -SPEED);
-		} else if(KeyManager.getKeyManager().isDownPressed()) {
-			setSpeed(0, SPEED);
-		} else {
-			setSpeed(0, 0);
 		}
 		move();
 	}
