@@ -6,15 +6,8 @@ public interface ClientFacade {
 	
 	void connect();
 	
-	/**
-	 * Send message, called by Game at scheduled times
-	 */
-	void send();
+	void scheduledSend();
 	
-	/**
-	 * Message to send on event
-	 * @param m
-	 */
 	void emitEvent(Message m);
 	
 	World getWorld();

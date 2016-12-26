@@ -32,8 +32,9 @@ class KryoClientFacade implements ClientFacade {
 	public void connect() {
 		client.start();
 		Network.register(client);
+
+		// Connect to server
 		try {
-			// Connect to server
 			client.connect(Network.CONNECT_TIMEOUT_MS,
 						   Network.HOST,
 						   Network.TCP_PORT,
@@ -42,6 +43,7 @@ class KryoClientFacade implements ClientFacade {
 		} catch (IOException e) {
 			Logger.getLogger("client").severe("Could not connect with server");
 		}
+
 		// Add listener for incoming messages
 		client.addListener(new Listener() {
 			public void received(Connection connection, Object object) {
@@ -87,7 +89,9 @@ class KryoClientFacade implements ClientFacade {
 		world = new World(props.width, props.height, ball, other, paddle);
 	}
 
-	private void setMessageHandlers(Ball ball, OtherPaddle other, MyPaddle paddle) {
+	private void setMessageHandlers(MessageHandler<BallHitMessage> ball,
+									MessageHandler<PaddleMessage> other,
+									MessageHandler<PaddleMessage> paddle) {
 		otherPaddleHandler = other;
 		ballHandler = ball;
 		myPaddleHandler = paddle;
@@ -122,7 +126,7 @@ class KryoClientFacade implements ClientFacade {
 	}
 
 	@Override
-	public void send() {
+	public void scheduledSend() {
 		client.sendUDP(myPaddleHandler.toMessage());
 	}
 	

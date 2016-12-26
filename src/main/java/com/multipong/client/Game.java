@@ -118,7 +118,7 @@ class Game implements Runnable {
 	}
 	
 	private void send() {
-		client.send();
+		client.scheduledSend();
 	}
 	
 }
