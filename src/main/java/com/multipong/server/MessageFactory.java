@@ -1,14 +1,8 @@
 package com.multipong.server;
 
-import com.multipong.shared.Network.Message;
-
 import java.util.Random;
 
-import com.multipong.shared.Network.BallProperties;
-import com.multipong.shared.Network.PaddleProperties;
-import com.multipong.shared.Network.WorldProperties;
-import com.multipong.shared.Network.GameIsFull;
-import com.multipong.shared.Network.WaitForOthers;
+import com.multipong.shared.Network.*;
 
 /**
  * Used by clients controller to create messages

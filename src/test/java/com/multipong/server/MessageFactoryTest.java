@@ -7,11 +7,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.multipong.shared.Network.GameIsFull;
-import com.multipong.shared.Network.WaitForOthers;
-import com.multipong.shared.Network.WorldProperties;
-import com.multipong.shared.Network.BallProperties;
-import com.multipong.shared.Network.PaddleProperties;
+import com.multipong.shared.Network.*;
 
 public class MessageFactoryTest {
 
