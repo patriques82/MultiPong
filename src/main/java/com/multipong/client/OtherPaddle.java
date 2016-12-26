@@ -1,12 +1,12 @@
 package com.multipong.client;
 
 import com.multipong.shared.Network.PaddleMessage;
+import com.multipong.shared.Network.PaddleProperties;
 
 class OtherPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
-	OtherPaddle(PaddleMessage paddleProps) {
-		super(paddleProps.x, paddleProps.y, paddleProps.width, paddleProps.height);
-		this.position = paddleProps.position;
+	OtherPaddle(PaddleProperties paddleProps) {
+		super(paddleProps);
 	}
 
 	@Override

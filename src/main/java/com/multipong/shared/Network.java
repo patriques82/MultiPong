@@ -22,6 +22,8 @@ public class Network {
 		kryo.register(WaitForOthers.class);
 		kryo.register(GameIsFull.class);
 		kryo.register(WorldProperties.class);
+		kryo.register(BallProperties.class);
+		kryo.register(PaddleProperties.class);
 		kryo.register(ObjectMessage.class);
 		kryo.register(Message.class);
 		kryo.register(BallMessage.class);
@@ -43,9 +45,18 @@ public class Network {
 	
 	static public class WorldProperties implements Message {
 		public int width, height;
-		public BallMessage ball;
-		public PaddleMessage other;
-		public PaddleMessage your;
+		public BallProperties ballProps;
+		public PaddleProperties other;
+		public PaddleProperties your;
+	}
+
+	static public class BallProperties implements Message {
+		public int diameter, vx, vy;
+	}
+	
+	static public class PaddleProperties implements Message {
+		public String position;
+		public int range, width, height, x, y;
 	}
 
 	/**
@@ -55,13 +66,10 @@ public class Network {
 		public int x, y, vx, vy;
 	}
 
-	static public class BallMessage extends ObjectMessage {
-		public int d;
-	}
+	static public class BallMessage extends ObjectMessage { }
 	
 	static public class PaddleMessage extends ObjectMessage {
 		public String position;
-		public int width, height;
 	}
 	
 	static public class BallHitMessage extends ObjectMessage {

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import com.multipong.shared.Network.BallHitMessage;
-import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.BallProperties;
 import com.multipong.shared.Network.WallHitMessage;
 
 class Ball extends GameObject implements MessageHandler<BallHitMessage> {
@@ -16,8 +16,8 @@ class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 	private BallHitMessage ballHit;
 	private WallHitMessage wallHitMessage;
 	
-	Ball(ClientFacade facade, int worldWidth, int worldHeight, BallMessage ballProps) {
-		super(ballProps.x, ballProps.y, ballProps.d, ballProps.d); 
+	Ball(ClientFacade facade, int worldWidth, int worldHeight, BallProperties ballProps) {
+		super(worldWidth/2, worldHeight/2, ballProps.diameter, ballProps.diameter); 
 		setSpeed(ballProps.vx, ballProps.vy);
 		this.clientFacade = facade;
 		this.worldWidth = worldWidth;
@@ -92,6 +92,5 @@ class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 	private boolean lowerWallCollision() {
 		return (getY() + getHeight()) >= worldHeight;
 	}
-	
 
 }

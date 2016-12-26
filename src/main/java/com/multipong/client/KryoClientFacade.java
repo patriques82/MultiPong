@@ -15,10 +15,10 @@ import com.multipong.shared.Network.*;
  */
 class KryoClientFacade implements ClientFacade {
 
+	private final Object monitor; // monitor for waiting for all objects getting initialized
 	private final Client client;
-	private World world;
 	private Display display;
-	private Object monitor; // monitor for waiting for all objects getting initialized
+	private World world;
 
 	private MessageHandler<BallHitMessage> ballHandler;
 	private MessageHandler<PaddleMessage> myPaddleHandler, otherPaddleHandler;
@@ -80,9 +80,9 @@ class KryoClientFacade implements ClientFacade {
 		if(!validProperties(props)) {
 			throw new IllegalArgumentException("unknown ball, otherpaddle or paddle");
 		}
-		Ball ball = new Ball(this, props.width, props.height, props.ball);
+		Ball ball = new Ball(this, props.width, props.height, props.ballProps);
 		OtherPaddle other = new OtherPaddle(props.other);
-		MyPaddle paddle = MyPaddle.getPaddle(this, props.width, props.height, ball, props.your);
+		MyPaddle paddle = MyPaddle.getPaddle(this, ball, props.your);
 		setMessageHandlers(ball, other, paddle);
 		world = new World(props.width, props.height, ball, other, paddle);
 	}
@@ -95,10 +95,8 @@ class KryoClientFacade implements ClientFacade {
 
 	private boolean validProperties(WorldProperties props) {
 		boolean worldDimension = props.height > 0 && props.width > 0; 
-		boolean ballSpeed = props.ball.vx > 0 && props.ball.vy > 0;
-		boolean ballPosition = props.ball.x > 0 && props.ball.x < props.width &&
-							   props.ball.y > 0 && props.ball.y < props.height;
-		boolean ballProps = props.ball.d > 0 && ballSpeed && ballPosition;
+		boolean ballSpeed = props.ballProps.vx > 0 && props.ballProps.vy > 0;
+		boolean ballProps = props.ballProps.diameter > 0 && ballSpeed;
 		boolean myPaddleDimension = props.your.height > 0 && props.your.height < props.height &&
 									props.your.width > 0 && props.your.width < props.width;
 		boolean otherPaddleDimension = props.other.height > 0 && props.other.height < props.height &&

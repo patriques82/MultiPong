@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.multipong.shared.Network.BallHitMessage;
-import com.multipong.shared.Network.BallMessage;
+import com.multipong.shared.Network.BallProperties;
 
 public class BallTest {
 	
@@ -21,7 +21,7 @@ public class BallTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ball = new Ball(clientMock, WORLDWIDTH, WORLDHEIGHT, new BallMessage());
+		ball = new Ball(clientMock, WORLDWIDTH, WORLDHEIGHT, new BallProperties());
 	}
 
 	@After

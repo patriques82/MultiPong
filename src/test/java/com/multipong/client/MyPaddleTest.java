@@ -8,18 +8,19 @@ import static org.hamcrest.Matchers.is;
 import org.junit.Test;
 
 import com.multipong.shared.Network.PaddleMessage;
+import com.multipong.shared.Network.PaddleProperties;
 
 public class MyPaddleTest {
 
 	@Test
 	public void testToMessage() {
-		PaddleMessage props = new PaddleMessage();
+		PaddleProperties props = new PaddleProperties();
 		props.position = "up";
 		props.width = 10;
 		props.height = 3;
 		props.x = 5;
 		props.y = 6;
-		MyPaddle paddle = MyPaddle.getPaddle(null, 0, 0, null, props);
+		MyPaddle paddle = MyPaddle.getPaddle(null, null, props);
 		paddle.setVx(7);
 		paddle.setVy(8);
 		PaddleMessage mess = paddle.toMessage();
@@ -32,11 +33,11 @@ public class MyPaddleTest {
 
 	@Test
 	public void testIllegalArgumentException() {
-		PaddleMessage props = new PaddleMessage();
+		PaddleProperties props = new PaddleProperties();
 		props.position = "unknown position";
 		IllegalArgumentException exception = null;
 		try {
-			MyPaddle.getPaddle(null, 0, 0, null, props);
+			MyPaddle.getPaddle(null, null, props);
 		} catch(IllegalArgumentException e) {
 			assertThat(e.getMessage(), is(equalTo("Unknown paddle position")));
 			exception = e;

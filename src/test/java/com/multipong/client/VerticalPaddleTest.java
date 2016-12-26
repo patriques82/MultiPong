@@ -10,8 +10,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.multipong.shared.Network.BallMessage;
-import com.multipong.shared.Network.PaddleMessage;
+import com.multipong.shared.Network.BallProperties;
+import com.multipong.shared.Network.PaddleProperties;
 
 public class VerticalPaddleTest {
 	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
@@ -25,19 +25,19 @@ public class VerticalPaddleTest {
 
 	@Before
 	public void setUp() throws Exception {
-		BallMessage ballProps = new BallMessage();
-		ballProps.d = 3;
+		BallProperties ballProps = new BallProperties();
+		ballProps.diameter = 3;
 		ball = new Ball(clientMock, WORLDWIDTH, WORLDHEIGHT, ballProps);
-		PaddleMessage props = new PaddleMessage();
+		PaddleProperties props = new PaddleProperties();
 		props.height = HEIGHT;
 		props.width = WIDTH;
 		props.x = WORLDWIDTH - WIDTH; 
 		props.y = WORLDHEIGHT/2 - HEIGHT/2;
 		props.position = "right";
-		rightPaddle = MyPaddle.getPaddle(clientMock, WORLDWIDTH, WORLDHEIGHT, ball, props);
+		rightPaddle = MyPaddle.getPaddle(clientMock, ball, props);
 		props.x = 0;
 		props.position = "left";
-		leftPaddle = MyPaddle.getPaddle(clientMock, WORLDWIDTH, WORLDHEIGHT, ball, props);
+		leftPaddle = MyPaddle.getPaddle(clientMock, ball, props);
 	}
 
 	@After

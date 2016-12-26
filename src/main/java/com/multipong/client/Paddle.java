@@ -4,13 +4,16 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.multipong.shared.Network.PaddleProperties;
+
 abstract class Paddle extends GameObject {
 	
 	protected static int SPEED = 5;
 	protected String position; // screen position of paddle
 	
-	Paddle(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	Paddle(PaddleProperties props) {
+		super(props.x, props.y, props.width, props.height);
+		this.position = props.position;
 	}
 	
 	@Override

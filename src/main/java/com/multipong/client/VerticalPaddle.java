@@ -1,13 +1,11 @@
 package com.multipong.client;
 
+import com.multipong.shared.Network.PaddleProperties;
+
 class VerticalPaddle extends MyPaddle {
 
-	private int worldHeight;
-
-	VerticalPaddle(ClientFacade facade, String pos, int worldHeight, Ball ball, int x, int y, int w, int h) {
-		super(x, y, w, h, pos, ball);
-		this.clientFacade = facade;
-		this.worldHeight = worldHeight;
+	VerticalPaddle(ClientFacade facade, Ball ball, PaddleProperties props) {
+		super(facade, ball, props);
 	}
 
 	@Override
@@ -22,8 +20,8 @@ class VerticalPaddle extends MyPaddle {
 
 	private void move() {
 		setPosition(getX(), getY() + getVy());
-		if(getY() + getHeight() > worldHeight)
-			setY(worldHeight - getHeight());
+		if(getY() + getHeight() > range)
+			setY(range - getHeight());
 		if(getY() < 0) 
 			setY(0);
 	}

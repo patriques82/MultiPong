@@ -4,8 +4,8 @@ import com.multipong.shared.Network.Message;
 
 import java.util.Random;
 
-import com.multipong.shared.Network.BallMessage;
-import com.multipong.shared.Network.PaddleMessage;
+import com.multipong.shared.Network.BallProperties;
+import com.multipong.shared.Network.PaddleProperties;
 import com.multipong.shared.Network.WorldProperties;
 import com.multipong.shared.Network.GameIsFull;
 import com.multipong.shared.Network.WaitForOthers;
@@ -50,9 +50,9 @@ class MessageFactory {
 			WorldProperties prop = new WorldProperties();
 			prop.width = worldWidth;
 			prop.height = worldHeight;
-			prop.ball = ballMessage(prop.width, prop.height);
-			prop.other = paddleMessage(opposite(pos));
-			prop.your = paddleMessage(pos);
+			prop.ballProps = ballProperties();
+			prop.other = paddleProperties(opposite(pos));
+			prop.your = paddleProperties(pos);
 			return prop;
 		}
 	}
@@ -61,14 +61,12 @@ class MessageFactory {
 		return pos.equals("up") || pos.equals("bottom") || pos.equals("left") || pos.equals("right");
 	}
 
-	private static BallMessage ballMessage(int width, int height) {
-		BallMessage ballMessage = new BallMessage();
-		ballMessage.x = width/2;
-		ballMessage.y = height/2;
-		ballMessage.d = BALL_DIAMETER;
-		ballMessage.vx = ballVx;
-		ballMessage.vy = ballVy;
-		return ballMessage;
+	private static BallProperties ballProperties() {
+		BallProperties ballProps = new BallProperties();
+		ballProps.diameter = BALL_DIAMETER;
+		ballProps.vx = ballVx;
+		ballProps.vy = ballVy;
+		return ballProps;
 	}
 
 	private static String opposite(String pos) {
@@ -82,14 +80,22 @@ class MessageFactory {
 			return "left";
 	}
 
-	private static PaddleMessage paddleMessage(String pos) {
-		PaddleMessage paddle = new PaddleMessage();
+	private static PaddleProperties paddleProperties(String pos) {
+		PaddleProperties paddle = new PaddleProperties();
 		paddle.position = pos;
+		paddle.range = paddleRange(pos);
 		paddle.width = paddleWidth(pos);
 		paddle.height = paddleHeight(pos);
-		paddle.x = paddleXPos(pos); 
+		paddle.x = paddleXPos(pos);
 		paddle.y = paddleYPos(pos);
 		return paddle;
+	}
+
+	private static int paddleRange(String pos) {
+		if(pos.equals("up") || pos.equals("bottom"))
+			return worldWidth;
+		else
+			return worldHeight;
 	}
 
 	private static int paddleWidth(String pos) {

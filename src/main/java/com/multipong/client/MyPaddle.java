@@ -1,5 +1,6 @@
 package com.multipong.client;
 
+import com.multipong.shared.Network.PaddleProperties;
 import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.PaddleMessage;
 
@@ -8,14 +9,16 @@ import com.multipong.shared.Network.PaddleMessage;
  */
 abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> {
 
-	private PaddleMessage message;
-
 	protected Ball ball;
 	protected ClientFacade clientFacade;
+	protected int range;
 
-	protected MyPaddle(int x, int y, int w, int h, String pos, Ball ball) {
-		super(x, y, w, h);
-		this.position = pos;
+	private PaddleMessage message;
+
+	protected MyPaddle(ClientFacade facade, Ball ball, PaddleProperties props) {
+		super(props);
+		this.range = props.range;
+		this.clientFacade = facade;
 		this.ball = ball;
 		message = new PaddleMessage();
 	}
@@ -23,14 +26,32 @@ abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> 
 	/**
 	 * Factory method for getting your paddle
 	 */
-	static MyPaddle getPaddle(ClientFacade client, int worldWidth, int worldHeight, Ball ball, PaddleMessage your) {
+	static MyPaddle getPaddle(ClientFacade client, Ball ball, PaddleProperties your) {
 		String pos = your.position;
 		if(pos.equals("bottom") || pos.equals("up")) {
-			return new HorizontalPaddle(client, pos, worldWidth, ball, your.x, your.y, your.width, your.height);
+			return new HorizontalPaddle(client, ball, your);
 		} else if(pos.equals("left") || pos.equals("right")) {
-			return new VerticalPaddle(client, pos, worldHeight, ball, your.x, your.y, your.width, your.height);
+			return new VerticalPaddle(client, ball, your);
 		} else {
 			throw new IllegalArgumentException("Unknown paddle position");
+		}
+	}
+
+	@Override
+	public PaddleMessage toMessage() {
+		message.position = position;
+		message.x = getX();
+		message.y = getY();
+		message.vx = getVx();
+		message.vy = getVy();
+		return message;
+	}
+	
+	@Override
+	public void trackMessage(PaddleMessage message) {
+		if(position.equals(message.position)) {
+			setPosition(message.x, message.y);
+			setSpeed(message.vx, message.vy);
 		}
 	}
 
@@ -53,24 +74,6 @@ abstract class MyPaddle extends Paddle implements MessageHandler<PaddleMessage> 
 			setVy(-SPEED);
 		if(KeyManager.getKeyManager().isDownPressed())
 			setVy(SPEED);
-	}
-
-	@Override
-	public PaddleMessage toMessage() {
-		message.position = position;
-		message.x = getX();
-		message.y = getY();
-		message.vx = getVx();
-		message.vy = getVy();
-		return message;
-	}
-	
-	@Override
-	public void trackMessage(PaddleMessage message) {
-		if(position.equals(message.position)) {
-			setPosition(message.x, message.y);
-			setSpeed(message.vx, message.vy);
-		}
 	}
 
 }
