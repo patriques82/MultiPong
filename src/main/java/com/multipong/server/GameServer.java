@@ -15,15 +15,13 @@ import com.multipong.shared.Network.WallHitMessage;
 
 class GameServer {
 
-	private static final int WORLD_WIDTH = 500;
-	private static final int WORLD_HEIGHT = 500;
 	private static final int PLAYERS = 1;
 
 	private Server server; // Kryonet server
 	private ClientsManager clientsManager;
 
 	public static void main (String[] args) {
-		MessageFactory.init(WORLD_WIDTH, WORLD_HEIGHT);
+		MessageFactory.init();
 		GameServer server = new GameServer(new ClientsManager(PLAYERS));
 		server.start();
 	}

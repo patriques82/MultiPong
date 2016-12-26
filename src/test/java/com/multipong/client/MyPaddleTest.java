@@ -12,12 +12,15 @@ import com.multipong.shared.Network.PaddleProperties;
 
 public class MyPaddleTest {
 
+	private static int WIDTH = 10;
+	private static int HEIGHT = 3;
+
 	@Test
 	public void testToMessage() {
 		PaddleProperties props = new PaddleProperties();
 		props.position = "up";
-		props.width = 10;
-		props.height = 3;
+		props.width = WIDTH;
+		props.height = HEIGHT;
 		props.x = 5;
 		props.y = 6;
 		MyPaddle paddle = MyPaddle.getPaddle(null, null, props);

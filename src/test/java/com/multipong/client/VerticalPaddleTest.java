@@ -14,6 +14,7 @@ import com.multipong.shared.Network.BallProperties;
 import com.multipong.shared.Network.PaddleProperties;
 
 public class VerticalPaddleTest {
+
 	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
 	private static int WORLDWIDTH = 10;
 	private static int WORLDHEIGHT = 10;

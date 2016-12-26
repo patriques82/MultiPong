@@ -15,19 +15,19 @@ import com.multipong.shared.Network.WaitForOthers;
  */
 class MessageFactory {
 
-	private static final int BALL_SPEED = 10;
-	private static final int BALL_DIAMETER = 10;
+	static final int WORLD_WIDTH = 500;
+	static final int WORLD_HEIGHT = 500;
 
-	private static final int PADDLE_THICKNESS = 10;
-	private static final int PADDLE_LENGTH = 50;
+	static final int BALL_SPEED = 10;
+	static final int BALL_DIAMETER = 10;
+
+	static final int PADDLE_THICKNESS = 10;
+	static final int PADDLE_LENGTH = 50;
 	
-	private static int worldWidth, worldHeight;
 	private static int ballVx, ballVy;
 	
-	static void init(int w, int h) {
+	static void init() {
 		setRandomBallSpeed();
-		worldWidth = w;
-		worldHeight = h;
 	}
 
 	private static void setRandomBallSpeed() {
@@ -43,13 +43,13 @@ class MessageFactory {
 		return new WaitForOthers();
 	}
 	
-	static Message worldProperties(String pos) throws IllegalArgumentException {
+	static WorldProperties worldProperties(String pos) throws IllegalArgumentException {
 		if(!validPosition(pos)) {
-			throw new IllegalArgumentException("Unknown position");
+			throw new IllegalArgumentException("Unknown paddle position");
 		} else {
 			WorldProperties prop = new WorldProperties();
-			prop.width = worldWidth;
-			prop.height = worldHeight;
+			prop.width = WORLD_WIDTH;
+			prop.height = WORLD_HEIGHT;
 			prop.ballProps = ballProperties();
 			prop.other = paddleProperties(opposite(pos));
 			prop.your = paddleProperties(pos);
@@ -93,9 +93,9 @@ class MessageFactory {
 
 	private static int paddleRange(String pos) {
 		if(pos.equals("up") || pos.equals("bottom"))
-			return worldWidth;
+			return WORLD_WIDTH;
 		else
-			return worldHeight;
+			return WORLD_HEIGHT;
 	}
 
 	private static int paddleWidth(String pos) {
@@ -116,18 +116,18 @@ class MessageFactory {
 		if(pos.equals("left"))
 			return 0;
 		else if(pos.equals("right"))
-			return worldWidth - PADDLE_THICKNESS;
+			return WORLD_WIDTH - PADDLE_THICKNESS;
 		else
-			return worldWidth/2 - PADDLE_LENGTH/2;
+			return WORLD_WIDTH/2 - PADDLE_LENGTH/2;
 	}
 
 	private static int paddleYPos(String pos) {
 		if(pos.equals("up"))
 			return 0;
 		else if(pos.equals("bottom"))
-			return worldHeight - PADDLE_THICKNESS;
+			return WORLD_HEIGHT - PADDLE_THICKNESS;
 		else 
-			return worldHeight/2 - PADDLE_LENGTH/2;
+			return WORLD_HEIGHT/2 - PADDLE_LENGTH/2;
 	}
 
 }

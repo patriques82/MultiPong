@@ -18,6 +18,7 @@ public class HorizontalPaddleTest {
 	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
 	private static int WORLDWIDTH = 10;
 	private static int WORLDHEIGHT = 10;
+	private static int DIAMETER = 3;
 	private static int WIDTH = 20;
 	private static int HEIGHT = 5;
 
@@ -27,7 +28,7 @@ public class HorizontalPaddleTest {
 	@Before
 	public void setUp() throws Exception {
 		BallProperties ballProps = new BallProperties();
-		ballProps.diameter = 3;
+		ballProps.diameter = DIAMETER;
 		ball = new Ball(clientMock, WORLDWIDTH, WORLDHEIGHT, ballProps);
 		PaddleProperties props = new PaddleProperties();
 		props.height = HEIGHT;

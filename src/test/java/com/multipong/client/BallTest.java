@@ -14,9 +14,9 @@ import com.multipong.shared.Network.BallProperties;
 
 public class BallTest {
 	
+	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
 	private static int WORLDWIDTH = 10;
 	private static int WORLDHEIGHT = 10;
-	private static ClientFacade clientMock = mock(ClientFacade.class); // dummy mock
 	private Ball ball;
 
 	@Before
