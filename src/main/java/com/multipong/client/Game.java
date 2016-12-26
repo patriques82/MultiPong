@@ -105,7 +105,7 @@ class Game implements Runnable {
 			}
 			g = bs.getDrawGraphics();
 
-			// Clear screen
+			// clear screen
 			g.clearRect(0, 0, display.getWidth(), display.getHeight());
 
 			// Double buffering

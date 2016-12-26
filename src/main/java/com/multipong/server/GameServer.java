@@ -15,7 +15,7 @@ import com.multipong.shared.Network.WallHitMessage;
 
 class GameServer {
 
-	private static final int PLAYERS = 1;
+	private static final int PLAYERS = 2;
 
 	private Server server; // Kryonet server
 	private ClientsManager clientsManager;
