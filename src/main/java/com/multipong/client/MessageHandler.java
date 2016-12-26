@@ -10,13 +10,13 @@ import com.multipong.shared.Network.Message;
 public interface MessageHandler<M extends Message> {
 
 	/**
-	 * Sets message according to of the game object properties.
+	 * Game object properties to send message.
 	 * @return message
 	 */
 	public M toMessage();
 
 	/**
-	 * Sets properties of the game object according to message spec.
+	 * Sets game object according to received message.
 	 * @param message
 	 */
 	public void trackMessage(M m);

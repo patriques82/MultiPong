@@ -4,16 +4,41 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.PaddleProperties;
 
-abstract class Paddle extends GameObject {
+abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage> {
 	
 	protected static int SPEED = 5;
 	protected String position; // screen position of paddle
+
+	private PaddleMessage message;
 	
 	Paddle(PaddleProperties props) {
 		super(props.x, props.y, props.width, props.height);
 		this.position = props.position;
+		message = new PaddleMessage();
+	}
+
+	@Override
+	public void tick() { }
+
+	@Override
+	public PaddleMessage toMessage() {
+		message.position = position;
+		message.x = getX();
+		message.y = getY();
+		message.vx = getVx();
+		message.vy = getVy();
+		return message;
+	}
+	
+	@Override
+	public void trackMessage(PaddleMessage message) {
+		if(position.equals(message.position)) {
+			setPosition(message.x, message.y);
+			setSpeed(message.vx, message.vy);
+		}
 	}
 	
 	@Override
