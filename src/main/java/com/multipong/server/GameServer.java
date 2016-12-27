@@ -7,11 +7,7 @@ import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 
 import com.multipong.shared.Network;
-import com.multipong.shared.Network.Message;
-import com.multipong.shared.Network.BallHitMessage;
-import com.multipong.shared.Network.PaddleMessage;
-import com.multipong.shared.Network.RegisterRequest;
-import com.multipong.shared.Network.WallHitMessage;
+import com.multipong.shared.Network.*;
 
 class GameServer {
 

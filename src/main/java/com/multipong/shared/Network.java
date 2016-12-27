@@ -6,8 +6,8 @@ import com.esotericsoftware.kryonet.EndPoint;
 // This class is a convenient place to keep things common to both the client and server.
 public class Network {
 
-//	public final static String HOST = "138.68.66.77";
-	public final static String HOST = "localhost";
+	public final static String HOST = "138.68.66.77";
+//	public final static String HOST = "localhost";
 
 	public final static int CONNECT_TIMEOUT_MS = 5000;
 	
