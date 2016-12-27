@@ -29,12 +29,17 @@ class MessageFactory {
 		ballVy = BALL_SPEED - ballVx;
 	}
 
-	static Message gameIsFull() {
-		return new GameIsFull();
+	static Message gameIsFull(int players) {
+		GameIsFull isFull = new GameIsFull();
+		isFull.players = players;
+		return isFull;
 	}
 	
-	static Message waitForOthers() {
-		return new WaitForOthers();
+	static Message waitForOthers(int total, int waiting) {
+		WaitForOthers wait = new WaitForOthers();
+		wait.total = total;
+		wait.waiting = waiting;
+		return wait;
 	}
 	
 	static WorldProperties worldProperties(String pos) throws IllegalArgumentException {

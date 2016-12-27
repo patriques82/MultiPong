@@ -19,12 +19,12 @@ public class MessageFactoryTest {
 	
 	@Test
 	public void testGameIsFull() {
-		assertTrue(MessageFactory.gameIsFull() instanceof GameIsFull);
+		assertTrue(MessageFactory.gameIsFull(0) instanceof GameIsFull);
 	}
 
 	@Test
 	public void testWaitForOthers() {
-		assertTrue(MessageFactory.waitForOthers() instanceof WaitForOthers);
+		assertTrue(MessageFactory.waitForOthers(0, 0) instanceof WaitForOthers);
 	}
 
 	@Test

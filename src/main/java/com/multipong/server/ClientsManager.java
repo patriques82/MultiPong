@@ -8,13 +8,13 @@ class ClientsManager {
 	private Client[] clients;
 	private int index;
 
-	private int nrOfPlayers;
+	private int totalPlayers;
 	
 	ClientsManager(int players) throws IllegalArgumentException {
 		if(players > positions.length)
 			throw new IllegalArgumentException(String.format("Max %d players", positions.length));
-		nrOfPlayers = players;
-		clients = new Client[nrOfPlayers];
+		totalPlayers = players;
+		clients = new Client[totalPlayers];
 		index = 0;
 	}
 	
@@ -26,11 +26,11 @@ class ClientsManager {
 	}
 
 	boolean isFull() {
-		return index == nrOfPlayers;
+		return index == totalPlayers;
 	}
 
 	void initGame() {
-		for(int i = 0; i < nrOfPlayers; i++) {
+		for(int i = 0; i < totalPlayers; i++) {
 			clients[i].send(MessageFactory.worldProperties(positions[i]));
 		}
 	}
@@ -41,6 +41,14 @@ class ClientsManager {
 				clients[i].send(message);
 			}
 		}
+	}
+	
+	int getNrOfPlayers() {
+		return index;
+	}
+	
+	int getTotalPlayers() {
+		return totalPlayers;
 	}
 
 }

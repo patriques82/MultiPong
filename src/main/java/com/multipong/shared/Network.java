@@ -39,9 +39,13 @@ public class Network {
 	 */
 	static public class RegisterRequest implements Message { }
 	
-	static public class WaitForOthers implements Message { }
+	static public class WaitForOthers implements Message { 
+		public int total, waiting;
+	}
 
-	static public class GameIsFull implements Message { }
+	static public class GameIsFull implements Message {
+		public int players;
+	}
 	
 	static public class WorldProperties implements Message {
 		public int width, height;

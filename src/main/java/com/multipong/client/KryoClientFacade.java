@@ -60,6 +60,11 @@ class KryoClientFacade implements ClientFacade {
 					stopWaiting();
 				}
 
+				if (object instanceof WaitForOthers) { // other paddles
+					WaitForOthers wait = (WaitForOthers) object;
+					System.out.println("Waiting for other players");
+				}
+
 				if (object instanceof BallHitMessage) { // other paddles ball hits
 					BallHitMessage ballMessage = (BallHitMessage) object;
 					ballHandler.trackMessage(ballMessage);

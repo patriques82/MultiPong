@@ -39,20 +39,16 @@ class GameServer {
 			public void received (Connection conn, Object object) {
 
 				if (object instanceof RegisterRequest) {
-					Client client = new Client() {
-						@Override
-						public void send(Message message) {
-							conn.sendTCP(message);
-						}
-					};
+					Client client = createClient(conn);
 					if(clientsManager.isFull()) {
-						client.send(MessageFactory.gameIsFull());
+						sendIsFull(client);
 					} else {
 						clientsManager.add(client);
 						if(clientsManager.isFull())
 							clientsManager.initGame();
-						else
-							client.send(MessageFactory.waitForOthers());
+						else {
+							sendWait(client);
+						}
 					}
 				}
 
@@ -67,12 +63,33 @@ class GameServer {
 					clientsManager.sendToAllExcept(mess, mess.position);
 				}
 				
-				if (object instanceof WallHitMessage) {
-					WallHitMessage mess = (WallHitMessage) object;
-					System.out.println("Wall hit at: " + mess.x + ", " + mess.y);
-				}
+//				if (object instanceof WallHitMessage) {
+//					WallHitMessage mess = (WallHitMessage) object;
+//				}
 
 			}
+
+			private Client createClient(Connection conn) {
+				return new Client() {
+					@Override
+					public void send(Message message) {
+						conn.sendTCP(message);
+					}
+				};
+			}
+
+			private void sendWait(Client client) {
+				int total = clientsManager.getTotalPlayers();
+				int waiting = clientsManager.getNrOfPlayers();
+				Message waitMessage = MessageFactory.waitForOthers(total, waiting);
+				client.send(waitMessage);
+			}
+
+			private void sendIsFull(Client client) {
+				Message isFullMessage = MessageFactory.gameIsFull(clientsManager.getNrOfPlayers());
+				client.send(isFullMessage);
+			}
+
 		});
 	}
 
