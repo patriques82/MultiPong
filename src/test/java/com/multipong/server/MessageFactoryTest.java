@@ -16,7 +16,6 @@ public class MessageFactoryTest {
 		MessageFactory.init();
 	}
 	
-	
 	@Test
 	public void testGameIsFull() {
 		assertTrue(MessageFactory.gameIsFull(0) instanceof GameIsFull);
@@ -28,36 +27,24 @@ public class MessageFactoryTest {
 	}
 
 	@Test
-	public void testInvalidPosition() {
-		IllegalArgumentException exception = null;
-		try {
-			MessageFactory.worldProperties("unknown position");
-		} catch(IllegalArgumentException e) {
-			assertThat(e.getMessage(), is(equalTo("Unknown paddle position")));
-			exception = e;
-		}
-		assertNotNull(exception);
-	}
-
-	@Test
 	public void testWorldProps() {
-		WorldProperties props = MessageFactory.worldProperties("left");
+		WorldProperties props = MessageFactory.worldProperties(Position.LEFT);
 		assertEquals(props.width, MessageFactory.WORLD_WIDTH);
 		assertEquals(props.height, MessageFactory.WORLD_HEIGHT);
 	}
 
 	@Test
 	public void testBallProperties() {
-		WorldProperties props = MessageFactory.worldProperties("left");
+		WorldProperties props = MessageFactory.worldProperties(Position.LEFT);
 		assertTrue(props.ballProps instanceof BallProperties);
 		assertThat(props.ballProps.vx + props.ballProps.vy, is(equalTo(MessageFactory.BALL_SPEED)));
 	}
 
 	@Test
 	public void testOtherPaddleProperties() {
-		WorldProperties props = MessageFactory.worldProperties("left");
+		WorldProperties props = MessageFactory.worldProperties(Position.LEFT);
 		assertTrue(props.other instanceof PaddleProperties);
-		assertThat(props.other.position, is(equalTo("right")));
+		assertThat(props.other.position, is(equalTo(Position.RIGHT)));
 		assertThat(props.other.range, is(equalTo(MessageFactory.WORLD_HEIGHT)));
 		int x = MessageFactory.WORLD_WIDTH - MessageFactory.PADDLE_THICKNESS;
 		int y = MessageFactory.WORLD_HEIGHT/2 - MessageFactory.PADDLE_LENGTH/2;
@@ -69,9 +56,9 @@ public class MessageFactoryTest {
 
 	@Test
 	public void testYourPaddleProperties() {
-		WorldProperties props = MessageFactory.worldProperties("bottom");
+		WorldProperties props = MessageFactory.worldProperties(Position.BOTTOM);
 		assertTrue(props.your instanceof PaddleProperties);
-		assertThat(props.your.position, is(equalTo("bottom")));
+		assertThat(props.your.position, is(equalTo(Position.BOTTOM)));
 		assertThat(props.your.range, is(equalTo(MessageFactory.WORLD_WIDTH)));
 		int x = MessageFactory.WORLD_WIDTH/2 - MessageFactory.PADDLE_LENGTH/2;
 		int y = MessageFactory.WORLD_HEIGHT - MessageFactory.PADDLE_THICKNESS;

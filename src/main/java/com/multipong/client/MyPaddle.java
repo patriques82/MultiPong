@@ -1,6 +1,7 @@
 package com.multipong.client;
 
 import com.multipong.shared.Network.PaddleProperties;
+import com.multipong.shared.Network.Position;
 import com.multipong.shared.Network.BallHitMessage;
 
 /**
@@ -23,13 +24,11 @@ abstract class MyPaddle extends Paddle {
 	 * Factory method for getting your paddle
 	 */
 	static MyPaddle getPaddle(ClientFacade client, Ball ball, PaddleProperties your) {
-		String pos = your.position;
-		if(pos.equals("bottom") || pos.equals("up")) {
+		Position pos = your.position;
+		if(pos == Position.BOTTOM || pos == Position.UP) {
 			return new HorizontalPaddle(client, ball, your);
-		} else if(pos.equals("left") || pos.equals("right")) {
-			return new VerticalPaddle(client, ball, your);
 		} else {
-			throw new IllegalArgumentException("Unknown paddle position");
+			return new VerticalPaddle(client, ball, your);
 		}
 	}
 

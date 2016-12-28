@@ -1,18 +1,17 @@
 package com.multipong.server;
 
 import com.multipong.shared.Network.Message;
+import com.multipong.shared.Network.Position;
 
 class ClientsManager {
 
-	private final static String[] positions = {"right", "left", "up", "bottom"};
 	private Client[] clients;
-	private int index;
-
 	private int totalPlayers;
+	private int index;
 	
 	ClientsManager(int players) throws IllegalArgumentException {
-		if(players > positions.length)
-			throw new IllegalArgumentException(String.format("Max %d players", positions.length));
+		if(players > Position.values().length)
+			throw new IllegalArgumentException(String.format("Max %d players", Position.values().length));
 		totalPlayers = players;
 		clients = new Client[totalPlayers];
 		index = 0;
@@ -31,13 +30,13 @@ class ClientsManager {
 
 	void initGame() {
 		for(int i = 0; i < totalPlayers; i++) {
-			clients[i].send(MessageFactory.worldProperties(positions[i]));
+			clients[i].send(MessageFactory.worldProperties(Position.values()[i]));
 		}
 	}
 
-	void sendToAllExcept(Message message, String position) {
+	void sendToAllExcept(Message message, Position pos) {
 		for(int i = 0; i < clients.length; i++) {
-			if(!positions[i].equals(position)) {
+			if(!(Position.values()[i] == pos)) {
 				clients[i].send(message);
 			}
 		}

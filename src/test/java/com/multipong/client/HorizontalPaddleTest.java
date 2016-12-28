@@ -10,8 +10,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.multipong.shared.Network.Position;
 import com.multipong.shared.Network.BallProperties;
 import com.multipong.shared.Network.PaddleProperties;
+
 
 public class HorizontalPaddleTest {
 
@@ -33,9 +35,9 @@ public class HorizontalPaddleTest {
 		PaddleProperties props = new PaddleProperties();
 		props.height = HEIGHT;
 		props.width = WIDTH;
-		props.position = "bottom";
+		props.position = Position.BOTTOM;
 		bottomPaddle = MyPaddle.getPaddle(clientMock, ball, props);
-		props.position = "up";
+		props.position = Position.UP;
 		upperPaddle = MyPaddle.getPaddle(clientMock, ball, props);
 	}
 

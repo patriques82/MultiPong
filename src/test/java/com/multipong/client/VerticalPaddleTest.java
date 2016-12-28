@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import com.multipong.shared.Network.BallProperties;
 import com.multipong.shared.Network.PaddleProperties;
+import com.multipong.shared.Network.Position;
 
 public class VerticalPaddleTest {
 
@@ -34,10 +35,10 @@ public class VerticalPaddleTest {
 		props.width = WIDTH;
 		props.x = WORLDWIDTH - WIDTH; 
 		props.y = WORLDHEIGHT/2 - HEIGHT/2;
-		props.position = "right";
+		props.position = Position.RIGHT;
 		rightPaddle = MyPaddle.getPaddle(clientMock, ball, props);
 		props.x = 0;
-		props.position = "left";
+		props.position = Position.LEFT;
 		leftPaddle = MyPaddle.getPaddle(clientMock, ball, props);
 	}
 

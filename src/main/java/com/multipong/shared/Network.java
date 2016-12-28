@@ -6,8 +6,8 @@ import com.esotericsoftware.kryonet.EndPoint;
 // This class is a convenient place to keep things common to both the client and server.
 public class Network {
 
-	public final static String HOST = "138.68.66.77";
-//	public final static String HOST = "localhost";
+//	public final static String HOST = "138.68.66.77";
+	public final static String HOST = "localhost";
 
 	public final static int CONNECT_TIMEOUT_MS = 5000;
 	
@@ -17,6 +17,7 @@ public class Network {
 	// This registers objects that are going to be sent over the network.
 	static public void register(EndPoint endPoint) {
 		Kryo kryo = endPoint.getKryo();
+		kryo.register(Position.class);
 		kryo.register(Message.class);
 		kryo.register(RegisterRequest.class);
 		kryo.register(WaitForOthers.class);
@@ -30,6 +31,10 @@ public class Network {
 		kryo.register(PaddleMessage.class);
 		kryo.register(BallHitMessage.class);
 		kryo.register(WallHitMessage.class);
+	}
+	
+	static public enum Position {
+		RIGHT, LEFT, UP, BOTTOM;
 	}
 
 	static public interface Message { }
@@ -59,7 +64,7 @@ public class Network {
 	}
 	
 	static public class PaddleProperties implements Message {
-		public String position;
+		public Position position;
 		public int range, width, height, x, y;
 	}
 
@@ -73,15 +78,15 @@ public class Network {
 	static public class BallMessage extends ObjectMessage { }
 	
 	static public class PaddleMessage extends ObjectMessage {
-		public String position;
+		public Position position;
 	}
 	
 	static public class BallHitMessage extends ObjectMessage {
-		public String position;
+		public Position position;
 	}
 
 	static public class WallHitMessage extends ObjectMessage {
-		public String position;
+		public Position position;
 	}
 
 }

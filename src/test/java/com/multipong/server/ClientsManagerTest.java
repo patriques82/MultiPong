@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.Message;
+import com.multipong.shared.Network.Position;
 import com.multipong.shared.Network.WorldProperties;
 
 
@@ -54,8 +55,8 @@ public class ClientsManagerTest {
 				assertTrue(message instanceof WorldProperties);
 				if(message instanceof WorldProperties) {
 					WorldProperties props = (WorldProperties) message;
-					assertThat(props.your.position, is(equalTo("right")));
-					assertThat(props.other.position, is(equalTo("left")));
+					assertThat(props.your.position, is(equalTo(Position.RIGHT)));
+					assertThat(props.other.position, is(equalTo(Position.LEFT)));
 				}
 			}
 		});
@@ -65,7 +66,7 @@ public class ClientsManagerTest {
 	@Test
 	public void sendToAllExceptTest() {
 		BallHitMessage ballMess = new BallHitMessage();
-		ballMess.position = "right";
+		ballMess.position = Position.RIGHT;
 		manager = new ClientsManager(2);
 		manager.add(new Client() {  // right
 			public void send(Message message) {
@@ -76,11 +77,11 @@ public class ClientsManagerTest {
 			public void send(Message message) {
 				assertTrue(message instanceof BallHitMessage);
 				if(message instanceof BallHitMessage) {
-					assertThat(((BallHitMessage) message).position, is(equalTo("right")));
+					assertThat(((BallHitMessage) message).position, is(equalTo(Position.RIGHT)));
 				}
 			}
 		});
-		manager.sendToAllExcept(ballMess, "right");
+		manager.sendToAllExcept(ballMess, Position.RIGHT);
 	}
 
 }

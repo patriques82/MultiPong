@@ -6,17 +6,18 @@ import java.awt.Graphics2D;
 
 import com.multipong.shared.Network.PaddleMessage;
 import com.multipong.shared.Network.PaddleProperties;
+import com.multipong.shared.Network.Position;
 
 abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage> {
 	
 	protected static int SPEED = 5;
-	protected String position; // screen position of paddle
+	protected Position position; // screen position of paddle
 
 	private PaddleMessage message;
 	
 	Paddle(PaddleProperties props) {
 		super(props.x, props.y, props.width, props.height);
-		this.position = props.position;
+		position = props.position;
 		message = new PaddleMessage();
 	}
 
@@ -48,7 +49,7 @@ abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage
 		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
-	String getPosition() {
+	Position getPosition() {
 		return position;
 	}
 

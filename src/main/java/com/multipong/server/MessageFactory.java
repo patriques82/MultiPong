@@ -42,25 +42,14 @@ class MessageFactory {
 		return wait;
 	}
 	
-	static WorldProperties worldProperties(String pos) throws IllegalArgumentException {
-		if(!validPosition(pos)) {
-			throw new IllegalArgumentException("Unknown paddle position");
-		} else {
-			WorldProperties prop = new WorldProperties();
-			prop.width = WORLD_WIDTH;
-			prop.height = WORLD_HEIGHT;
-			prop.ballProps = ballProperties();
-			prop.other = paddleProperties(opposite(pos));
-			prop.your = paddleProperties(pos);
-			return prop;
-		}
-	}
-
-	private static boolean validPosition(String pos) {
-		return pos.equals("up") ||
-			   pos.equals("bottom") ||
-			   pos.equals("left") ||
-			   pos.equals("right");
+	static WorldProperties worldProperties(Position pos) throws IllegalArgumentException {
+		WorldProperties prop = new WorldProperties();
+		prop.width = WORLD_WIDTH;
+		prop.height = WORLD_HEIGHT;
+		prop.ballProps = ballProperties();
+		prop.other = paddleProperties(opposite(pos));
+		prop.your = paddleProperties(pos);
+		return prop;
 	}
 
 	private static BallProperties ballProperties() {
@@ -71,18 +60,18 @@ class MessageFactory {
 		return ballProps;
 	}
 
-	private static String opposite(String pos) {
-		if(pos.equals("up"))
-			return "bottom";
-		else if(pos.equals("bottom"))
-			return "up";
-		else if(pos.equals("left"))
-			return "right";
+	private static Position opposite(Position pos) {
+		if(pos == Position.UP)
+			return Position.BOTTOM;
+		else if(pos == Position.BOTTOM)
+			return Position.UP;
+		else if(pos == Position.LEFT)
+			return Position.RIGHT;
 		else
-			return "left";
+			return Position.LEFT;
 	}
 
-	private static PaddleProperties paddleProperties(String pos) {
+	private static PaddleProperties paddleProperties(Position pos) {
 		PaddleProperties paddle = new PaddleProperties();
 		paddle.position = pos;
 		paddle.range = paddleRange(pos);
@@ -93,40 +82,40 @@ class MessageFactory {
 		return paddle;
 	}
 
-	private static int paddleRange(String pos) {
-		if(pos.equals("up") || pos.equals("bottom"))
+	private static int paddleRange(Position pos) {
+		if(pos == Position.UP || pos == Position.BOTTOM)
 			return WORLD_WIDTH;
 		else
 			return WORLD_HEIGHT;
 	}
 
-	private static int paddleWidth(String pos) {
-		if(pos.equals("up") || pos.equals("bottom"))
+	private static int paddleWidth(Position pos) {
+		if(pos == Position.UP || pos == Position.BOTTOM)
 			return PADDLE_LENGTH;
 		else
 			return PADDLE_THICKNESS;
 	}
 
-	private static int paddleHeight(String pos) {
-		if(pos.equals("up") || pos.equals("bottom"))
+	private static int paddleHeight(Position pos) {
+		if(pos == Position.UP || pos == Position.BOTTOM)
 			return PADDLE_THICKNESS;
 		else 
 			return PADDLE_LENGTH;
 	}
 
-	private static int paddleXPos(String pos) {
-		if(pos.equals("left"))
+	private static int paddleXPos(Position pos) {
+		if(pos == Position.LEFT)
 			return 0;
-		else if(pos.equals("right"))
+		else if(pos == Position.RIGHT)
 			return WORLD_WIDTH - PADDLE_THICKNESS;
 		else
 			return WORLD_WIDTH/2 - PADDLE_LENGTH/2;
 	}
 
-	private static int paddleYPos(String pos) {
-		if(pos.equals("up"))
+	private static int paddleYPos(Position pos) {
+		if(pos == Position.UP)
 			return 0;
-		else if(pos.equals("bottom"))
+		else if(pos == Position.BOTTOM)
 			return WORLD_HEIGHT - PADDLE_THICKNESS;
 		else 
 			return WORLD_HEIGHT/2 - PADDLE_LENGTH/2;

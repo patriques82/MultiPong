@@ -41,13 +41,13 @@ class GameServer {
 				if (object instanceof RegisterRequest) {
 					Client client = createClient(conn);
 					if(clientsManager.isFull()) {
-						sendIsFull(client);
+						sendIsFullToClient(client);
 					} else {
 						clientsManager.add(client);
 						if(clientsManager.isFull())
 							clientsManager.initGame();
 						else {
-							sendWait(client);
+							sendWaitToClient(client);
 						}
 					}
 				}
@@ -59,10 +59,11 @@ class GameServer {
 				
 				if (object instanceof BallHitMessage) {
 					BallHitMessage mess = (BallHitMessage) object;
-					System.out.println("Ball Hit at: " + mess.x + ", " + mess.y + " by " + mess.position);
+					System.out.println("Ball Hit at: (" + mess.x + ", " + mess.y + ") by " + mess.position + "-paddle.");
 					clientsManager.sendToAllExcept(mess, mess.position);
 				}
 				
+				// TODO: handle score
 //				if (object instanceof WallHitMessage) {
 //					WallHitMessage mess = (WallHitMessage) object;
 //				}
@@ -78,14 +79,14 @@ class GameServer {
 				};
 			}
 
-			private void sendWait(Client client) {
+			private void sendWaitToClient(Client client) {
 				int total = clientsManager.getTotalPlayers();
 				int waiting = clientsManager.getNrOfPlayers();
 				Message waitMessage = MessageFactory.waitForOthers(total, waiting);
 				client.send(waitMessage);
 			}
 
-			private void sendIsFull(Client client) {
+			private void sendIsFullToClient(Client client) {
 				Message isFullMessage = MessageFactory.gameIsFull(clientsManager.getNrOfPlayers());
 				client.send(isFullMessage);
 			}

@@ -50,14 +50,6 @@ class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 		g2d.fillOval(getX(), getY(), getWidth(), getHeight());
 	}
 
-	void bounceX() {
-		setVx(getVx() * -1);
-	}
-
-	void bounceY() {
-		setVy(getVy() * -1);
-	}
-
 	@Override
 	public BallHitMessage toMessage() {
 		ballHit.x = getX();
@@ -72,6 +64,15 @@ class Ball extends GameObject implements MessageHandler<BallHitMessage> {
 		setPosition(message.x, message.y);
 		setSpeed(message.vx, message.vy);
 	}
+
+	void bounceX() {
+		setVx(getVx() * -1);
+	}
+
+	void bounceY() {
+		setVy(getVy() * -1);
+	}
+
 
 	private boolean upperWallCollision() {
 		return getY() <= 0;

@@ -60,9 +60,14 @@ class KryoClientFacade implements ClientFacade {
 					stopWaiting();
 				}
 
-				if (object instanceof WaitForOthers) { // other paddles
+				if (object instanceof GameIsFull) {
+					GameIsFull isFull = (GameIsFull) object;
+					System.out.println(isFull.players + " players already. The game is full.");
+				}
+
+				if (object instanceof WaitForOthers) {
 					WaitForOthers wait = (WaitForOthers) object;
-					System.out.println("Waiting for other players");
+					System.out.println(wait.waiting + " active; waiting for " + (wait.total - wait.waiting));
 				}
 
 				if (object instanceof BallHitMessage) { // other paddles ball hits
