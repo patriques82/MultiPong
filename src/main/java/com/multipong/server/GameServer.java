@@ -18,8 +18,12 @@ class GameServer {
 
 	public static void main (String[] args) {
 		MessageFactory.init();
-		GameServer server = new GameServer(new ClientsManager(PLAYERS));
-		server.start();
+		try {
+			GameServer server = new GameServer(new ClientsManager(PLAYERS));
+			server.start();
+		} catch(IllegalArgumentException e) {
+			System.out.print(e.getMessage());
+		}
 	}
 
 	GameServer(ClientsManager mngr) {
