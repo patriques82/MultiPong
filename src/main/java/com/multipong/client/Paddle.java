@@ -14,15 +14,24 @@ abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage
 	protected Position position; // screen position of paddle
 
 	private PaddleMessage message;
+	private Color color;
 	
-	Paddle(PaddleProperties props) {
+	Paddle(PaddleProperties props, Color col) {
 		super(props.x, props.y, props.width, props.height);
 		position = props.position;
 		message = new PaddleMessage();
+		color = col;
 	}
 
 	@Override
 	public void tick() { }
+
+	@Override
+	public void render(Graphics g) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(color);
+		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
+	}
 
 	@Override
 	public PaddleMessage toMessage() {
@@ -40,13 +49,6 @@ abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage
 			setPosition(message.x, message.y);
 			setSpeed(message.vx, message.vy);
 		}
-	}
-	
-	@Override
-	public void render(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setColor(Color.GREEN);
-		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
 	Position getPosition() {

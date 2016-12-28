@@ -1,8 +1,10 @@
 package com.multipong.client;
 
+import java.awt.Color;
+
+import com.multipong.shared.Network.BallHitMessage;
 import com.multipong.shared.Network.PaddleProperties;
 import com.multipong.shared.Network.Position;
-import com.multipong.shared.Network.BallHitMessage;
 
 /**
  * Abstract class for paddles that the client controls 
@@ -14,7 +16,7 @@ abstract class MyPaddle extends Paddle {
 	protected int range;
 
 	protected MyPaddle(ClientFacade facade, Ball ball, PaddleProperties props) {
-		super(props);
+		super(props, Color.ORANGE);
 		this.range = props.range;
 		this.clientFacade = facade;
 		this.ball = ball;
