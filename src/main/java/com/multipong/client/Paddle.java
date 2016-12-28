@@ -36,7 +36,7 @@ abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage
 	
 	@Override
 	public void trackMessage(PaddleMessage message) {
-		if(position.equals(message.position)) {
+		if(position == message.position) {
 			setPosition(message.x, message.y);
 			setSpeed(message.vx, message.vy);
 		}
@@ -45,7 +45,7 @@ abstract class Paddle extends GameObject implements MessageHandler<PaddleMessage
 	@Override
 	public void render(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
-	    g2d.setColor(Color.GREEN);
+		g2d.setColor(Color.GREEN);
 		g2d.fillRect(getX(), getY(), getWidth(), getHeight());
 	}
 
