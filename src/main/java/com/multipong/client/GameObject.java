@@ -3,9 +3,6 @@ package com.multipong.client;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-/**
- *
- */
 abstract class GameObject {
 	
 	private Rectangle rect;

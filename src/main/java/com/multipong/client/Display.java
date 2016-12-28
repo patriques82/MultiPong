@@ -8,9 +8,6 @@ import javax.swing.JFrame;
 
 /**
  * Singleton. Controls the view of the game
- * 
- * @author patriknygren
- *
  */
 class Display {
 	

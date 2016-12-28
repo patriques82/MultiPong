@@ -5,9 +5,6 @@ import java.awt.event.KeyListener;
 
 /**
  * Manages the input controls, and records keystrokes
- * 
- * @author patriknygren
- *
  */
 class KeyManager implements KeyListener {
 

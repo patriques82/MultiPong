@@ -3,7 +3,6 @@ package com.multipong.shared;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.EndPoint;
 
-// This class is a convenient place to keep things common to both the client and server.
 public class Network {
 
 //	public final static String HOST = "138.68.66.77";
