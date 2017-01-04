@@ -74,7 +74,7 @@ class GameServer {
 
 			}
 
-			private Client createClient(Connection conn) {
+			private Client createClient(final Connection conn) {
 				return new Client() {
 					@Override
 					public void send(Message message) {
